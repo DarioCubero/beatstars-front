@@ -1,35 +1,31 @@
 <template>
-  <v-content>
-    <v-toolbar height="100px" dark density="compact" flat color="black">
-      <v-img
-        class="mx-2"
-        src="../assets/images/logo.svg"
-        max-height="40"
-        max-width="40"
-        contain
-        to="/"
-      ></v-img>
+    <v-app-bar fixed height="100px" dark color="black" class="pl-10" id="header">
+      <router-link to="/" class="logo-home">
+        <v-img class="mx-2" 
+        :src="require('@/assets/images/logo.svg')"
+        ></v-img>
+      </router-link>
 
-      <v-responsive class="mx-auto" max-width="350" color="white">
+      <v-responsive class="mx-auto ml-3">
         <v-card
-          color="red"
-          class="pa-2 text-black custom-placeholer-color"
+          color="white"
+          class="rounded-card pa-2"
           flat
-          width="350px"
+          width="370px"
         >
           <v-text-field
-            color="black"
-            class="text-black custom-placeholer-color"
-            single-line
             max-height="6"
             max-width="10"
-            hide-details="auto"
+            single-line
+            color="black"
+            class="custom-placeholder-color custom-label-color pl-2 pr-4"
             prepend-icon="mdi-magnify"
-            label="¿Qué estás buscando?"
-            placeholder="Ejemplo: Type Beat Rap Rock - Drake..."
-            type="email"
+            hide-details="auto"
             clearable
-          ></v-text-field>
+            label="¿Qué estás buscando?"
+            placeholder="Type Beat - Artist..."
+          >
+          </v-text-field>
         </v-card>
       </v-responsive>
 
@@ -38,14 +34,12 @@
       <v-spacer></v-spacer
       ><!-- ALIGN END -->
 
-      <v-toolbar-items  dense
-      floating>
+      <v-toolbar-items dense floating>
         <v-btn to="/">Home</v-btn>
         <v-btn to="/about">About</v-btn>
         <v-btn to="/contact">Contact</v-btn>
       </v-toolbar-items>
-    </v-toolbar>
-  </v-content>
+    </v-app-bar>
 </template>
 
 
@@ -59,24 +53,40 @@ export default {
 </script>
 
 <style>
-.text-black input {
+.logo-home {
+  width: 60px;
+}
+.v-toolbar__content {
+  padding: 0px !important;
+}
+
+.custom-label-color .v-label {
+  color: rgb(0, 0, 0) !important;
+  opacity: 0.8;
+}
+
+.custom-placeholder-color::placeholder {
   color: rgb(0, 0, 0) !important;
 }
 
-.custom-placeholer-color::placeholder {
+.custom-placeholder-color input::placeholder {
   color: rgb(0, 0, 0) !important;
 }
 
-.custom-placeholer-color input::placeholder {
+.custom-placeholder-color input {
   color: rgb(0, 0, 0) !important;
 }
 
-.custom-placeholer-color input {
+.v-icon {
   color: rgb(0, 0, 0) !important;
 }
 
-input-placeholder {
-color: pink
+.custom-placeholder-color input::placeholder {
+  color: rgb(0, 0, 0) !important;
+  opacity: 1;
 }
 
+.rounded-card {
+  border-radius: 50px !important;
+}
 </style>

@@ -1,52 +1,97 @@
 <template>
-  <v-footer
-    dark
-    padless
-  >
-    <v-card
-      flat
-      tile
-      class="indigo lighten-1 white--text text-center"
-    >
-      <v-card-text>
-        <v-btn
-          v-for="icon in icons"
-          :key="icon"
-          class="mx-4 white--text"
-          icon
-        >
-          <v-icon size="24px">
-            {{ icon }}
-          </v-icon>
-        </v-btn>
-      </v-card-text>
+  <v-container fluid id="footer">
+    <v-row no-gutters>
+      <v-col cols="12" md="12">
+        <v-footer dark bottom color="black">
+          <v-row no-gutters>
+            <v-col cols="4" md="4">
+              <h3>Take Beats on the GO!</h3>
+              <img src="../assets/icons/appstore.png" width="170" alt="" />
+              <img src="../assets/icons/googleplay.png" width="170" alt="" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col cols="4" md="4">
+              <h3>BeatStars</h3>
+              <v-card class="mx-auto" max-width="300">
+                <v-list :items="items"></v-list>
+              </v-card>
 
-      <v-card-text class="white--text pt-0">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      </v-card-text>
+              <ul class="list-unstyled links">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Contact us</a></li>
+              </ul>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col cols="4" md="4">
+              <h3>Support</h3>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col cols="4" md="4">
+              <h3>Social Media</h3>
+            </v-col>
+          </v-row>
 
-      <v-divider></v-divider>
-
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-      </v-card-text>
-    </v-card>
-  </v-footer>
+          <v-card-text>
+            <v-btn
+              v-for="icon in socialicons"
+              :key="icon"
+              class="mx-4 white--text"
+              icon
+            >
+              <v-icon size="24px">
+                {{ icon }}
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-footer>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 
 <script>
-  export default {
-    data: () => ({
-      icons: [
-        'mdi-facebook',
-        'mdi-twitter',
-        'mdi-linkedin',
-        'mdi-instagram',
-      ],
-    }),
-  }
+export default {
+  data: () => ({
+    socialicons: [
+      "mdi-facebook",
+      "mdi-twitter",
+      "mdi-linkedin",
+      "mdi-instagram",
+    ],
+    items: [
+      {
+        title: "Item #1",
+        value: 1,
+        props: {
+          prependIcon: "mdi-home",
+        },
+      },
+      {
+        title: "Item #2",
+        value: 2,
+        props: {
+          appendIcon: "mdi-close",
+        },
+      },
+      {
+        title: "Item #3",
+        value: 3,
+        props: {
+          color: "primary",
+        },
+      },
+    ],
+  }),
+};
 </script>
 
 <style>
+.v-data-footer {
+  padding: 0px !important;
+}
 </style>

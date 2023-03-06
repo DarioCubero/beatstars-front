@@ -1,5 +1,5 @@
 <template>
-  <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+  <v-card class="mx-auto my-12" max-width="374">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -43,7 +43,6 @@
 
     <v-card-text>
       <v-chip-group
-        v-model="selection"
         active-class="deep-purple accent-4 white--text"
         column
       >
@@ -58,7 +57,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="reserve">
+      <v-btn color="deep-purple lighten-2" text >
         Reserve
       </v-btn>
     </v-card-actions>
@@ -67,6 +66,6 @@
 
 <script>
 export default {
-  name: "CardsComponent",
+  name: "BeatCardComponent",
 };
 </script>

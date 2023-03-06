@@ -1,11 +1,11 @@
 <template>
   <v-app>
+    <Header/>
     <v-main>
-      <Header/>
       <router-view>
       </router-view>
-      <Footer/>
     </v-main>
+     <Footer/>
   </v-app>
 </template>
 
@@ -22,25 +22,19 @@ export default {
 </script>
 
 <style lang="scss">
+/* GENERAL */
+
+*{
+  text-transform: none !important;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 20px;
+   font-family: "Poppins", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #ffffff;
   background-color: black;
-}
+} 
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
