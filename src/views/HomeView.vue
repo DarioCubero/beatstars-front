@@ -16,7 +16,7 @@
 
 <script>
 import Carousel from "../components/CarouselComponent.vue";
-import Cards from "../components/BeatCardComponent.vue";
+import Cards from "../components/ListadoBeatsComponent.vue";
 
 export default {
   components: {

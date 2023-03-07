@@ -1,7 +1,9 @@
 <template>
+ <!-- show-arrows-on-hover -->
   <v-carousel
-    class="cssClass"
-    interval="7000"
+    class="my-carousel"
+    interval="5000"
+    cycle
     reverse-transition="fade-transition"
     transition="fade-transition"
   >
@@ -32,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
-.cssClass {
+.my-carousel {
   .v-btn {
     color: transparent !important;
     border: 1px solid rgb(255, 255, 255) !important;
@@ -57,6 +59,7 @@ export default {
     .v-icon:hover{
     color: red !important;
   }
-
 }
+
+
 </style>

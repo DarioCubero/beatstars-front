@@ -37,3 +37,6 @@ vue add vuetify
  ```vue
 vue add router
 ```
+## Using 
+
+[Material Design Icons](https://pictogrammers.com/library/mdi/)

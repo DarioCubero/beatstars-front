@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header/>
-    <v-main>
+    <v-main style="padding: 0px 0px 0px; !important">
       <router-view>
       </router-view>
     </v-main>
@@ -29,7 +29,7 @@ export default {
 }
 
 #app {
-  font-size: 20px;
+  font-size: 20px !important;
    font-family: "Poppins", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,4 +37,7 @@ export default {
   background-color: black;
 } 
 
+.v-navigation-drawer {
+z-index: 999999 !important;
+}
 </style>
