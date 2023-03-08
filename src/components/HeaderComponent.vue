@@ -34,7 +34,7 @@
 
       <!-- toolbar -->
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-for="item in menu" :key="item.icon" :to="item.link">{{
+        <v-btn v-for="item in menu" :key="item.icon" :to="item.url">{{
           item.title
         }}</v-btn>
       </v-toolbar-items>
@@ -55,8 +55,6 @@
       location="bottom"
       temporary
     >
-
-
     </v-navigation-drawer>
   </v-card>
 </template>
@@ -73,7 +71,7 @@ export default {
         {
           icon: "home",
           title: "Home",
-          url: "/home",
+          url: "/",
         },
         {
           icon: "info",
@@ -91,15 +89,15 @@ export default {
           url: "/login",
         },
         {
-          icon: "warning3",
-          title: "Carrito",
-          url: "/shoppingcart",
-        },
-        {
           icon: "warning4",
           title: "Comenzar a Vender",
           url: "/sell",
         },
+        {
+          icon: "warning3",
+          title: "Carrito",
+          url: "/shoppingcart",
+        }
       ],
     };
   },
