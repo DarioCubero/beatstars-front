@@ -1,5 +1,27 @@
 <template>
-  <v-card class="mx-auto my-12" max-width="374">
+  <h3>beats</h3>
+  <!-- <v-row no-gutters>
+    <v-col
+      v-for="(beat, index) in beats"
+      :key="index"
+      cols="12"
+      sm="12"
+      md="6"
+      lg="4"
+    >
+      <BeatCard
+        :id="beat.Title"
+        :nombre="beat.Nombre"
+        :tipo="beat.Tipo"
+        :precio="beat.Precio"
+        :premium="beat.Premium"
+        :date="beat.DateCreated"
+      >
+      </BeatCard>
+    </v-col>
+  </v-row> -->
+
+  <!-- <v-card class="mx-auto my-12" max-width="374">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -61,11 +83,22 @@
         Reserve
       </v-btn>
     </v-card-actions>
-  </v-card>
+  </v-card> -->
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  data() {
+    return {
+      property: "value",
+    };
+  },
+  methods: {
+    ...mapActions(["getBeats"]),
+  },
+
   name: "BeatCardComponent",
 };
 </script>

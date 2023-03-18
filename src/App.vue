@@ -1,22 +1,14 @@
 <template>
   <v-app>
-    <Header/>
-    <v-main style="padding: 0px 0px 0px; !important">
-      <router-view>
-      </router-view>
-    </v-main>
-     <Footer/>
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script>
-import Header from "./components/HeaderComponent.vue";
-import Footer from "./components/FooterComponent.vue";
-
 export default {
-  components: {
-    Header,
-    Footer,
+  name: "App",
+  data() {
+    return {};
   },
 };
 </script>
@@ -24,20 +16,20 @@ export default {
 <style lang="scss">
 /* GENERAL */
 
-*{
+* {
   text-transform: none !important;
 }
 
 #app {
   font-size: 20px !important;
-   font-family: "Poppins", sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: black;
-} 
+  // background-color: black;
+}
 
 .v-navigation-drawer {
-z-index: 999999 !important;
+  z-index: 999999 !important;
 }
 </style>

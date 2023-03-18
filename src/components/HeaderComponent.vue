@@ -20,7 +20,7 @@
           single-line
           color="black"
           class="custom-placeholder-color custom-label-color pl-2 pr-4"
-          prepend-icon="mdi-magnify"
+          prepend-icon="mdi-magnify mdi-dark"
           hide-details="auto"
           clearable
           label="¿Qué estás buscando?"
@@ -75,29 +75,49 @@ export default {
         },
         {
           icon: "info",
-          title: "Productores",
-          url: "/producers",
-        },
-        {
-          icon: "warning1",
-          title: "Registrarse",
+          title: "Beats",
           url: "/beats",
         },
         {
-          icon: "warning2",
-          title: "Iniciar sesión",
-          url: "/login",
+          icon: "myBeats",
+          title: "Mis Beats",
+          url: "/mybeats",
+        },
+        {
+          icon: "Pedidos",
+          title: "Pedidos",
+          url: "/mispedidos",
         },
         {
           icon: "warning4",
-          title: "Comenzar a Vender",
-          url: "/sell",
+          title: "Subir Beat",
+          url: "/vender",
         },
         {
           icon: "warning3",
           title: "Carrito",
-          url: "/shoppingcart",
-        }
+          url: "/carrito",
+        },
+        {
+          icon: "warning1",
+          title: "Mi Perfil",
+          url: "/perfil",
+        },
+        {
+          icon: "Registrarse",
+          title: "Registrarse",
+          url: "/registro",
+        },
+        {
+          icon: "warning3",
+          title: "Iniciar sesión",
+          url: "/login",
+        },
+        {
+          icon: "warning3",
+          title: "Logout",
+          url: "/logout",
+        },
       ],
     };
   },
@@ -139,11 +159,6 @@ export default {
 
 .v-icon {
   color: rgb(0, 0, 0) !important;
-}
-
-.custom-placeholder-color input::placeholder {
-  color: rgb(0, 0, 0) !important;
-  opacity: 1;
 }
 
 .rounded-card {
