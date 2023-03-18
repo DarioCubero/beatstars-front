@@ -54,7 +54,7 @@
                 <v-spacer></v-spacer>
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
-                  class="white--text"
+                    class="white--text"
                     color="#f52626"
                     x-large
                     block
@@ -156,8 +156,8 @@
                   ></v-text-field>
                 </v-col>
                 <v-spacer></v-spacer>
-                                <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
-                <v-spacer></v-spacer> 
+                <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
+                <v-spacer></v-spacer>
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
                     class="white--text"
@@ -166,8 +166,7 @@
                     color="black"
                     :disabled="!validRegister"
                     @click="validateRegister"
-                    >Register</v-btn
-                  >
+                    >Register</v-btn>
                 </v-col>
               </v-row>
             </v-form>
@@ -186,11 +185,7 @@ let currentDate = new Date();
 
 export default {
   name: "LoginForm",
-  watch: {
-    tab: function tabChanged(newTab) {
-      console.log(newTab);
-    },
-  },
+  watch: {},
   data: () => ({
     tab: null,
     highlightTab: 0,
@@ -200,13 +195,12 @@ export default {
 
     showBoolPasswordLogin: "",
     showBoolPasswordRegister: "",
-
     // tab: 0,
     tabs: [
       { name: "Login", icon: "mdi-account" },
       { name: "Register", icon: "mdi-account-plus-outline" },
     ],
-NombreAndEmail: "",
+    NombreAndEmail: "",
     user: {
       NombreCuenta: "",
       Email: "",
@@ -216,7 +210,11 @@ NombreAndEmail: "",
       Rol: "estandar",
       Activo: true,
     },
-
+    alertObject: {
+      status: false,
+      message: "",
+      type: "",
+    },
     rules: {
       required: (value) => !!value || "Required.",
       min6Char: (v) => v.length >= 6 || "Min 6 characters",
@@ -231,15 +229,6 @@ NombreAndEmail: "",
       ],
     },
   }),
-
-  computed: {
-    passwordMatch() {
-      // console.log( this.user.Password === this.registerPasswordVerify);
-      return () =>
-        this.user.Password === this.registerPasswordVerify ||
-        "Password must match";
-    },
-  },
 
   methods: {
     ...mapActions(["getUser"]),
@@ -256,7 +245,10 @@ NombreAndEmail: "",
           this.getUser(id);
           this.$router.push({ name: "home" });
         } else {
-          this.$emit("isValid", false);
+          this.alertObject.status = false;
+          this.alertObject.type = "error";
+          this.alertObject.message = "Incorrect Username or Password!";
+          this.$emit("sendAlert", this.alertObject);
         }
       }
     },
@@ -264,16 +256,10 @@ NombreAndEmail: "",
       const valid = await this.$refs.registerForm.validate();
       if (valid) {
         alert("validateRegister");
-        let id = await auth.postRegister(this.user);
-        console.log(id);
-        if (id == 1) {
-          auth.setUserLocal(id);
-          console.log(auth.getUserLocal());
-          this.fetchUser(id);
-          this.$router.push({ name: "home" });
-        } else {
-          this.$emit("isValid", false);
-        }
+        const registerInfo = auth.postRegister(this.user);
+        console.log(registerInfo);
+        // this.$router.push({ name: "login" });
+        this.tab = 0; //lo redireccionamos al login
       }
     },
 
@@ -283,6 +269,15 @@ NombreAndEmail: "",
 
     resetValidation() {
       this.$refs.form.resetValidation();
+    },
+  },
+
+  computed: {
+    passwordMatch() {
+      // console.log( this.user.Password === this.registerPasswordVerify);
+      return () =>
+        this.user.Password === this.registerPasswordVerify ||
+        "Password must match";
     },
   },
 };

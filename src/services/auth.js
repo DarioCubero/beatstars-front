@@ -46,11 +46,13 @@ export default {
   },
 
   setUserLocal(userEntity) {
-    localStorage.setItem("name", userEntity);
+    localStorage.setItem("user", userEntity);
   },
+
   getUserLocal(userEntity) {
-    localStorage.getItem("name", userEntity);
+    localStorage.getItem("user", userEntity);
   },
+
   closeSession() {
     localStorage.clear();
   },

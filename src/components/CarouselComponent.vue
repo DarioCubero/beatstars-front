@@ -35,6 +35,8 @@ export default {
 
 <style lang="scss">
 .my-carousel {
+  margin-top: 100px;
+  
   .v-btn {
     color: transparent !important;
     border: 1px solid rgb(255, 255, 255) !important;

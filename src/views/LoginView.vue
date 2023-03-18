@@ -4,11 +4,11 @@
       <v-row align="center" justify="center">
         <v-col class="card" cols="12" lg="3" md="6" sm="12">
           <AlertComponent
-            v-if="boolAlert"
-            :message="alertMessage"
-            :type="typeAlert"
+            v-if="alertObject.status"
+            :message="alertObject.message"
+            :type="alertObject.type"
           />
-          <LoginComponent @isValid="CheckAlert" />
+          <LoginComponent @sendAlert="getAlert" />
         </v-col>
       </v-row>
     </v-container>
@@ -22,8 +22,11 @@ import AlertComponent from "@/components/AlertComponent.vue";
 export default {
   data() {
     return {
-      typeAlert: "Info",
-      boolAlert: false, // The alert get value (false => hide. True => show).
+      alertObject: {
+        status: false, // The alert get value (false => hide. True => show).
+        message: "",
+        type: "",
+      },
       alertMessage: "Incorrect Username or Password!",
       show: false,
       // user: { NombreCuenta: "", Password: "" },
@@ -34,8 +37,10 @@ export default {
   },
 
   methods: {
-    async CheckAlert(bool) {
-      this.boolAlert = !bool;
+    async getAlert(alertReceive) {
+      this.alertObject.status = alertReceive.status;
+      this.alertObject.type = alertReceive.type;
+      this.alertObject.message = alertReceive.message;
     },
   },
   components: {
@@ -45,10 +50,6 @@ export default {
 };
 </script>
 <style scoped>
-.container {
-  background: #000000;
-}
-
 /* .v-alert {
   position: fixed;
   left: 50%;

@@ -1,5 +1,6 @@
 <template>
   <h3>beats</h3>
+  
   <!-- <v-row no-gutters>
     <v-col
       v-for="(beat, index) in beats"

@@ -11,7 +11,7 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: () => import('../views/HomeView.vue')
   },

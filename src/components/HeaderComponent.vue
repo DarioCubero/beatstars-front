@@ -9,7 +9,7 @@
       class="pl-10"
       id="header"
     >
-      <router-link to="/" class="logo-home">
+      <router-link to="/home" class="logo-home">
         <v-img class="mx-2" :src="require('@/assets/images/logo.svg')"></v-img>
       </router-link>
 
@@ -32,11 +32,13 @@
       <!-- spacer -->
       <v-spacer></v-spacer>
 
-      <!-- toolbar -->
+      <!-- toolbar -->  
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn v-for="item in menu" :key="item.icon" :to="item.url">{{
+        <v-btn color="black" v-for="item in menu" :key="item.icon" :to="item.url">{{
           item.title
         }}</v-btn>
+        <v-btn color="black" @click="logoutClick"> Admin </v-btn>
+        <v-btn  color="black" @click="logoutClick"> Logout </v-btn>
       </v-toolbar-items>
 
       <!-- menu hamburguesa hide/show -->
@@ -61,7 +63,9 @@
 
 
 <script>
-// import Toolbar from './components/xxx.vue';
+import { mapActions } from "vuex";
+import auth from "@/services/auth";
+
 export default {
   data() {
     return {
@@ -69,66 +73,88 @@ export default {
       group: null,
       menu: [
         {
-          icon: "home",
           title: "Home",
-          url: "/",
+          url: "/home",
         },
         {
-          icon: "info",
           title: "Beats",
           url: "/beats",
         },
         {
-          icon: "myBeats",
           title: "Mis Beats",
           url: "/mybeats",
         },
         {
-          icon: "Pedidos",
           title: "Pedidos",
           url: "/mispedidos",
         },
         {
-          icon: "warning4",
           title: "Subir Beat",
           url: "/vender",
         },
         {
-          icon: "warning3",
           title: "Carrito",
           url: "/carrito",
         },
         {
-          icon: "warning1",
           title: "Mi Perfil",
           url: "/perfil",
         },
         {
-          icon: "Registrarse",
           title: "Registrarse",
           url: "/registro",
         },
         {
-          icon: "warning3",
           title: "Iniciar sesión",
           url: "/login",
         },
-        {
-          icon: "warning3",
-          title: "Logout",
-          url: "/logout",
-        },
+        // {
+        //   title: "Logout",
+        //   url: "/logout",
+        // },
       ],
     };
   },
 
-  components: {
-    // xxx,
+  methods: {
+    ...mapActions(["getUser"]),
+
+    checkUserLogged() {
+      alert("checkUserLogged");
+      let id = auth.getUserLocal();
+      if (id == null) {
+        alert("null");
+        this.$router.push({ name: "login" });
+        this.$store.commit("setUser", {});
+      } else {
+        alert("accediendo a getUser por id");
+        this.getUser(id);
+      }
+    },
+
+    logoutClick() {
+      auth.closeSession();
+      this.$store.commit("setUser", {});
+      this.$router.push({ name: "login" });
+    },
+  },
+
+  // beforeMount() {
+  // },
+  // watch:{
+  //   $route (to, from){
+  //   }
+  // }
+  load: function () {
+    this.checkUserLogged();
   },
 };
 </script>
 
 <style>
+.v-btn--active  {
+  font-size: 18px !important;
+}
 .menu-right {
   margin-right: 200px;
 }

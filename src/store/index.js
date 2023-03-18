@@ -18,17 +18,17 @@ export default new Vuex.Store({
     setUser(state, value) {
       state.user = value;
     },
-    setBeats(state, value) {
-      state.beats = value;
+    setBeats(state, bs) {
+      state.beats = bs;
     },
-    setUserBeats(state, value) {
-      state.userBeats = value;
+    setUserBeats(state, ub) {
+      state.userBeats = ub;
     },
-    setUserPedidos(state, value) {
-      state.userPedidos = value;
+    setUserPedidos(state, up) {
+      state.userPedidos = up;
     },
-    setCart(state, value) {
-      state.cart = value;
+    setCart(state, beat) {
+      state.cart.push(beat);
     },
   },
   actions: {

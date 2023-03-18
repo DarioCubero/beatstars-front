@@ -147,6 +147,9 @@ export default {
 </script>
 
 <style>
+#footer {
+  padding-top: 50px !important;
+}
 #footer .card {
   padding-left: 100px !important;
 }
