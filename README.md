@@ -54,6 +54,11 @@ npm install axios
 vue add vuex
 ```
 
+```vue
+npm i moment
+```
+
+
 Pending:
 npm install vue-i18n
 vue add i18n

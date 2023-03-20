@@ -1,5 +1,7 @@
 <template>
-  <v-card>
+  <v-card height="107px"
+      color="#f52626"
+      class="py-3">
     <v-app-bar
       fixed
       app
@@ -23,8 +25,8 @@
           prepend-icon="mdi-magnify mdi-dark"
           hide-details="auto"
           clearable
-          label="¿Qué estás buscando?"
-          placeholder="Type Beat - Artist..."
+          label="¿Que Type Beat buscas?"
+          placeholder="Rap, Trap, Rock, Reggae..."
         >
         </v-text-field>
       </v-card>
@@ -34,10 +36,11 @@
 
       <!-- toolbar -->  
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn color="black" v-for="item in menu" :key="item.icon" :to="item.url">{{
+        <v-btn class="" color="black" v-for="item in menu" :key="item.icon" :to="item.url">{{
           item.title
         }}</v-btn>
-        <v-btn color="black" @click="logoutClick"> Admin </v-btn>
+         <!-- v-if="rol"  -->
+        <v-btn v-if="$store.state.user.rol === 'admin'" color="black" @click="logoutClick"> Admin </v-btn>
         <v-btn  color="black" @click="logoutClick"> Logout </v-btn>
       </v-toolbar-items>
 
@@ -69,6 +72,7 @@ import auth from "@/services/auth";
 export default {
   data() {
     return {
+      checkAdmin: false,
       drawer: false,
       group: null,
       menu: [
@@ -117,18 +121,23 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getUser"]),
+    ...mapActions(["vuexGetUser"]),
+
+    //  checkUserAdmin(){
+    //   console.log("rol ", this.$store.state.user.rol);
+    //   // this.checkAdmin = this.$store.state.user.rol == "admin" ? true : false;
+    //   return this.$store.state.user.rol == "admin" ? true : false;
+    // },
 
     checkUserLogged() {
-      alert("checkUserLogged");
-      let id = auth.getUserLocal();
+      console.log('checkUserLogged');
+      let id = auth.getLocalStorage("userId");
       if (id == null) {
         alert("null");
         this.$router.push({ name: "login" });
         this.$store.commit("setUser", {});
       } else {
-        alert("accediendo a getUser por id");
-        this.getUser(id);
+        this.vuexGetUser(id);
       }
     },
 
@@ -145,9 +154,15 @@ export default {
   //   $route (to, from){
   //   }
   // }
-  load: function () {
+
+  async created() {
     this.checkUserLogged();
   },
+
+  // async beforeMount() {
+  //    this.checkUserAdmin();
+  // },
+  
 };
 </script>
 
@@ -155,6 +170,14 @@ export default {
 .v-btn--active  {
   font-size: 18px !important;
 }
+
+a.v-btn--active.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--router.theme--dark.v-size--default.black {
+    border-radius: 50px;
+    color: black !important;
+    background-color: rgb(255, 255, 255) !important;
+    padding-top: 10p;
+}
+
 .menu-right {
   margin-right: 200px;
 }

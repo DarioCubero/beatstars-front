@@ -28,6 +28,7 @@ export default {
       });
   },
   async getBeats() {
+    console.log(`getBeats ${BEATS_URL}`);
     return axios
       .get(`${BEATS_URL}`)
       .then((response) => response.data)
@@ -36,9 +37,10 @@ export default {
         return null;
       });
   },
-  async updateBeat() {
+  async updateBeat(_idBeat) {
+    console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
     return axios
-      .post(`${BEATS_URL}`)
+      .post(`${BEAT_URL}/${_idBeat}/update`)
       .then((response) => response.data)
       .catch(function (error) {
         console.log(error);
@@ -87,8 +89,9 @@ export default {
       });
   },
   async getUserBeats(_id) {
+    console.log(`getUserBeats ${USER_URL}/${_id}/beats`);
     return axios
-      .get(`${USER_URL}${_id}/beats`)
+      .get(`${USER_URL}/${_id}/beats`)
       .then((response) => response.data)
       .catch(function (error) {
         console.log(error);
@@ -97,7 +100,7 @@ export default {
   },
   async getUserPedidos(_id) {
     return axios
-      .get(`${USER_URL}${_id}/pedidos`)
+      .get(`${USER_URL}/${_id}/pedidos`)
       .then((response) => response.data)
       .catch(function (error) {
         console.log(error);

@@ -1,14 +1,14 @@
 <template>
   <v-row no-gutters>
     <v-col
-      v-for="(beat, index) in beats"
+      v-for="(beat, index) in myBeats"
       :key="index"
       cols="12"
       sm="12"
       md="4"
       lg="3"
     >
-      <BeatCard class="ml-5"
+      <BeatCard
         :id="beat.id"
         :nombre="beat.nombre"
         :tipo="beat.tipo"
@@ -25,13 +25,14 @@
 import BeatCard from "@/components/BeatCardComponent.vue";
 import Api from "@/services/api";
 import moment from "moment";
+import { mapState } from 'vuex'
 
 export default {
-  name: "BeatListComponent",
+  name: "MyBeatListComponent",
 
   data() {
     return {
-      beats: [],
+      myBeats: [],
     };
   },
 
@@ -39,10 +40,11 @@ export default {
     BeatCard,
   },
 
-  computed: {},
+  computed: {
+    ...mapState(['user']),
+  },
 
   methods: {
-
     dateTime(value) {
       return moment(value).format("YYYY-MM-DD");
     },
@@ -51,9 +53,9 @@ export default {
     },
   },
 
-  async created() { // beforeMount, watch, beforeCreate
-    this.beats = await Api.getBeats();
+  async created() {
+    // beforeMount, watch, beforeCreate
+    this.myBeats = await Api.getUserBeats(this.user.id);
   },
-
 };
 </script>

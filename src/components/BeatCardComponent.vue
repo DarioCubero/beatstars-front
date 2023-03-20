@@ -1,5 +1,7 @@
 <template>
-  <v-card class="mx-auto my-12" max-width="374">
+  <v-card @click="goToDetails(id)" class="mx-auto my-12" max-width="374">
+    <v-img height="250" :src="imageUrl"></v-img>
+
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -7,103 +9,71 @@
         indeterminate
       ></v-progress-linear>
     </template>
+    <div style="min-width: 0">
+      <v-card-title class="justify-center">{{ nombre }}</v-card-title>
 
-    <v-img height="250" src="https://random.imagecdn.app/500/150"></v-img>
+      <v-divider class="mx-4"></v-divider>
 
-    <v-card-title>Cafe Badilico</v-card-title>
+      <div class="my-4 text-subtitle-1">{{ tipo }}</div>
+
+      <p color="yellow">{{ precio }}€</p>
+
+      <v-card-text>
+        <v-row class="">
+          <v-col cols="12" md="6" sm="6">
+            <div class="grey--text ms-4">{{ dateCreated }}</div>
+          </v-col>
+
+          <v-col cols="12" md="6" sm="6">
+            <div class="grey--text ms-4">
+              {{ premium }}
+               <v-icon v-if="this.premium == 'Premium'">mdi-star mdi-dark</v-icon>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </div>
   </v-card>
-  <!-- <v-card class="mx-auto my-12" max-width="374">
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
-    <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-    ></v-img>
-
-    <v-card-title>Cafe Badilico</v-card-title>
-
-    <v-card-text>
-      <v-row align="center" class="mx-0">
-        <v-rating
-          :value="4.5"
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-
-        <div class="grey--text ms-4">4.5 (413)</div>
-      </v-row>
-
-      <div class="my-4 text-subtitle-1">$ • Italian, Cafe</div>
-
-      <div>
-        Small plates, salads & sandwiches - an intimate setting with 12 indoor
-        seats plus patio seating.
-      </div>
-    </v-card-text>
-
-    <v-divider class="mx-4"></v-divider>
-
-    <v-card-title>Tonight's availability</v-card-title>
-
-    <v-card-text>
-      <v-chip-group
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text >
-        Reserve
-      </v-btn>
-    </v-card-actions>
-  </v-card> -->
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   data() {
-    return {
-      property: "value",
-    };
+    return {};
   },
-  methods: {
-    ...mapActions(["getBeats"]),
-  },
-  name: "BeatCardComponent",
-
   props: {
     id: Number,
     nombre: String,
     tipo: String,
     precio: Number,
-    Premium: Boolean,
-    DateCreated: Date,
-    // precio: {//check decimal
-    //   type: Number,
-    //   validator(value) {
-    //     return value % 1 !== 0;
-    //   },
-    // },
+    premium: String,
+    dateCreated: String,
+    imageUrl: String,
+  },
+  methods: {
+    beatDetails(beatId) {
+      this.$router.push({ name: "beat", params: { id: beatId } });
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-card__text,
+.v-card__title {
+  text-overflow: ellipsis !important ;
+  overflow: hidden !important ;
+  white-space: nowrap !important ;
+  display: inherit;
+
+  // display: -webkit-box;
+  // -webkit-line-clamp: 2; /* number of lines to show */
+  // line-clamp: 2;
+  // -webkit-box-orient: vertical;
+  // overflow: hidden;
+  // max-height: 5em;
+  // line-height: 1.8em;
+}
+</style>

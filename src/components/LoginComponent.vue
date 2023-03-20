@@ -178,7 +178,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import auth from "@/services/auth";
 
 let currentDate = new Date();
@@ -231,18 +230,15 @@ export default {
   }),
 
   methods: {
-    ...mapActions(["getUser"]),
-
     async validateLogin() {
       const valid = await this.$refs.loginForm.validate();
       if (valid) {
-        alert("validateLogin");
         this.user.NombreCuenta = this.NombreAndEmail;
         this.user.Email = this.NombreAndEmail;
-        let id = await auth.postLogin(this.user);
-        if (id == 1) {
-          auth.setUserLocal(id);
-          this.getUser(id);
+        let idLoggedUser = await auth.postLogin(this.user);
+        if (idLoggedUser != -1) {
+          console.log(idLoggedUser);
+          auth.setLocalStorage("userId", idLoggedUser);
           this.$router.push({ name: "home" });
         } else {
           this.alertObject.status = false;
@@ -258,8 +254,8 @@ export default {
         alert("validateRegister");
         const registerInfo = auth.postRegister(this.user);
         console.log(registerInfo);
-        // this.$router.push({ name: "login" });
-        this.tab = 0; //lo redireccionamos al login
+        this.tab = 0; //lo redireccionamos al login y le enviamos una alerta type success
+        // Alert........
       }
     },
 

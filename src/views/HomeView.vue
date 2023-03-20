@@ -9,7 +9,7 @@
           <v-col cols="12" lg="12" md="12" sm="12">
             <v-row>
               <!-- content -->
-              <v-col class="card" cols="12" lg="7" md="7" sm="7">
+              <v-col class="card" cols="12" lg="8" md="8" sm="8">
                 <h1 class="text-uppercase">
                   Release Your Music To All Major Digital Music Platforms
                 </h1>
@@ -53,6 +53,9 @@ export default {
 <style scoped>
 #marketing1 * :not(:first-child) {
   margin-top: 55px !important;
+}
+#marketing1 {
+  padding: 100px;
 }
 
 .v-btn {

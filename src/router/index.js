@@ -20,6 +20,16 @@ const routes = [
     name: 'beats',
     component: () => import('../views/BeatsView.vue')
   },
+  {
+    path: '/myBeats',
+    name: 'myBeats',  
+    component: () => import('../views/MyBeatsView.vue')
+  },
+  {
+    path: '/beat/:id',
+    name: 'beat',
+    component: () => import('../views/BeatDetail.vue')
+  },
   // {
   //   path: '/profile',
   //   name: 'profile',

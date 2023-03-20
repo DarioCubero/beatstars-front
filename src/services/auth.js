@@ -6,15 +6,6 @@ const USER_URL = BASE_URL + "user";
 const REGISTER_URL = BASE_URL + "user/create";
 
 export default {
-  // watch: {
-  //   input: function () {
-  //     if (
-  //       isLocalStorage() /* function to detect if localstorage is supported*/
-  //     ) {
-  //       localStorage.setItem("storedData", this.input);
-  //     }
-  //   },
-  // },
 
   async postLogin(userForLogin) {
     return axios
@@ -45,12 +36,12 @@ export default {
       });
   },
 
-  setUserLocal(userEntity) {
-    localStorage.setItem("user", userEntity);
+  setLocalStorage(key, value) {
+    localStorage.setItem(key, value);
   },
 
-  getUserLocal(userEntity) {
-    localStorage.getItem("user", userEntity);
+  getLocalStorage(key) {
+    return localStorage.getItem(key);
   },
 
   closeSession() {
