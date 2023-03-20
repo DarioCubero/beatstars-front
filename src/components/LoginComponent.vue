@@ -166,7 +166,8 @@
                     color="black"
                     :disabled="!validRegister"
                     @click="validateRegister"
-                    >Register</v-btn>
+                    >Register</v-btn
+                  >
                 </v-col>
               </v-row>
             </v-form>
@@ -256,16 +257,10 @@ export default {
         console.log(registerInfo);
         this.tab = 0; //lo redireccionamos al login y le enviamos una alerta type success
         // Alert........
+        this.$refs.registerForm.reset();
       }
     },
 
-    reset() {
-      this.$refs.form.reset();
-    },
-
-    resetValidation() {
-      this.$refs.form.resetValidation();
-    },
   },
 
   computed: {

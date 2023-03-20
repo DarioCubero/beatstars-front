@@ -33,4 +33,9 @@ export default {
 .v-navigation-drawer {
   z-index: 999999 !important;
 }
+
+// .v-main{
+//   min-height: 500px;
+// }
+
 </style>

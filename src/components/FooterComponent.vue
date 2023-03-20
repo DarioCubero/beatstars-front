@@ -147,6 +147,10 @@ export default {
 </script>
 
 <style>
+#footer{
+  
+}
+
 #footer {
   padding-top: 50px !important;
 }

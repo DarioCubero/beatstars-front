@@ -58,6 +58,9 @@ vue add vuex
 npm i moment
 ```
 
+```vue
+npm install --save vuex-persistedstate
+```
 
 Pending:
 npm install vue-i18n

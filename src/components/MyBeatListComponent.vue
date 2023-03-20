@@ -8,7 +8,7 @@
       md="4"
       lg="3"
     >
-      <BeatCard
+      <BeatCard class="ml-5"
         :id="beat.id"
         :nombre="beat.nombre"
         :tipo="beat.tipo"
