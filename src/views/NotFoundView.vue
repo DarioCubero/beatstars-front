@@ -1,45 +1,51 @@
 <template>
-<v-main>
-    <v-container fluid id="cont">
-      <v-row no-gutters>
-        <v-col cols="12" md="12">
-          <h1>404</h1>
-        </v-col>
-        <v-col cols="12" md="12">
-          <h5>Page not found</h5>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-
-      </v-row>
-    </v-container>
-  </v-main>
+  <div id="home">
+    <Header />
+    <v-main style="padding: 0px 0px 0px; !important;">
+      <v-container>
+              <h3 class="mt-4">404 (Página no encontrada)</h3>
+              <h5 class="mt-4">pero... si éste precioso Pug</h5>
+              <v-card-title class="justify-center" color="black" >
+                <v-img  max-width="500px"
+                :width-on-screen="20"
+                :width-on-screen-tablet="45"
+                :width-on-screen-smartphone="100"
+                src="../assets/gifs/pug.gif"
+              ></v-img>
+                <!-- <img src="@/assets/gifs/pug.gif"  style="min-height: 50vh; max-height: 70vh;" alt="404" /> -->
+              </v-card-title>
+      </v-container>
+    </v-main>
+    <Footer />
+  </div>
 </template>
 
 <script>
+import Header from "@/components/HeaderComponent.vue";
+import Footer from "@/components/FooterComponent.vue";
 
 export default {
-  name: 'NotFoundView',
+  name: "not-found-view",
 
-data() {
-  return{
-    items: [
-
-    ]
-  };
-}
-
-}
+  components: {
+    Header,
+    Footer,
+  },
+};
 </script>
 
-<style>
+<style scoped>
+.v-btn {
+  height: 200% !important;
+}
 
-#cont{
-    background-image: "../assets/gifs/pug.gif";
-    background-size: cover;
-    
-    height: 100vh;
-    padding:0;
-    margin:0;
+.body {
+  background-image: "../assets/gifs/pug.gif";
+  background-size: cover;
+
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 </style>
+

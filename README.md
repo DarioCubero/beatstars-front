@@ -62,6 +62,10 @@ npm i moment
 npm install --save vuex-persistedstate
 ```
 
+```vue
+npm install vuetify-audio --save
+```
+
 Pending:
 npm install vue-i18n
 vue add i18n

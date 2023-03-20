@@ -20,6 +20,8 @@ import LoginComponent from "@/components/LoginComponent.vue";
 import AlertComponent from "@/components/AlertComponent.vue";
 
 export default {
+  name: "login-view",
+
   data() {
     return {
       alertObject: {

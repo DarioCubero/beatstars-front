@@ -86,15 +86,15 @@ export default {
         },
         {
           title: "Mis Beats",
-          url: "/mybeats",
+          url: "/mis-beats",
         },
         {
           title: "Pedidos",
-          url: "/mispedidos",
+          url: "/mis-pedidos",
         },
         {
           title: "Subir Beat",
-          url: "/vender",
+          url: "/subir-beat",
         },
         {
           title: "Carrito",
@@ -104,14 +104,14 @@ export default {
           title: "Mi Perfil",
           url: "/perfil",
         },
-        {
-          title: "Registrarse",
-          url: "/registro",
-        },
-        {
-          title: "Iniciar sesión",
-          url: "/login",
-        },
+        // {
+        //   title: "Registrarse",
+        //   url: "/registro",
+        // },
+        // {
+        //   title: "Iniciar sesión",
+        //   url: "/login",
+        // },
         // {
         //   title: "Logout",
         //   url: "/logout",
@@ -167,6 +167,16 @@ export default {
 </script>
 
 <style>
+/* Intento de quitar el fondo gris cuando clicas */
+/* .v-toolbar__items > a:active{
+  background-color: green !important;
+} */
+
+.v-toolbar__items a.v-btn.v-btn--is-elevated:hover{
+  border-radius: 50px;
+  color: rgb(245, 38, 38) !important;
+}
+
 .v-btn--active  {
   font-size: 18px !important;
 }
@@ -185,6 +195,11 @@ a.v-btn--active.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--router.theme--dark
 .logo-home {
   min-width: 60px;
 }
+
+.v-toolbar__items{
+  padding: 27px;
+}
+
 .v-toolbar__content {
   padding: 0px !important;
 }

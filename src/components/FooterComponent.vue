@@ -152,7 +152,7 @@ export default {
 }
 
 #footer {
-  padding-top: 50px !important;
+  margin-top: 50px !important;
 }
 #footer .card {
   padding-left: 100px !important;

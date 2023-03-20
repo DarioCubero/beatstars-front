@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="goToDetails(id)" class="mx-auto my-12" max-width="374">
+  <v-card @click="beatDetails(id)" class="mx-auto my-12" max-width="374">
     <v-img height="250" :src="imageUrl"></v-img>
 
     <template slot="progress">

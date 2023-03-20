@@ -43,7 +43,7 @@ import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 
 export default {
-  name: "home-view",
+  name: "perfil-view",
 
   components: {
     Header,
@@ -54,15 +54,7 @@ export default {
 </script>
 
 <style scoped>
-#marketing1 * :not(:first-child) {
-  margin-top: 55px !important;
-}
-#marketing1 {
-  padding: 100px;
-}
 
-.v-btn {
-  height: 80px !important;
-  width: 250px !important;
-}
+
+
 </style>
