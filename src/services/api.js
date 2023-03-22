@@ -16,7 +16,6 @@ const PEDIDOS_URL = BASE_URL + "pedidos";
 // const GET_USER_PEDIDOS = BASE_URL + "users";
 
 export default {
-
   // Beat
   async getBeat(_idBeat) {
     return axios
@@ -27,6 +26,7 @@ export default {
         return null;
       });
   },
+
   async getBeats() {
     console.log(`getBeats ${BEATS_URL}`);
     return axios
@@ -37,6 +37,18 @@ export default {
         return null;
       });
   },
+
+  async getBeatsByName(beatName) {
+    console.log(`getBeats ${BEATS_URL}?name=${beatName}`);
+    return axios
+      .get(`${BEATS_URL}`)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log(error);
+        return null;
+      });
+  },
+
   async updateBeat(_idBeat) {
     console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
     return axios
@@ -90,14 +102,18 @@ export default {
   },
   async getUserBeats(_id) {
     console.log(`getUserBeats ${USER_URL}/${_id}/beats`);
+
     return axios
       .get(`${USER_URL}/${_id}/beats`)
       .then((response) => response.data)
-      .catch(function (error) {
-        console.log(error);
+      .catch(function (err) {
+        console.log("Error response: ", err.response.data);    // ***
+        // console.error(err.response.status);  // *** 404
         return null;
       });
   },
+
+
   async getUserPedidos(_id) {
     return axios
       .get(`${USER_URL}/${_id}/pedidos`)
@@ -108,7 +124,14 @@ export default {
       });
   },
 
-
-
-
+  async deleteUser(_idUser) {
+    console.log(`deleteUser ${USER_URL}/${_idUser}/delete`);
+    return axios
+      .delete(`${USER_URL}/${_idUser}/delete`)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log(error);
+        return null;
+      });
+  },
 };

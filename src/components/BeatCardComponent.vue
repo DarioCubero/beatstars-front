@@ -20,11 +20,11 @@
 
       <v-card-text>
         <v-row class="">
-          <v-col cols="12" md="6" sm="6">
+          <v-col class="pa-0" cols="12" md="6" sm="6">
             <div class="grey--text ms-4">{{ dateCreated }}</div>
           </v-col>
 
-          <v-col cols="12" md="6" sm="6">
+          <v-col class="pa-0" cols="12" md="6" sm="6">
             <div class="grey--text ms-4">
               {{ premium }}
                <v-icon v-if="this.premium == 'Premium'">mdi-star mdi-dark</v-icon>

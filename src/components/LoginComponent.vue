@@ -30,7 +30,6 @@
                     v-model="NombreAndEmail"
                     :rules="[rules.required]"
                     label=" Nombre de Cuenta / Email"
-                    required
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -88,6 +87,7 @@
                     minLenght="6"
                     maxlength="20"
                     hint="At least 6 characters"
+                    counter="20"
                     required
                   ></v-text-field>
                 </v-col>
@@ -114,7 +114,7 @@
                     v-model="user.Email"
                     :rules="rules.emailRules"
                     label="Email"
-                    required
+                    counter="50"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -132,7 +132,7 @@
                     name="RegisterPassword"
                     label="Password"
                     hint="At least 6 characters"
-                    counter
+                    counter="20"
                     @click:append="
                       showBoolPasswordRegister = !showBoolPasswordRegister
                     "
@@ -149,7 +149,7 @@
                     :type="showBoolPasswordRegister ? 'text' : 'password'"
                     name="registerPasswordVerifyName"
                     label="Confirm Password"
-                    counter
+                    counter="20"
                     @click:append="
                       showBoolPasswordRegister = !showBoolPasswordRegister
                     "
@@ -180,12 +180,12 @@
 
 <script>
 import auth from "@/services/auth";
+import { mapActions } from "vuex";
 
 let currentDate = new Date();
 
 export default {
   name: "LoginForm",
-  watch: {},
   data: () => ({
     tab: null,
     highlightTab: 0,
@@ -216,32 +216,38 @@ export default {
       type: "",
     },
     rules: {
-      required: (value) => !!value || "Required.",
+      required: (v) => !!v || "Required.",
       min6Char: (v) => v.length >= 6 || "Min 6 characters",
       userNameMaxChar: (v) => v.length < 20 || "Max 20 characters",
-      emailMaxChar: (v) => v.length < 20 || "Max 20 characters",
+      emailMaxChar: (v) => v.length < 50 || "Max 50 characters",
       passwordMaxChar: (v) => v.length < 15 || "Max 15 characters",
       emailRules: [
         (v) => !!v || "Required",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
         (v) => v.length >= 6 || "Min 6 characters",
-        (v) => v.length < 30 || "Max 30 characters",
+        (v) => v.length < 50 || "Max 50 characters",
       ],
     },
   }),
 
   methods: {
+    ...mapActions(["vuexGetUser"]),
+
+
     async validateLogin() {
       const valid = await this.$refs.loginForm.validate();
       if (valid) {
         this.user.NombreCuenta = this.NombreAndEmail;
         this.user.Email = this.NombreAndEmail;
         let idLoggedUser = await auth.postLogin(this.user);
+        console.log(idLoggedUser);
         if (idLoggedUser != -1) {
-          console.log(idLoggedUser);
           auth.setLocalStorage("userId", idLoggedUser);
+          this.vuexGetUser(idLoggedUser);
           this.$router.push({ name: "home" });
+          console.log('Logeado');
         } else {
+          console.info('Login incorrecto. Vuelva a intentarlo.');
           this.alertObject.status = false;
           this.alertObject.type = "error";
           this.alertObject.message = "Incorrect Username or Password!";
@@ -256,11 +262,9 @@ export default {
         const registerInfo = auth.postRegister(this.user);
         console.log(registerInfo);
         this.tab = 0; //lo redireccionamos al login y le enviamos una alerta type success
-        // Alert........
         this.$refs.registerForm.reset();
       }
     },
-
   },
 
   computed: {
@@ -273,6 +277,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .v-tabs-slider-wrapper {
   height: 5px !important;

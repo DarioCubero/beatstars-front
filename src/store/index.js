@@ -7,23 +7,36 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+
   state: {
     user: {},
     cart: [],
+    isLogged: false,
   },
-  plugins: [createPersistedState()],
   
+  plugins: [createPersistedState()],
+
   mutations: {
     setUser(state, value) {
       state.user = value;
     },
+    
     setCart(state, beat) {
       state.cart.push(beat);
     },
+
+    isLogged(state) {
+      if (Object.keys(state.user).length !== 0) {
+        state.isLogged = true;
+      } else {
+        state.isLogged = false;
+      }
+    },
+
   },
   actions: {
     async vuexGetUser({ commit }, idUser) {
-      console.log("vuexGetUser");
+      console.log("VuexGetUser - State User cargado.");
       let user = await Auth.getUser(idUser);
       commit("setUser", user);
     },
@@ -34,12 +47,17 @@ export default new Vuex.Store({
       commit("setCart", beat);
     },
 
+    async vuexCheckUserLogged({ commit }) {
+      commit("isLogged");
+    },
+
   },
 
-  modules: {},
+  // getters: {
+  //   isLoggedIn(state) {
+  //     return state.isLogged;
+  //   },
+  // },
 
-  getters: {
-    // user: state => state.user
-  }
+
 });
-

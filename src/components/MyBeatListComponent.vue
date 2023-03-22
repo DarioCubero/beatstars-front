@@ -8,7 +8,8 @@
       md="4"
       lg="3"
     >
-      <BeatCard class="ml-5"
+      <BeatCard
+        class="ml-5"
         :id="beat.id"
         :nombre="beat.nombre"
         :tipo="beat.tipo"
@@ -25,7 +26,7 @@
 import BeatCard from "@/components/BeatCardComponent.vue";
 import Api from "@/services/api";
 import moment from "moment";
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   name: "MyBeatListComponent",
@@ -41,7 +42,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['user']),
+    ...mapState(["user"]),
   },
 
   methods: {
@@ -56,6 +57,8 @@ export default {
   async created() {
     // beforeMount, watch, beforeCreate
     this.myBeats = await Api.getUserBeats(this.user.id);
-  },
+  }
+
+
 };
 </script>

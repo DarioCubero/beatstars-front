@@ -1,6 +1,6 @@
 <template>
   <v-alert class="alert" closable :type="typeAlert" variant="outlined"
-    >{{ message }}</v-alert
+    >{{ messageAlert }}</v-alert
   >
   <!-- <v-alert type="success"> I'm a success alert. </v-alert> -->
   <!-- <v-alert type="info"> I'm an info alert. </v-alert>
@@ -11,7 +11,7 @@
 <script>
 export default {
   props: {
-    message: String,
+    messageAlert: String,
     typeAlert: String,
   },
 };

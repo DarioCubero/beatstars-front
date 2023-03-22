@@ -1,19 +1,22 @@
 <template>
   <div id="beats">
-
-    <Header/>
+    <Header />
     <v-main style="padding: 0px 0px 0px; !important">
-      <v-container>
-        <ListadoBeats/>
+      <v-container fluid class="pa-10">
+        <h1 class="text-left">
+          <v-icon style="font-size: 2.5rem; margin-left: 160px"
+            >mdi-album mdi-light mdi-light</v-icon
+          >Beats
+        </h1>
+        <BeatListComponent />
       </v-container>
     </v-main>
-     <Footer/>
-
+    <Footer />
   </div>
 </template>
 
 <script>
-import ListadoBeats from "@/components/BeatListComponent.vue";
+import BeatListComponent from "@/components/BeatListComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 
@@ -21,7 +24,9 @@ export default {
   name: "beats-view",
 
   components: {
-    ListadoBeats, Header, Footer
+    BeatListComponent,
+    Header,
+    Footer,
   },
 };
 </script>

@@ -197,7 +197,7 @@ import moment from "moment";
 // import Api from '@/services/api';
 
 export default {
-  name: "beat-detail-playlist-view",
+  name: "beat-detail-view",
 
   components: {
     Header,
@@ -367,7 +367,7 @@ export default {
   // typeBeats: {
   //   items: ["Rap", "Rock", "Trap", "Reggae"],
   // },
-  mounted: function () {
+  created: function () {
     this.changeSong();
     this.audio.loop = false;
   },

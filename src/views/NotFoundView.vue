@@ -12,7 +12,6 @@
                 :width-on-screen-smartphone="100"
                 src="../assets/gifs/pug.gif"
               ></v-img>
-                <!-- <img src="@/assets/gifs/pug.gif"  style="min-height: 50vh; max-height: 70vh;" alt="404" /> -->
               </v-card-title>
       </v-container>
     </v-main>

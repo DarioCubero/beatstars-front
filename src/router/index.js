@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginView from '../views/LoginView.vue'
+import BeatsView from '../views/BeatsView.vue'
 
 Vue.use(VueRouter)
 
@@ -18,42 +19,48 @@ const routes = [
   {
     path: '/beats',
     name: 'beats',
-    component: () => import('../views/BeatsView.vue')
+    component: BeatsView
   },
   {
     path: '/mis-beats',
     name: 'mis-beats',  
     component: () => import('../views/MyBeatsView.vue')
   },
-  // {
-  //   path: '/mispedidos',
-  //   name: 'mis-pedidos', 
-  //   component: () => import('../views/MisPedidos.vue')
-  // },
   {
     path: '/beat/:id',
     name: 'beat',
     component: () => import('../views/BeatDetail.vue'),
-    // beforeEnter(to) {
-    //   const id = parseInt(to.params.id);
-    //   const local
-    // }
   },
-  // {
-  //   path: '/profile',
-  //   name: 'profile',
-  //   component: () => import('../views/ProfileView.vue')
-  // },
+  {
+    path: '/pedidos',
+    name: 'pedidos', 
+    component: () => import('../views/OrdersView.vue')
+  },
+  {
+    path: '/subir-beat',
+    name: 'upload-beat', 
+    component: () => import('../views/UploadBeatView.vue')
+  },
+  {
+    path: '/carrito',
+    name: 'carrito', 
+    component: () => import('../views/CartView.vue')
+  },
+  {
+    path: '/perfil',
+    name: 'perfil',
+    component: () => import('../views/ProfileView.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/AdminView.vue')
+  },
   {
     path: '*',
     name: '404',
     component: () => import('../views/NotFoundView.vue')
   },
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   name: 'not-found',
-  //   component: () => import('../views/NotFoundView.vue')
-  // },
 
 ]
 

@@ -2,13 +2,13 @@
   <div id="beatDetail">
     <Header />
     <v-main style="padding: 0px 0px 0px; !important">
-      <v-container>
-        <v-icon size="large" color="green-darken-2" icon="mdi-domain"></v-icon>
+      <v-container fluid class="pa-10">
+
+        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-account mdi-light mdi-light</v-icon>Detalle Beat</h1>
 
         <!-- @click="addToCart(id)"  -->
 
-        <v-card class="mx-auto mb-5" max-width="400">
-          <h3 class="mb-5">Detalle Beat</h3>
+        <v-card class="mx-auto mb-5 mt-6" max-width="400">
 
           <v-img height="150" src="https://random.imagecdn.app/500/150"></v-img>
 

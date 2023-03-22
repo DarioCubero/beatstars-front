@@ -27,6 +27,17 @@ export default {
       });
   },
 
+  async updateUser(_idUser, userEntity) {
+    console.log(`updateUser ${USER_URL}/${_idUser}/update`);
+    return axios
+      .put(`${USER_URL}/${_idUser}/update`, userEntity)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log(error);
+        return null;
+      });
+  },
+
   async postRegister(userEntity) {
     return axios
       .post(REGISTER_URL, userEntity)

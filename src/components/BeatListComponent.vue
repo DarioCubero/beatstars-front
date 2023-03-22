@@ -31,6 +31,7 @@ export default {
 
   data() {
     return {
+      beatNameFilter: "",
       beats: [],
     };
   },
@@ -42,7 +43,6 @@ export default {
   computed: {},
 
   methods: {
-
     dateTime(value) {
       return moment(value).format("YYYY-MM-DD");
     },
@@ -52,8 +52,22 @@ export default {
   },
 
   async created() { // beforeMount, watch, beforeCreate
+    console.log('getBeats '+ this.$route.query.name);
     this.beats = await Api.getBeats();
   },
+
+  // watch(){
+  //   console.log('created b: '+ this.$route.query.name);
+  // },
+
+  // beforeRouteUpdate(to, from, next) {
+  //   // Call the API query method when the URL changes
+  //   console.log(to);
+  //   console.log(from);
+  //   console.log(next);
+  //   this.getContent(to.params.uid);
+  //   next();
+  // },
 
 };
 </script>

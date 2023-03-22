@@ -3,8 +3,10 @@
 
     <Header/>
     <v-main style="padding: 0px 0px 0px; !important">
-      <v-container>
-        <MiListadoBeats/>
+      <v-container fluid class="pa-10">
+        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-folder mdi-light mdi-light</v-icon>Mis Beats</h1>
+
+        <MyBeatListComponent/>
       </v-container>
     </v-main>
      <Footer/>
@@ -13,7 +15,7 @@
 </template>
 
 <script>
-import MiListadoBeats from "@/components/MyBeatListComponent.vue";
+import MyBeatListComponent from "@/components/MyBeatListComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 
@@ -21,7 +23,7 @@ export default {
   name: "mis-beats",
 
   components: {
-    MiListadoBeats, Header, Footer
+    MyBeatListComponent, Header, Footer
   },
 };
 </script>
