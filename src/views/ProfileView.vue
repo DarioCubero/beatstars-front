@@ -23,7 +23,7 @@
             v-model="valid"
             lazy-validation
             dark
-            class="elevation-5 rounded-lg px-5 py-7"
+            class="elevation-5 px-5 py-7"
           >
             <v-row class="">
               <v-col cols="2"> </v-col>
@@ -40,7 +40,7 @@
             </v-row>
             <v-row>
               <v-col cols="12" md="6" class="mb-0">
-                <v-text-field
+                <v-text-field dark
                   label="Nombre de Usuario"
                   v-model="user.nombreCuenta"
                   outlined
@@ -48,7 +48,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
+                <v-text-field dark
                   label="Email"
                   v-model="user.email"
                   outlined
@@ -56,7 +56,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
+                <v-text-field dark
                   label="Password"
                   v-model="user.password"
                   outlined
@@ -73,7 +73,7 @@
                 />
               </v-col>
               <v-col cols="12" md="6">
-                <v-text-field
+                <v-text-field dark
                   label="Password Verify"
                   v-model="passwordVerify"
                   outlined
@@ -96,7 +96,7 @@
             <v-row>
               <v-col cols="2"> </v-col>
               <v-col cols="8">
-                <v-btn color="" outlined  @click="validate"> Actualizar </v-btn>
+                <v-btn color="white" outlined  @click="validate"> Actualizar </v-btn>
               </v-col>
               <v-col cols="2">
                 <v-btn color="red" @click="deleteUser">
@@ -125,18 +125,6 @@ import api from "@/services/api";
 import { mapActions } from "vuex";
 
 export default {
-  // theme: {
-  //   themes: {
-  //     dark: {
-  //       primary: "#82b19f",
-  //       secondary: "#f4bf1c",
-  //       accent: "#47333c",
-  //       error: "#dc6276",
-  //       background: "#0000",
-  //       formBackground: "#23272b",
-  //     },
-  //   },
-  // },
   name: "perfil-view",
   components: {
     Header,
@@ -199,7 +187,9 @@ export default {
         this.formLoading = true;
         console.log(JSON.stringify(this.user));
 
-        auth.updateUser(this.idUserLocal, this.user);
+        auth.updateUser(this.$store.state.user.id, this.user);
+
+        console.log('Actualizando State User tras el Update.');
         this.vuexGetUser(this.$store.state.user.id);
 
         setTimeout(() => {
@@ -243,7 +233,7 @@ export default {
 
   async created() {
     // beforeMount, watch, beforeCreate
-    this.$vuetify.theme.dark = "dark";
+    // this.$vuetify.theme.dark = "dark";
     this.user = await auth.getUser(this.idUserLocal);
     console.log("getUser: ", this.user);
   },
@@ -253,4 +243,7 @@ export default {
 </script>
 
 <style scoped>
+.v-form {
+    background-color: #222222;
+}
 </style>

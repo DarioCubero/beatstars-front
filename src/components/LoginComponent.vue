@@ -233,7 +233,6 @@ export default {
   methods: {
     ...mapActions(["vuexGetUser"]),
 
-
     async validateLogin() {
       const valid = await this.$refs.loginForm.validate();
       if (valid) {
@@ -242,10 +241,12 @@ export default {
         let idLoggedUser = await auth.postLogin(this.user);
         console.log(idLoggedUser);
         if (idLoggedUser != -1) {
+          console.log('LocalStorage de ID response API recogido');
           auth.setLocalStorage("userId", idLoggedUser);
+          console.log('vuexGetUser State de Usuario cargado');
           this.vuexGetUser(idLoggedUser);
           this.$router.push({ name: "home" });
-          console.log('Logeado');
+          console.log('Logeado!');
         } else {
           console.info('Login incorrecto. Vuelva a intentarlo.');
           this.alertObject.status = false;
@@ -256,13 +257,16 @@ export default {
       }
     },
     async validateRegister() {
-      const valid = await this.$refs.registerForm.validate();
+      let valid = await this.$refs.registerForm.validate();
       if (valid) {
-        alert("validateRegister");
-        const registerInfo = auth.postRegister(this.user);
+        alert("Registro realizado correctamente.");
+        let registerInfo = await auth.postRegister(this.user);
         console.log(registerInfo);
         this.tab = 0; //lo redireccionamos al login y le enviamos una alerta type success
-        this.$refs.registerForm.reset();
+        // this.$refs.registerForm.resetValidation();
+        // this.$refs.registerForm.reset();
+      }else{
+        console.log('Error en la validación del formulario de registro');
       }
     },
   },

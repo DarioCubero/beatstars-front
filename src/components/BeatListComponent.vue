@@ -8,7 +8,8 @@
       md="4"
       lg="3"
     >
-      <BeatCard class="ml-5"
+      <BeatCard
+        class="ml-5"
         :id="beat.id"
         :nombre="beat.nombre"
         :tipo="beat.tipo"
@@ -51,9 +52,21 @@ export default {
     },
   },
 
-  async created() { // beforeMount, watch, beforeCreate
-    console.log('getBeats '+ this.$route.query.name);
-    this.beats = await Api.getBeats();
+  async created() {
+    // beforeMount, watch, beforeCreate
+    //TODO: Pending filtrado por QUERY PARAM
+    let nameParam = this.$route.query.name;
+    if (nameParam) {
+      console.log("getBeatsByName...  " + nameParam);
+      this.beats = await Api.getBeats(nameParam);
+      console.log(this.beats);
+    // allBeats.filter(o =>
+    //     Object.keys(o).some(k => o[Type].toLowerCase().includes(nameParam.toLowerCase())));
+
+    } else {
+      this.beats = await Api.getBeats();
+      console.info("getBeats...");
+    }
   },
 
   // watch(){
@@ -68,6 +81,5 @@ export default {
   //   this.getContent(to.params.uid);
   //   next();
   // },
-
 };
 </script>

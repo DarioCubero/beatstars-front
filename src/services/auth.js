@@ -12,7 +12,7 @@ export default {
       .post(`${USER_URL}/login`, userForLogin)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return -1;
       });
   },
@@ -22,7 +22,7 @@ export default {
       .get(`${USER_URL}/${_IdUser}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -33,7 +33,7 @@ export default {
       .put(`${USER_URL}/${_idUser}/update`, userEntity)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -43,7 +43,7 @@ export default {
       .post(REGISTER_URL, userEntity)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
       });
   },
 

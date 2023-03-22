@@ -22,7 +22,7 @@ export default {
       .get(`${BEAT_URL}/${_idBeat}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -33,21 +33,21 @@ export default {
       .get(`${BEATS_URL}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
 
-  async getBeatsByName(beatName) {
-    console.log(`getBeats ${BEATS_URL}?name=${beatName}`);
-    return axios
-      .get(`${BEATS_URL}`)
-      .then((response) => response.data)
-      .catch(function (error) {
-        console.log(error);
-        return null;
-      });
-  },
+  //TODO: Pending filtrado por QUERY PARAM
+  // async getBeatsByName(beatName){//pending hacer el filtrado por query param
+  //   return axiosa
+  //     .get(`${BASE_URL}/beatsFilter`, {params: {'beatName':beatName}})
+  //     .then((response) => response.data)
+  //     .catch(function (error) {
+  //       console.log("Error response: ", error.response.data); // ***
+  //       return null;
+  //     });
+  // },
 
   async updateBeat(_idBeat) {
     console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
@@ -55,7 +55,7 @@ export default {
       .post(`${BEAT_URL}/${_idBeat}/update`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -66,7 +66,7 @@ export default {
       .get(`${PEDIDO_URL}/${_idPedido}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -75,7 +75,7 @@ export default {
       .get(`${PEDIDO_URL}/${_idPedido}/beats`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -85,7 +85,7 @@ export default {
       .get(`${PEDIDOS_URL}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -96,7 +96,7 @@ export default {
       .get(`${USERS_URL}`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -107,19 +107,18 @@ export default {
       .get(`${USER_URL}/${_id}/beats`)
       .then((response) => response.data)
       .catch(function (err) {
-        console.log("Error response: ", err.response.data);    // ***
+        console.log("Error response: ", err.response.data); // ***
         // console.error(err.response.status);  // *** 404
         return null;
       });
   },
-
 
   async getUserPedidos(_id) {
     return axios
       .get(`${USER_URL}/${_id}/pedidos`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },
@@ -130,7 +129,7 @@ export default {
       .delete(`${USER_URL}/${_idUser}/delete`)
       .then((response) => response.data)
       .catch(function (error) {
-        console.log(error);
+        console.log("Error response: ", error.response.data); // ***
         return null;
       });
   },

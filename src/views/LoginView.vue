@@ -39,6 +39,7 @@ export default {
   },
 
   methods: {
+    
     async getAlert(alertReceive) {
       this.alertObject.status = alertReceive.status;
       this.alertObject.type = alertReceive.type;

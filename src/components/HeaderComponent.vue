@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import auth from "@/services/auth";
 // import api from "@/services/api";
 
@@ -146,18 +145,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["vuexGetUser", "vuexCheckUserLogged"]), //carga el state del usuario
-
     created() {
-      this.vuexCheckUserLogged();
-      if (!this.$store.state.isLogged){
+      if (!auth.getLocalStorage("userId")){
         console.info('Acceso restringido. Debes logearte primero.');
         this.$router.push({ name: "login" });
-        this.$store.commit("setUser", {});
-      }
-      else {
-        console.log('Usuario almacenado en State Vuex.');
-        this.vuexGetUser(this.$store.state.user.id); //get id usuario en el state
+        // this.$store.commit("setUser", {});
       }
     },
 
@@ -187,10 +179,9 @@ export default {
     // },
 
     logoutClick() {
-      auth.closeSession();
+      auth.closeSession(); 
       this.$store.commit("setUser", {});
       this.$router.push({ name: "login" });
-      this.vuexCheckUserLogged();
       console.log('Logout --> Close sesion, clean states & localStorage');
     },
 

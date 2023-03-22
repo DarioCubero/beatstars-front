@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     cart: [],
-    isLogged: false,
+    // isLogged: false,
   },
   
   plugins: [createPersistedState()],
@@ -20,18 +20,20 @@ export default new Vuex.Store({
     setUser(state, value) {
       state.user = value;
     },
-    
+
     setCart(state, beat) {
       state.cart.push(beat);
     },
 
-    isLogged(state) {
-      if (Object.keys(state.user).length !== 0) {
-        state.isLogged = true;
-      } else {
-        state.isLogged = false;
-      }
-    },
+    // isLogged(state) {
+    //   if (Object.keys(state.user).length !== 0) {
+    //     state.isLogged = true;
+    //     console.log('vuexCheckUserLogged... TRUE');
+    //   } else {
+    //     console.log('vuexCheckUserLogged... FALSE');
+    //     state.isLogged = false;
+    //   }
+    // },
 
   },
   actions: {
@@ -47,9 +49,9 @@ export default new Vuex.Store({
       commit("setCart", beat);
     },
 
-    async vuexCheckUserLogged({ commit }) {
-      commit("isLogged");
-    },
+    // async vuexCheckUserLogged({ commit }) {
+    //   commit("isLogged");
+    // },
 
   },
 
