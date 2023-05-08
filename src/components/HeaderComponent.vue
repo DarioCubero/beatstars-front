@@ -1,14 +1,6 @@
 <template>
   <v-card height="107px" color="#f52626" class="py-3">
-    <v-app-bar
-      fixed
-      app
-      height="100px"
-      dark
-      color="black"
-      class="pl-10"
-      id="header"
-    >
+    <v-app-bar fixed app height="100px" class="pl-10" id="header">
       <router-link to="/home" class="logo-home">
         <v-img class="mx-2" :src="require('@/assets/images/logo.svg')"></v-img>
       </router-link>
@@ -46,20 +38,20 @@
       <v-spacer></v-spacer>
 
       <!-- toolbar -->
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn
-          class=""
-          color="black"
-          v-for="item in menu"
-          :key="item.icon"
-          :to="item.url"
-          >{{ item.title }}</v-btn
-        >        
-        
-        
+      <v-toolbar-items class="hidden-sm-and-down" color="transparent">
+        <v-btn v-for="item in menu" :key="item.icon" :to="item.url">{{
+          item.title
+        }}</v-btn>
+
         <!-- v-if="rol"  -->
-        <v-btn v-if="$store.state.user.rol === 'admin'" color="black" to="/admin"> Admin </v-btn>
-        <v-btn color="black" @click="logoutClick"> Logout </v-btn>
+        <v-btn
+          v-if="$store.state.user.rol === 'admin'"
+          color="black"
+          to="/admin"
+        >
+          Admin
+        </v-btn>
+        <v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
       </v-toolbar-items>
 
       <!-- menu hamburguesa hide/show -->
@@ -87,8 +79,7 @@ import auth from "@/services/auth";
 // import api from "@/services/api";
 
 export default {
-  name: 'HeaderComponent',
-  
+
   data() {
     this.created();
 
@@ -146,8 +137,8 @@ export default {
 
   methods: {
     created() {
-      if (!auth.getLocalStorage("userId")){
-        console.info('Acceso restringido. Debes logearte primero.');
+      if (!auth.getLocalStorage("userId")) {
+        console.info("Acceso restringido. Debes logearte primero.");
         this.$router.push({ name: "login" });
         // this.$store.commit("setUser", {});
       }
@@ -179,10 +170,10 @@ export default {
     // },
 
     logoutClick() {
-      auth.closeSession(); 
+      auth.closeSession();
       this.$store.commit("setUser", {});
       this.$router.push({ name: "login" });
-      console.log('Logout --> Close sesion, clean states & localStorage');
+      console.log("Logout --> Close sesion, clean states & localStorage");
     },
 
     // onClickOutside() {
@@ -194,7 +185,6 @@ export default {
     //   console.log("checkUserLogged()...");
     //   this.checkUserLogged();
     // },
-
   },
 };
 </script>
@@ -205,21 +195,45 @@ export default {
   background-color: green !important;
 } */
 
-.v-toolbar__items a.v-btn.v-btn--is-elevated:hover {
+.v-toolbar {
+  background-color: #222222 !important;
+}
+
+.v-toolbar__items a.v-btn,
+.btnHeader {
+  /* botones menu */
   border-radius: 50px;
-  color: rgb(245, 38, 38) !important;
+  color: white !important;
+  background-color: #222222 !important;
+  border: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.theme--dark.v-btn.v-btn--has-bg {
+  background-color: none !important;
+}
+
+.v-toolbar__items a.v-btn.v-btn--is-elevated:hover,
+.btnHeader:hover {
+  /* hover botones menu */
+  border-radius: 50px;
+  color: white;
+  background-color: rgb(245, 38, 38) !important;
 }
 
 .v-btn--active {
-  font-size: 18px !important;
+  /* boton menu seleccionado*/
+  font-size: 17px !important;
 }
 
-a.v-btn--active.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--router.theme--dark.v-size--default.black {
+/* a.v-btn--active.v-btn.v-btn--is-elevated.v-btn--has-bg.v-btn--router.theme--dark.v-size--default.black {
   border-radius: 50px;
   color: black !important;
   background-color: rgb(255, 255, 255) !important;
   padding-top: 10p;
-}
+} */
 
 .menu-right {
   margin-right: 200px;

@@ -54,7 +54,7 @@
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
                     class="white--text"
-                    color="#f52626"
+                    color="#e63722"
                     x-large
                     block
                     :disabled="!validLogin"
@@ -185,7 +185,6 @@ import { mapActions } from "vuex";
 let currentDate = new Date();
 
 export default {
-  name: "LoginForm",
   data: () => ({
     tab: null,
     highlightTab: 0,

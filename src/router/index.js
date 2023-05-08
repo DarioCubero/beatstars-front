@@ -37,6 +37,11 @@ const routes = [
     component: () => import('../views/OrdersView.vue')
   },
   {
+    path: '/pedidos/:id',
+    name: 'pedido', 
+    component: () => import('../views/OrderDetailView.vue')
+  },
+  {
     path: '/subir-beat',
     name: 'upload-beat', 
     component: () => import('../views/UploadBeatView.vue')

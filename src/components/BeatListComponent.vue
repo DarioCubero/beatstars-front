@@ -28,7 +28,6 @@ import Api from "@/services/api";
 import moment from "moment";
 
 export default {
-  name: "BeatListComponent",
 
   data() {
     return {

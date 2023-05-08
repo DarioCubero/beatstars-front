@@ -3,9 +3,16 @@
     <Header />
     <v-main style="padding: 0px 0px 0px; !important;">
       <v-container fluid class="pa-10">
-        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-account-supervisor mdi-light</v-icon>Admin</h1>
+        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-upload mdi-light mdi-light</v-icon>Under Construction</h1>
 
-     <CrudTable></CrudTable>
+        <!-- en construccion -->
+        <div class="d-flex justify-center pt-10">
+            <v-img
+              contain
+              max-height="600"
+              src="@/assets/images/resources/buildpage.jpg"
+            ></v-img>
+        </div>
 
       </v-container>
     </v-main>
@@ -16,16 +23,13 @@
 <script>
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
-import CrudTable from "@/components/CrudDataTableComponent.vue";
-
 
 export default {
-  name: "admin-view",
+  name: "upload-beat-view",
 
   components: {
     Header,
     Footer,
-    CrudTable
   },
 };
 </script>

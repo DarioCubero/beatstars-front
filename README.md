@@ -1,5 +1,10 @@
 # beatstars-front
 
+## Colors
+
+Principal #e63722
+Secundary #222222
+
 ## Project setup
 
 ```

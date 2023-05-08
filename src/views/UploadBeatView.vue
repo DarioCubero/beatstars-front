@@ -1,29 +1,27 @@
 <template>
   <div id="home">
     <Header />
+
     <v-main style="padding: 0px 0px 0px; !important;">
       <v-container fluid class="pa-10">
-        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-upload mdi-light mdi-light</v-icon>Subir Beat</h1>
-
-        <!-- en construccion -->
-        <div class="d-flex justify-center pt-10">
-            <v-img
-              contain
-              max-height="600"
-              src="@/assets/images/resources/buildpage.jpg"
-            ></v-img>
-        </div>
-
+        <h1 class="text-left">
+          <v-icon style="font-size: 2.5rem; margin-left: 160px"
+            >mdi-account mdi-light mdi-light</v-icon
+          >Subir Beat
+        </h1>
+         <BeatForm></BeatForm>
       </v-container>
     </v-main>
+
     <Footer />
   </div>
 </template>
 
 <script>
-// import Carousel from "@/components/CarouselComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
+import BeatForm from "@/components/BeatUploadFormComponent.vue";
+
 
 export default {
   name: "upload-beat-view",
@@ -31,7 +29,7 @@ export default {
   components: {
     Header,
     Footer,
-    // Carousel,
+    BeatForm
   },
 };
 </script>

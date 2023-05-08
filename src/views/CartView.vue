@@ -6,7 +6,7 @@
         <h1 class="text-left">
           <v-icon style="font-size: 2.5rem; margin-left: 160px"
             >mdi-cart mdi-light mdi-light</v-icon
-          >Carrito View
+          >Carrito
         </h1>
 
         <!-- en construccion -->
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-// import Carousel from "@/components/CarouselComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 
@@ -35,7 +34,6 @@ export default {
   components: {
     Header,
     Footer,
-    // Carousel,
   },
 };
 </script>
