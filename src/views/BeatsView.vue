@@ -5,7 +5,7 @@
       <v-container fluid class="pa-10">
         <h1 class="text-left">
           <v-icon style="font-size: 2.5rem; margin-left: 160px"
-            >mdi-album mdi-light mdi-light</v-icon
+            >mdi-album mdi-light</v-icon
           >Beats
         </h1>
         <BeatListComponent />

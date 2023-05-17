@@ -28,9 +28,7 @@ export default {
         { title: "Método de pago", align: "end", key: "metodoPago" },
        /*  { title: "Nº Beats", align: "end", key: "numBeats" }, */
         { title: "Detalle" },
-        
       ],
-
       numBeatsList: [],
       beatNameFilter: "",
       orders: [],
@@ -63,17 +61,16 @@ export default {
     },
   },
 
-  async created() {
+  async beforeCreate() {
     this.orders = await Api.getPedidos();
-
     // count Number of Beats
     await this.orders.forEach(async (order) => {
       const resultado = await Api.getPedidoBeats(order.id);
       this.numBeatsList.push(Object.keys(resultado).length);
     });
-
     console.log("getPedidos ", this.orders);
   },
+
 };
 </script>
 

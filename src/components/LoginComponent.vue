@@ -54,7 +54,7 @@
                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
                   <v-btn
                     class="white--text"
-                    color="#e63722"
+                    color="#0FC900"
                     x-large
                     block
                     :disabled="!validLogin"
@@ -290,7 +290,7 @@ export default {
   background-color: black !important;
 }
 .tab-register {
-  background-color: #f52626 !important;
+  background-color: #0FC900 !important;
 }
 
 .slider-register {
@@ -298,7 +298,7 @@ export default {
 }
 
 .slider-login {
-  background-color: #f52626 !important;
+  background-color: #0FC900 !important;
 }
 
 .v-card {

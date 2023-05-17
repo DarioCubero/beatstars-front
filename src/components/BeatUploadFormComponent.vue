@@ -20,65 +20,87 @@
           <div class="headline" style="color: white !important">Datos</div>
         </v-col>
       </v-row>
-      <v-row>
+
+      <v-row class="justify-center">
+        <!-- NOMBRE BEAT -->
         <v-col cols="12" md="6" class="mb-0">
-          <v-text-field
+          <v-text-field hide-details
             dark
-            label="Nombre"
-            v-model="beat.nombreCuenta"
+            label="Nombre del Beat"
+            v-model="beat.nombre"
             outlined
             prepend-inner-icon="mdi-account-arrow-right-outline mdi-light"
             :rules="[rules.required]"
           />
         </v-col>
+      </v-row>
+
+      <v-row class="justify-center">
+        <!-- TYPEBEAT -->
         <v-col cols="12" md="6">
-          <v-text-field
+          <v-text-field hide-details
             dark
             outlined
             label="TypeBeat"
-            v-model="beat.typeBeat"
+            v-model="beat.tipo"
             prepend-inner-icon="mdi-format-list-bulleted-square mdi-light"
             :rules="[rules.required]"
           />
         </v-col>
       </v-row>
-      <!--  :label="`isEnabled: ${beat.premium.toString()}`"  -->
-      <v-row>
+
+      <!-- PREMIUM -->
+      <v-row class="justify-center mt-5" no-gutters >
         <v-col cols="12" md="6">
           <v-card dark outlined>
             <v-switch
               outlined
               v-model="beat.premium"
-              false-value="Nay!"
-              true-value="Yay!"
               label="Premium"
               color="#FFD700"
-              value="red"
+              @change="switchPremium($event)"
             ></v-switch>
           </v-card>
         </v-col>
+      </v-row>
+      <!-- PRECIO -->
+      <v-row class="justify-center" no-gutters>
         <v-col cols="12" md="6">
-          <v-text-field
-            dark
-            outlined
-            label="Precio"
-            v-model="beat.precio"
-            prepend-inner-icon="mdi-currency-eur mdi-light"
-            :rules="[rules.required]"
-          />
+          <v-card dark outlined>
+            <v-row class="mt-5" justify="center">
+              <v-col class="text-center">
+                <span class="font-weight-bold"
+                  ><v-icon>mdi-credit-card-outline </v-icon>Precio:
+                </span>
+              </v-col>
+              <v-col class="text-left mb-5">
+                <span
+                  class="text-h2 font-weight-light"
+                  v-text="beat.precio"
+                ></span>
+                <span class="subheading font-weight-light me-1">€</span>
+              </v-col>
+            </v-row>
+
+            <v-slider
+              v-model="beat.precio"
+              :color="color"
+              track-color="grey"
+              :min="minValue"
+              :max="maxValue"
+              :step="5"
+            >
+            </v-slider>
+          </v-card>
         </v-col>
       </v-row>
 
       <!-- botones -->
-      <v-row>
-        <v-col cols="2"> </v-col>
-        <v-col cols="8">
-          <v-btn color="white" outlined @click="validate"> Actualizar </v-btn>
-        </v-col>
-        <v-col cols="2">
-          <v-btn color="red" @click="deleteUser">
-            <v-icon>mdi-delete mdi-light</v-icon>
-          </v-btn>
+      <v-row class="justify-center">
+        <v-col cols="4">
+          <v-btn color="white" class="pa-4" outlined @click="validate"
+            ><v-icon style="font-size: 2rem">mdi-upload</v-icon>Subir</v-btn
+          >
         </v-col>
       </v-row>
     </v-form>
@@ -89,7 +111,6 @@
 <script>
 import auth from "@/services/auth";
 import api from "@/services/api";
-import { mapActions } from "vuex";
 let currentDate = new Date();
 
 export default {
@@ -101,29 +122,26 @@ export default {
 
   data: () => ({
     idUserLocal: auth.getLocalStorage("userId"),
+    minValue: 5,
+    maxValue: 35,
+    colorSwitch: "red",
     beat: {
       nombre: "",
       premium: false,
-      typeBeat: "",
+      tipo: "",
       dateCreated: currentDate,
-      precio: null,
+      precio: 20,
     },
     valid: false,
     formLoading: false,
-    emailRules: [
-      (v) => !!v || "Please fill out the field!",
-      (v) =>
-        !v ||
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-        "E-mail must be valid",
-    ],
     rules: {
-      precio: (v) =>
-        !(
-          !isNaN(parseFloat(v)) &&
-          this.beat.precio >= 0 &&
-          this.beat.precio <= 99
-        ) || "Debe ser un número entre el 0 y el 100",
+      precio: (v) => !isNaN(parseFloat(v)) || "isNaN.",
+      // (v) =>
+      //   !(
+      //     !isNaN(parseFloat(v)) &&
+      //     this.beat.precio >= 0 &&
+      //     this.beat.precio <= 99
+      //   ) || "Debe ser un número entre el 0 y el 100",
       nombre: [(v) => v.length < 15 || "Max 15 characters"],
       userNameMaxChar: (v) => v.length < 20 || "Max 20 characters",
       required: (v) => !!v || "Required.",
@@ -135,7 +153,6 @@ export default {
     alert: false,
     confirm: false,
     prompt: false,
-
     address: "",
 
     beforeShow: "No event captured yet",
@@ -145,6 +162,7 @@ export default {
 
     model: true,
 
+    // TYPEBEATS CHIP ITEMS/
     items: [
       {
         text: "Rap",
@@ -174,6 +192,16 @@ export default {
   }),
 
   computed: {
+    color() {
+      if (this.beat.precio <= 10) return "pink";
+      if (this.beat.precio <= 20) return "green";
+      if (this.beat.precio <= 35) return "blue";
+      if (this.beat.precio < 60) return "purple";
+      if (this.beat.precio < 80) return "orange";
+      if (this.beat.precio <= 100) return "yellow";
+      return "red";
+    },
+
     allSelected() {
       return this.selected.length === this.items.length;
     },
@@ -206,54 +234,48 @@ export default {
   },
 
   methods: {
-    ...mapActions(["vuexGetUser"]),
+    toggle() {
+      this.isPlaying = !this.isPlaying;
+    },
+
+    switchPremium(status) {
+      if (!status) {
+        this.beat.precio = 20;
+        this.minValue = 5;
+        this.maxValue = 35;
+        this.colorSwitch = "red";
+      } else {
+        this.beat.precio = 70;
+        this.minValue = 40;
+        this.maxValue = 100;
+        this.colorSwitch = "FFD700";
+      }
+    },
 
     validate() {
       if (this.$refs.form.validate()) {
         this.formLoading = true;
-        console.log(JSON.stringify(this.user));
-
-        auth.updateUser(this.$store.state.beat.id, this.user);
-
-        console.log("Actualizando State User tras el Update.");
-        this.vuexGetUser(this.$store.state.beat.id);
-
+        // console.log(this.user); //cada usuario se asignará a la creación del beat
+        // console.log(this.beat);
+        // this.beat.id=5;
+        // this.beat.dateCreated = "20/05/2020";
+        api.createBeat(this.beat);
         setTimeout(() => {
           this.formLoading = false;
         }, 2000);
-
-        // Alert........
       }
-    },
-    deleteUser() {
-      this.formLoading = true;
-      api.deleteUser(this.idUserLocal);
-      console.log("Ha sido borrado el usuario con ID: " + this.idUserLocal);
-      auth.closeSession();
-      this.$store.commit("setUser", {});
-
-      setTimeout(() => {
-        this.$router.push({ name: "login" });
-        this.formLoading = false;
-      }, 2000);
-
-      // Alert........
     },
 
     reset() {
       this.$refs.form.reset();
     },
+
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-    // darkMode() {
-    //   this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-    // },
   },
 
   async created() {
-    // beforeMount, watch, beforeCreate
-    // this.$vuetify.theme.dark = "dark";
     this.user = await auth.getUser(this.idUserLocal);
     console.log("getUser: ", this.user);
   },
@@ -267,6 +289,14 @@ export default {
 
 .v-card {
   padding: 0px;
-  padding-left: 10px;
+  padding: 0px 30px 0px 30px;
+}
+
+.v-slider--horizontal .v-slider__track-container {
+  height: 5px !important;
+}
+
+.v-slider__track-container {
+  height: 10px !important;
 }
 </style>

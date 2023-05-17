@@ -100,6 +100,30 @@ export default {
         return null;
       });
   },
+
+  async createBeat(beatEntity) {
+    console.log(beatEntity);
+    console.log(`createBeat ${BEAT_URL}/create`);
+    return axios
+      .post(`${BEAT_URL}/create`, beatEntity)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log("Error response: ", error.response.data); // ***
+        return null;
+      });
+  },
+
+  async setBeat(_idBeat, beatEntity) {
+    console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
+    return axios
+      .put(`${BEAT_URL}/${_idBeat}/update`, beatEntity)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log("Error response: ", error.response.data); // ***
+        return null;
+      });
+  },
+
   async getUserBeats(_id) {
     console.log(`getUserBeats ${USER_URL}/${_id}/beats`);
 

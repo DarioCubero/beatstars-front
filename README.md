@@ -2,6 +2,8 @@
 
 ## Colors
 
+Hex: #0FC900
+
 Principal #e63722
 Secundary #222222
 

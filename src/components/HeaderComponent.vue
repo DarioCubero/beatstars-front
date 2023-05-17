@@ -1,5 +1,5 @@
 <template>
-  <v-card height="107px" color="#f52626" class="py-3">
+  <v-card height="107px" color="#0FC900" class="py-3">
     <v-app-bar fixed app height="100px" class="pl-10" id="header">
       <router-link to="/home" class="logo-home">
         <v-img class="mx-2" :src="require('@/assets/images/logo.svg')"></v-img>
@@ -220,7 +220,7 @@ export default {
   /* hover botones menu */
   border-radius: 50px;
   color: white;
-  background-color: rgb(245, 38, 38) !important;
+  background-color: #0FC900 !important;
 }
 
 .v-btn--active {
