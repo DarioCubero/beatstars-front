@@ -3,7 +3,7 @@
     <v-card-title class="text-center justify-center">
       <v-img
         width="400"
-        :src="require('@/assets/images/logo_full.svg')"
+        :src="require('@/assets/images/white_horizontal_logo_DreamDrum.svg')"
       ></v-img>
     </v-card-title>
     <v-tabs v-model="tab" show-arrows icons-and-text dark grow>

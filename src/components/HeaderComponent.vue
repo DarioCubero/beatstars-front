@@ -2,7 +2,7 @@
   <v-card height="107px" color="#0FC900" class="py-3">
     <v-app-bar fixed app height="100px" class="pl-10" id="header">
       <router-link to="/home" class="logo-home">
-        <v-img class="mx-2" :src="require('@/assets/images/logo.svg')"></v-img>
+        <v-img class="mx-3" :src="require('@/assets/images/white_square_logo_DreamDrum.svg')"></v-img>
       </router-link>
 
       <v-form ref="form" @submit.prevent="validate">
@@ -240,7 +240,7 @@ export default {
 }
 
 .logo-home {
-  min-width: 60px;
+  max-width: 7rem !important;
 }
 
 .v-toolbar__items {

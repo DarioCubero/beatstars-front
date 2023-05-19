@@ -88,8 +88,6 @@ export default {
      const resultado = await Api.getPedidoBeats(order.id);
      this.numBeatsList.push(Object.keys(resultado).length);
     });
-
-    console.log("getPedidos ", this.orders);
   },
 };
 </script>

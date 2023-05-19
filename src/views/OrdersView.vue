@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import OrderList from "@/components/OrdersDataTableComponent.vue";
+import OrderList from "@/components/OrdersDataTableComponentXXX.vue";
+// import OrderList from "@/components/OrdersDataTableComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 

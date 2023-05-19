@@ -1,10 +1,14 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="orders"
+    :items="ordersCustom"
     item-value="id"
-    class="elevation-1"
-  ></v-data-table>
+    class="elevation-1 mx-auto mt-10"
+  >
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon @click="orderDetail(item.id)">mdi-eye</v-icon>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -18,20 +22,21 @@ export default {
       itemsPerPage: 5,
       headers: [
         {
-          title: "ID",
+          text: "ID",
           align: "start",
           sortable: false,
-          key: "id",
+          value: "id",
         },
-        { title: "Fecha", align: "end", key: "dateCreated" },
-        { title: "Total(€)", align: "end", key: "total" },
-        { title: "Método de pago", align: "end", key: "metodoPago" },
-       /*  { title: "Nº Beats", align: "end", key: "numBeats" }, */
-        { title: "Detalle" },
+        { text: "Fecha", value: "dateCreated" },
+        { text: "Total(€)", value: "total" },
+        { text: "Método de pago", value: "metodoPago" },
+        { text: "Nº Beats", value: "numBeats" },
+        { text: "Detalle", value: "actions", sortable: false },
       ],
-      numBeatsList: [],
+      numBeats: [],//{IDORDER:NUMBEATS}
       beatNameFilter: "",
       orders: [],
+      ordersCustom: [],
     };
   },
 
@@ -52,42 +57,32 @@ export default {
     dateTime(value) {
       return moment(value).format("YYYY-MM-DD");
     },
-  },
-  computed: {
-    // a computed getter
-    countNumberOfBeats() {
-      // `this` points to the component instance
-      return this.author.books.length > 0 ? "Yes" : "No";
+    async countOrderBeats(orderId) {
+      console.log('countOrderBeats orderId', orderId);
+      const resultado = await Api.getPedidoBeats(orderId);
+      this.numBeats.push({orderId:Object.keys(resultado).length});
+      console.log(this.numBeats);
     },
   },
 
-  async beforeCreate() {
+  async beforeMount() {
     this.orders = await Api.getPedidos();
-    // count Number of Beats
-    await this.orders.forEach(async (order) => {
-      const resultado = await Api.getPedidoBeats(order.id);
-      this.numBeatsList.push(Object.keys(resultado).length);
+    this.orders.forEach((x) => {
+      let obj = {};
+      obj["id"] = x.id;
+      obj["dateCreated"] = this.dateTime(x.dateCreated);
+      obj["total"] = x.total;
+      obj["metodoPago"] = this.metodoPago(x.metodoPago);
+      this.countOrderBeats(x.id);
+      obj["numBeats"] = this.numBeats[x.id];
+      this.ordersCustom.push(obj);
     });
-    console.log("getPedidos ", this.orders);
-  },
 
+  console.log(this.numBeats);
+
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-// .v-card__text,
-// .v-card__title {
-//   text-overflow: ellipsis !important ;
-//   overflow: hidden !important ;
-//   white-space: nowrap !important ;
-//   display: inherit;
-
-// display: -webkit-box;
-// -webkit-line-clamp: 2; /* number of lines to show */
-// line-clamp: 2;
-// -webkit-box-orient: vertical;
-// overflow: hidden;
-// max-height: 5em;
-// line-height: 1.8em;
-// }
 </style>

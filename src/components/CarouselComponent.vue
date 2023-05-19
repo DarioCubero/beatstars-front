@@ -22,10 +22,10 @@ export default {
   data: () => ({
     items: [
       {
-        src: require("../assets/images/resources/bg.jpg"),
+        src: require("../assets/images/adobestock/AdobeStock_333713370.jpeg"),
       },
       {
-        src: require("../assets/images/resources/iphones.png"),
+        src: require("../assets/images/adobestock/AdobeStock_245375465.jpeg"),
       },
     ],
   }),
