@@ -1,5 +1,5 @@
 <template>
-  <v-sheet max-width="800" class="mx-auto mt-10">
+  <v-sheet max-width="800" class="mx-auto mt-6">
     <v-form
       ref="form"
       v-model="valid"
@@ -7,7 +7,7 @@
       dark
       class="elevation-5 px-5 py-7"
     >
-      <v-row style="height: 10px">
+      <v-row style="height: 10px; margin-bottom: 10px;">
         <v-progress-linear
           :active="formLoading"
           indeterminate
@@ -17,7 +17,7 @@
       <v-row class="">
         <v-col cols="2"> </v-col>
         <v-col cols="8">
-          <div class="headline" style="color: white !important">Datos</div>
+          <div class="headline ma-3" style="color: white !important">Datos</div>
         </v-col>
       </v-row>
 
@@ -98,7 +98,7 @@
       <!-- botones -->
       <v-row class="justify-center">
         <v-col cols="4">
-          <v-btn color="white" class="pa-4" outlined @click="validate"
+          <v-btn color="white" class="pa-4 ma-5" outlined @click="validate"
             ><v-icon style="font-size: 2rem">mdi-upload</v-icon>Subir</v-btn
           >
         </v-col>

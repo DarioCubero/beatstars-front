@@ -14,6 +14,7 @@
 <script>
 // import { mapActions } from "vuex";
 import Api from "@/services/api";
+import auth from "@/services/auth";
 import moment from "moment";
 
 export default {
@@ -33,7 +34,7 @@ export default {
         { text: "Nº Beats", value: "numBeats" },
         { text: "Detalle", value: "actions", sortable: false },
       ],
-      numBeats: [],//{IDORDER:NUMBEATS}
+      numBeats: [], //{IdOrder:xxx, numBeats: xxx}
       beatNameFilter: "",
       orders: [],
       ordersCustom: [],
@@ -48,38 +49,42 @@ export default {
     metodoPago(check) {
       return check ? "PayPal" : "Tarjeta"; // false: Paypal
     },
-    orderDetail(orderId, numBeats) {
+    orderDetail(orderId) {
       this.$router.push({
         name: "pedido",
-        params: { id: orderId, numBeats: numBeats },
+        params: { id: orderId, numBeats: this.countOrderBeats(orderId) },
       });
     },
     dateTime(value) {
       return moment(value).format("YYYY-MM-DD");
     },
-    async countOrderBeats(orderId) {
-      console.log('countOrderBeats orderId', orderId);
-      const resultado = await Api.getPedidoBeats(orderId);
-      this.numBeats.push({orderId:Object.keys(resultado).length});
-      console.log(this.numBeats);
+
+    countOrderBeats(orderId) { //orderId: xxx, numBeats: xxx
+      console.log("countOrderBeats orderId", orderId);
+      let obj = this.numBeats.find((x) => x.orderId === orderId);
+      return obj["numBeats"];
     },
   },
 
-  async beforeMount() {
-    this.orders = await Api.getPedidos();
-    this.orders.forEach((x) => {
+  async beforeCreate() {
+    this.orders = await Api.getUserPedidos(auth.getLocalStorage("userId"));
+    await this.orders.forEach(async (x) => {
       let obj = {};
       obj["id"] = x.id;
       obj["dateCreated"] = this.dateTime(x.dateCreated);
       obj["total"] = x.total;
       obj["metodoPago"] = this.metodoPago(x.metodoPago);
-      this.countOrderBeats(x.id);
-      obj["numBeats"] = this.numBeats[x.id];
-      this.ordersCustom.push(obj);
+      const beatsPedido = await Api.getPedidoBeats(x.id);
+      obj["numBeats"] = Object.keys(beatsPedido).length;
+      this.numBeats.push({
+        orderId: x.id,
+        numBeats: Object.keys(beatsPedido).length,
+      });
+this.ordersCustom.push(obj);
+      
     });
 
-  console.log(this.numBeats);
-
+    console.log(this.numBeats);
   },
 };
 </script>

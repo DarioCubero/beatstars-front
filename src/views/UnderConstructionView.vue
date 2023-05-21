@@ -3,7 +3,7 @@
     <Header />
     <v-main style="padding: 0px 0px 0px; !important;">
       <v-container fluid class="pa-10">
-        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-upload mdi-light mdi-light</v-icon>Under Construction</h1>
+        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-upload mdi-light</v-icon>Under Construction</h1>
 
         <!-- en construccion -->
         <div class="d-flex justify-center pt-10">

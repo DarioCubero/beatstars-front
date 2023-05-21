@@ -3,12 +3,23 @@
     <Header />
     <v-main style="padding: 0px 0px 0px; !important">
       <v-container fluid class="pa-10">
+
         <h1 class="text-left">
-          <v-icon style="font-size: 2.5rem; margin-left: 160px"
-            >mdi-album mdi-light mdi-light</v-icon
-          >Detalle Pedido
+        <a @click="$router.go(-1)"><span span class="text-left"><v-icon style="font-size: 2.5rem"
+              >mdi-arrow-left-thick mdi-light </v-icon></span></a>
+
+            <v-icon style="font-size: 2.5rem; margin-left: 130px"
+              >mdi-album mdi-light</v-icon
+            >Detalle Pedido
         </h1>
+
+
+
+
+
+
         <h3>ID: {{ pedidoSelected.id }}</h3>
+        <h3>Nº Beats: {{ this.numBeats }}</h3>
         <OrderBeatListComponent /> <!-- :message="alertObject.message" -->
       </v-container>
     </v-main>
@@ -33,8 +44,11 @@ export default {
 
   data() {
     let idPedidoSelected = this.$route.params.id;
+    console.log(this.$route.params.id);
+    
 
     return {
+       numBeats: this.$route.params.numBeats,
       idPedidoSelected,
       pedidoSelected: {},
       pedidoBeatsList: [],
@@ -44,8 +58,6 @@ export default {
   async created() {
     this.pedidoSelected = await Api.getPedido(this.idPedidoSelected);
     this.pedidoBeatsList = await Api.getPedidoBeats(this.idPedidoSelected);
-    console.log("Pedido detail", this.pedidoSelected);
-    console.log("pedidoBeatsList ", this.pedidoBeatsList);
   },
 };
 </script>

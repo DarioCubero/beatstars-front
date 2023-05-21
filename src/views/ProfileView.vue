@@ -6,7 +6,7 @@
       <v-container fluid class="pa-10">
         <h1 class="text-left">
           <v-icon style="font-size: 2.5rem; margin-left: 160px"
-            >mdi-account mdi-light mdi-light</v-icon
+            >mdi-account mdi-light</v-icon
           >Mi Perfil
         </h1>
         <ProfileForm></ProfileForm>

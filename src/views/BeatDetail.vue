@@ -4,15 +4,23 @@
     <v-main style="padding: 0px 0px 0px; !important">
       <v-container fluid class="pa-10">
 
-        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-account mdi-light mdi-light</v-icon>Detalle Beat</h1>
+        <h1 class="text-left">
+
+        <a @click="$router.go(-1)"><span span class="text-left"><v-icon style="font-size: 2.5rem"
+              >mdi-arrow-left-thick mdi-light </v-icon></span></a>
+
+            
+
+            <v-icon style="font-size: 2.5rem; margin-left: 130px"
+              >mdi-account mdi-light</v-icon
+            >Detalle Beat
+        </h1>
 
         <!-- @click="addToCart(id)"  -->
 
         <v-card class="mx-auto mb-5 mt-6" max-width="400">
-
           <v-img height="150" src="https://random.imagecdn.app/500/150"></v-img>
 
-          <div>
             <v-card-title class="justify-center">{{
               beatSelected.nombre
             }}</v-card-title>
@@ -27,7 +35,9 @@
                 </v-col>
 
                 <v-col cols="12" md="6" sm="6">
-                  <div class="my-4 text-subtitle-1" color="yellow">{{ beatSelected.precio }}€</div>
+                  <div class="my-4 text-subtitle-1" color="yellow">
+                    {{ beatSelected.precio }}€
+                  </div>
                 </v-col>
               </v-row>
 
@@ -65,7 +75,6 @@
                 </v-col>
               </v-row>
             </v-card-text>
-          </div>
         </v-card>
         <vuetify-audio
           id="vuetify-audio"
