@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <v-card dark>
     <v-navigation-drawer
       dark
@@ -8,8 +9,8 @@
 
       <v-divider></v-divider>
 
-      <v-list dense>
-        <v-list-item v-for="item in items" :key="item.title" link>
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.path" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -21,6 +22,10 @@
       </v-list>
     </v-navigation-drawer>
   </v-card>
+
+  
+  <router-view></router-view>
+  </v-app>
 </template>
 
 <script>
@@ -34,9 +39,9 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Beats", icon: "mdi-album" },
-        { title: "Pedidos", icon: "mdi-list-box" },
-        { title: "Usuarios", icon: "mdi-account-group-outline" },
+        { title: "Beats", icon: "mdi-album", path: '/beats' },
+        { title: "Pedidos", icon: "mdi-list-box", path: '/pedidos' },
+        { title: "Usuarios", icon: "mdi-account-group-outline", path: '/perfil' },
       ],
     };
   },

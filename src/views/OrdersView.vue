@@ -3,7 +3,7 @@
     <Header />
     <v-main style="padding: 0px 0px 0px; !important;">
       <v-container fluid class="pa-10">
-        <h1 class="text-left">
+        <h1 class="text-left mb-10">
           <v-icon style="font-size: 2.5rem; margin-left: 160px"
             >mdi-list-box mdi-light</v-icon
           >Pedidos
@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import OrderList from "@/components/OrdersDataTableComponentXXX.vue";
-// import OrderList from "@/components/OrdersDataTableComponent.vue";
+import OrderList from "@/components/OrdersDataTableComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 

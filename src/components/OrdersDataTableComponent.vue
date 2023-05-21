@@ -1,59 +1,43 @@
 <template>
-
-  <table
-    class="table-responsive bordered highlight centered hoverable z-depth-2"
-    v-show="orders.length"
+  <v-data-table dark
+    :headers="headers"
+    :items="ordersCustom"
+    item-value="id"
+    class="elevation-1 mx-auto"
   >
-    <thead>
-      <tr>
-        <th v-for="(column, index) in columns" :key="index">
-          {{ column }}
-        </th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr
-        v-for="(order, index) in this.orders"
-        :key="index"
-      >
-        <td>
-          {{ order.id }}
-        </td>
-        <td>
-          {{ dateTime(order.dateCreated) }}
-        </td>
-        <td>{{ order.total }}€</td>
-        <td>{{ metodoPago(order.metodoPago) }}</td>
-        <td>{{ numBeatsList[index] }}</td>
-        <td style="width: 18%">
-          <v-btn color="black" size="x-large"> </v-btn>
-          <a @click="orderDetail(order.id, numBeatsList[index])"><v-icon>mdi-eye</v-icon></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon @click="orderDetail(item.id)">mdi-eye mdi-light</v-icon>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 // import { mapActions } from "vuex";
 import Api from "@/services/api";
+import auth from "@/services/auth";
 import moment from "moment";
 
 export default {
   data() {
     return {
-      numBeatsList: [],
+      itemsPerPage: 5,
+      headers: [
+        {
+          text: "ID",
+          align: "start",
+          sortable: false,
+          value: "id",
+        },
+        { text: "Fecha", value: "dateCreated" },
+        { text: "Total(€)", value: "total" },
+        { text: "Método de pago", value: "metodoPago" },
+        { text: "Nº Beats", value: "numBeats" },
+        { text: "Detalle", value: "actions", sortable: false },
+      ],
+      numBeats: [], //{IdOrder:xxx, numBeats: xxx}
       beatNameFilter: "",
       orders: [],
-      columns: [
-        "ID",
-        "Fecha",
-        "Precio",
-        "Método de pago",
-        "Nº Beats",
-        "Detalle",
-      ],
+      ordersCustom: [],
     };
   },
 
@@ -65,47 +49,45 @@ export default {
     metodoPago(check) {
       return check ? "PayPal" : "Tarjeta"; // false: Paypal
     },
-    orderDetail(orderId, numBeats) {
-      this.$router.push({ name: "pedido", params: { id: orderId, numBeats: numBeats} });
+    orderDetail(orderId) {
+      this.$router.push({
+        name: "pedido",
+        params: { id: orderId, numBeats: this.countOrderBeats(orderId) },
+      });
     },
     dateTime(value) {
       return moment(value).format("YYYY-MM-DD");
     },
-  },
-  computed: {
-    // a computed getter
-    countNumberOfBeats() {
-      // `this` points to the component instance
-      return this.author.books.length > 0 ? 'Yes' : 'No'
-    }
+
+    countOrderBeats(orderId) {
+      //orderId: xxx, numBeats: xxx
+      console.log("countOrderBeats orderId", orderId);
+      let obj = this.numBeats.find((x) => x.orderId === orderId);
+      return obj["numBeats"];
+    },
   },
 
-  async created() {
-    this.orders = await Api.getPedidos();
-
-    // count Number of Beats
-    await this.orders.forEach(async (order) => {
-     const resultado = await Api.getPedidoBeats(order.id);
-     this.numBeatsList.push(Object.keys(resultado).length);
+  async beforeCreate() {
+    this.orders = await Api.getUserPedidos(auth.getLocalStorage("userId"));
+    await this.orders.forEach(async (x) => {
+      let obj = {};
+      obj["id"] = x.id;
+      obj["dateCreated"] = this.dateTime(x.dateCreated);
+      obj["total"] = x.total;
+      obj["metodoPago"] = this.metodoPago(x.metodoPago);
+      const beatsPedido = await Api.getPedidoBeats(x.id);
+      obj["numBeats"] = Object.keys(beatsPedido).length;
+      this.numBeats.push({
+        orderId: x.id,
+        numBeats: Object.keys(beatsPedido).length,
+      });
+      this.ordersCustom.push(obj);
     });
+
+    console.log(this.numBeats);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-// .v-card__text,
-// .v-card__title {
-//   text-overflow: ellipsis !important ;
-//   overflow: hidden !important ;
-//   white-space: nowrap !important ;
-//   display: inherit;
-
-// display: -webkit-box;
-// -webkit-line-clamp: 2; /* number of lines to show */
-// line-clamp: 2;
-// -webkit-box-orient: vertical;
-// overflow: hidden;
-// max-height: 5em;
-// line-height: 1.8em;
-// }
 </style>

@@ -5,11 +5,8 @@
       <v-container fluid class="pa-10">
 
         <h1 class="text-left">
-
         <a @click="$router.go(-1)"><span span class="text-left"><v-icon style="font-size: 2.5rem"
               >mdi-arrow-left-thick mdi-light </v-icon></span></a>
-
-            
 
             <v-icon style="font-size: 2.5rem; margin-left: 130px"
               >mdi-account mdi-light</v-icon

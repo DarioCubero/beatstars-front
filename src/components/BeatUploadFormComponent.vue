@@ -8,7 +8,7 @@
       class="elevation-5 px-5 py-7"
     >
       <v-row style="height: 10px; margin-bottom: 10px;">
-        <v-progress-linear
+        <v-progress-linear style="opacity: 0.0 !important;"
           :active="formLoading"
           indeterminate
           color="blue"
