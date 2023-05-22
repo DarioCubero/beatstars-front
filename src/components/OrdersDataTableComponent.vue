@@ -1,5 +1,6 @@
 <template>
-  <v-data-table dark
+  <v-data-table
+    dark
     :headers="headers"
     :items="ordersCustom"
     item-value="id"

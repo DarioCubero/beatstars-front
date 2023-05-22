@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"),
+   url("@/assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+}
+
+/* Colores principales */
+/* Negro #000 */
+/* Verde #0FC900 */
+/* Colores secundarios */
+/* Azul #0F7DD1
+Rosa #C00BD4 */
+
+
+* {
+  text-transform: none !important;
+}
+
+#app {
+  font-family: "Poppins";
+  font-size: 20px !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+
+.v-navigation-drawer {
+  z-index: 999999 !important;
+}

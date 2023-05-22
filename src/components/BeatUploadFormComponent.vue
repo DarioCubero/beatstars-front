@@ -98,8 +98,8 @@
       <!-- botones -->
       <v-row class="justify-center">
         <v-col cols="4">
-          <v-btn color="white" class="pa-4 ma-5" outlined @click="validate"
-            ><v-icon style="font-size: 2rem">mdi-upload</v-icon>Subir</v-btn
+          <v-btn color="#0F7DD1" class="pa-6 ma-4"  @click="validate"
+            ><v-icon style="font-size: 2rem; ">mdi-upload</v-icon>Subir</v-btn
           >
         </v-col>
       </v-row>

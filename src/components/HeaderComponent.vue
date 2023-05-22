@@ -1,5 +1,5 @@
 <template>
-  <v-card height="107px" color="#0FC900" class="py-3">
+  <v-card height="107px" color="#0FC900 !important" class="py-3">
     <v-app-bar fixed app height="100px" class="pl-10" id="header">
       <router-link to="/home" class="logo-home">
         <v-img class="mx-3" :src="require('@/assets/images/white_square_logo_DreamDrum.svg')"></v-img>
@@ -220,7 +220,7 @@ export default {
   /* hover botones menu */
   border-radius: 50px;
   color: white;
-  background-color: #0FC900 !important;
+  background-color: #0F7DD1 !important;
 }
 
 .v-btn--active {

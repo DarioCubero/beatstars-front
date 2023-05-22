@@ -28,7 +28,6 @@ import Api from "@/services/api";
 import moment from "moment";
 
 export default {
-
   data() {
     return {
       beatNameFilter: "",
@@ -59,9 +58,8 @@ export default {
       console.log("getBeatsByName...  " + nameParam);
       this.beats = await Api.getBeats(nameParam);
       console.log(this.beats);
-    // allBeats.filter(o =>
-    //     Object.keys(o).some(k => o[Type].toLowerCase().includes(nameParam.toLowerCase())));
-
+      // allBeats.filter(o =>
+      //     Object.keys(o).some(k => o[Type].toLowerCase().includes(nameParam.toLowerCase())));
     } else {
       this.beats = await Api.getBeats();
       console.info("getBeats...");

@@ -88,7 +88,7 @@
             <v-btn color="white" outlined @click="validate"> Actualizar </v-btn>
           </v-col>
           <v-col cols="2">
-            <v-btn color="#0FC900" @click="deleteUser">
+            <v-btn color="#0F7DD1" @click="deleteUser">
               <v-icon>mdi-delete mdi-light</v-icon>
             </v-btn>
           </v-col>
