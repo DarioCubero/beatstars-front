@@ -4,11 +4,13 @@
 		:items="desserts"
 		sort-by="calories"
 		class="elevation-1">
+
 		<template v-slot:top>
 			<v-toolbar flat>
 				<v-toolbar-title>My CRUD</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
+        
 				<v-dialog v-model="dialog" max-width="500px">
 					<template v-slot:activator="{ on, attrs }">
 						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
@@ -59,6 +61,7 @@
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
+
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
@@ -76,9 +79,12 @@
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
+
+
 			</v-toolbar>
 		</template>
-		<template v-slot:item.actions="{ item }">
+
+		<template v-slot:[`item.actions`]="{ item }">
 			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
 			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
 		</template>
@@ -233,6 +239,7 @@
 
       deleteItemConfirm () {
         this.desserts.splice(this.editedIndex, 1)
+        console.log(this.editedIndex);
         this.closeDelete()
       },
 
