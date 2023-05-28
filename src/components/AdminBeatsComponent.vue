@@ -50,7 +50,13 @@
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
-							>Are you sure you want to delete {{' with ID ' + beatDelete['id'] + ' and Name ' +beatDelete['name'] }}?</v-card-title
+							>Are you sure you want to delete
+							{{
+								" with ID " +
+								beatDelete["id"] +
+								" and Name " +
+								beatDelete["name"]
+							}}?</v-card-title
 						>
 						<v-card-actions>
 							<v-spacer></v-spacer>
@@ -150,6 +156,10 @@
 				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
 
+			editItem(item) {
+				this.$router.push({ name: "update-beat", params: { id: item.id } });
+			},
+
 			dateTime(value) {
 				return moment(value).format("YYYY-MM-DD");
 			},
@@ -161,28 +171,20 @@
 				if (precio < 60) return "purple";
 				if (precio <= 80) return "orange";
 				if (precio <= 100) return "#FFA900";
-			},
+			},  
 
 			initialize() {},
 
-			editItem(item) {
-        //Redireccionar a edit view con Ruels
-        console.log("editItem(item)");
-        console.log(item);
-				// this.editedIndex = this.beatsCustom.indexOf(item);
-				// this.editedItem = Object.assign({}, item);
-				// this.dialog = true;
-			},
-
 			deleteItem(item) {
 				this.editedIndex = this.beatsCustom.indexOf(item);
-				this.beatDelete = {'id': item.id, 'name': item.nombre};
+				this.beatDelete = { id: item.id, name: item.nombre };
 				this.dialogDelete = true;
 			},
 
 			deleteItemConfirm() {
 				console.log("deleteItemConfirm");
 				this.beatsCustom.splice(this.editedIndex, 1);
+				Api.deleteBeat(this.beatDelete["id"]);
 				this.closeDelete();
 			},
 

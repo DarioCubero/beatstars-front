@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/beat/:id',
     name: 'beat',
-    component: () => import('../views/BeatDetail.vue'),
+    component: () => import('../views/BeatDetailView.vue'),
   },
   {
     path: '/pedidos',
@@ -44,7 +44,12 @@ const routes = [
   {
     path: '/subir-beat',
     name: 'upload-beat', 
-    component: () => import('../views/UploadBeatView.vue')
+    component: () => import('../views/FormBeatView.vue')
+  },
+  {
+    path: '/update-beat/:id',
+    name: 'update-beat',
+    component: () => import('../views/FormBeatView.vue')
   },
   {
     path: '/carrito',
