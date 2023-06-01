@@ -141,6 +141,7 @@
 			this.beats = await Api.getBeats();
 			console.log(this.beats);
 			await this.beats.forEach(async (x) => {
+        // DTO BEAT OBJECT
 				let obj = {};
 				obj["id"] = x.id;
 				obj["nombre"] = x.nombre;

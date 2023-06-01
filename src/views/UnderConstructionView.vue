@@ -6,7 +6,7 @@
         <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-upload mdi-light</v-icon>Under Construction</h1>
 
         <!-- en construccion -->
-        <div class="d-flex justify-center pt-10">
+        <div class="d-flex justify-center ">
             <v-img
               contain
               max-height="600"

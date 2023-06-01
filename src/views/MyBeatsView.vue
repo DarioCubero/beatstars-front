@@ -3,7 +3,14 @@
     <Header/>
     <v-main style="padding: 0px 0px 0px; !important">
       <v-container fluid class="pa-10">
-        <h1 class="text-left"><v-icon style="font-size: 2.5rem; margin-left: 160px;">mdi-folder mdi-light</v-icon>Mis Beats</h1>
+         <!-- title -->
+				<v-row class="mt-1">
+          <v-icon style="font-size: 2.5rem; margin-left: 160px">mdi-folder mdi-light</v-icon>
+					<h1>
+						<div ref="title">Mis Beats</div>
+					</h1>
+				</v-row>
+
         <MyBeatListComponent/>
       </v-container>
     </v-main>

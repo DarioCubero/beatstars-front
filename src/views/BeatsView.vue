@@ -3,11 +3,14 @@
     <Header />
     <v-main style="padding: 0px 0px 0px; !important">
       <v-container fluid class="pa-10">
-        <h1 class="text-left">
-          <v-icon style="font-size: 2.5rem; margin-left: 160px"
-            >mdi-album mdi-light</v-icon
-          >Beats
-        </h1>
+        <!-- title -->
+				<v-row class="mt-1">
+          <v-icon style="font-size: 2.5rem; margin-left: 160px">mdi-album mdi-light</v-icon>
+					<h1>
+						<div ref="title">Beats</div>
+					</h1>
+				</v-row>
+
         <BeatListComponent />
       </v-container>
     </v-main>

@@ -1,5 +1,5 @@
 <template>
-    <v-sheet max-width="800" class="mx-auto mt-10">
+    <v-sheet max-width="800" class="mx-auto">
       <v-form
         ref="form"
         v-model="valid"

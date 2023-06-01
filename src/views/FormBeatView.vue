@@ -4,14 +4,18 @@
 
 		<v-main style="padding: 0px 0px 0px; !important;">
 			<v-container class="pa-10">
-				<h1 ref="title" class="text-left">
-					<v-icon style="font-size: 2.5rem; margin-left: 160px"
+				<!-- title -->
+				<v-row class="mt-1 pb-7">
+					<v-icon style="font-size: 2.5rem; margin-left: 100px"
 						>mdi-account mdi-light</v-icon
 					>
-					{{ this.FormBeatTitle }}
-					<!-- Subir Beat -->
-				</h1>
-				<BeatForm></BeatForm>
+					<h1>
+						<div ref="title">{{ this.FormBeatTitle }}</div>
+					</h1>
+				</v-row>
+
+				<!-- Subir/Editar Beat -->
+				<BeatForm :id="parseInt(id)"></BeatForm>
 			</v-container>
 		</v-main>
 
@@ -23,7 +27,6 @@
 	import Header from "@/components/HeaderComponent.vue";
 	import Footer from "@/components/FooterComponent.vue";
 	import BeatForm from "@/components/BeatUploadFormComponent.vue";
-	import Api from "@/services/api";
 	// import moment from "moment";
 
 	export default {
@@ -31,18 +34,11 @@
 
 		data() {
 			return {
-				beatSelected: null,
 				FormBeatTitle: "",
-				idBeat: this.$route.params.id,
+				id: this.$route.params.id,
+				cleanForm: false,
 			};
 		},
-
-		// async beforeMount() {
-		//   this.titleForm() ;
-		// 	console.log("Beat detail", this.beatSelected);
-		// },
-
-		//  this.titleForm();
 
 		created() {
 			this.titleForm();
@@ -50,22 +46,18 @@
 			this.$watch(
 				() => this.$route.params,
 				(toParams, previousParams) => {
-					console.log(previousParams);
-          this.$refs.title.innerText = "Subir Beat";
+					console.log("Reused component " + previousParams);
+					this.$refs.title.innerText = "Subir Beat";
 					this.titleForm();
 				}
 			);
 		},
 
-		methods: {
-			async infoBeat() {
-				this.beatSelected = await Api.getBeat(this.idBeat);
-			},
 
+		methods: {
 			titleForm() {
-				if (this.idBeat) {
+				if (this.id) {
 					this.FormBeatTitle = "Editar Beat";
-          this.infoBeat();
 				} else {
 					this.FormBeatTitle = "Subir Beat";
 				}
