@@ -9,9 +9,9 @@ const PEDIDO_URL = BASE_URL + "pedido";
 const BEAT_URL = BASE_URL + "beat";
 
 // List
-const USERS_URL = BASE_URL + "users";
-const BEATS_URL = BASE_URL + "beats";
-const PEDIDOS_URL = BASE_URL + "pedidos";
+// const USER_URL = BASE_URL + "users";
+// const BEAT_URL = BASE_URL + "beats";
+// const PEDIDO_URL = BASE_URL + "pedidos";
 
 // const GET_USER_PEDIDOS = BASE_URL + "users";
 
@@ -28,9 +28,9 @@ export default {
 	},
 
 	async getBeats() {
-		console.log(`getBeats ${BEATS_URL}`);
+		console.log(`getBeats ${BEAT_URL}`);
 		return axios
-			.get(`${BEATS_URL}`)
+			.get(`${BEAT_URL}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data);
@@ -39,20 +39,32 @@ export default {
 	},
 
 	async deleteBeat(_idBeat) {
-    console.log(`deleteBeat ${BEAT_URL}/${_idBeat}/delete`);
+    console.log(`deleteBeat ${BEAT_URL}/${_idBeat}`);
 		return axios
-			.delete(`${BEAT_URL}/${_idBeat}/delete`)
+			.delete(`${BEAT_URL}/${_idBeat}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data);
+				return null;
+			});
+	},
+
+	async createBeat(beatEntity) {
+		console.log(beatEntity);
+		console.log(`createBeat ${BEAT_URL}`);
+		return axios
+			.post(`${BEAT_URL}`, beatEntity)
+			.then((response) => response.data)
+			.catch(function (error) {
+				console.log("Error response: ", error.response.data); // ***
 				return null;
 			});
 	},
 
 	async updateBeat(_idBeat, beatEntity) {
-    console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
+    console.log(`updateBeat ${BEAT_URL}/${_idBeat}`);
 		return axios
-			.put(`${BEAT_URL}/${_idBeat}/update`, beatEntity)
+			.put(`${BEAT_URL}/${_idBeat}`, beatEntity)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data);
@@ -60,16 +72,6 @@ export default {
 			});
 	},
 
-  async updateUser(_idUser, userEntity) {
-    console.log(`updateUser ${USER_URL}/${_idUser}/update`);
-    return axios
-      .put(`${USER_URL}/${_idUser}/update`, userEntity)
-      .then((response) => response.data)
-      .catch(function (error) {
-        console.log("Error response: ", error.response.data); // ***
-        return null;
-      });
-  },
 
 	//TODO: Pending filtrado por QUERY PARAM
 	// async getBeatsByName(beatName){//pending hacer el filtrado por query param
@@ -104,41 +106,50 @@ export default {
 
 	async getPedidos() {
 		return axios
-			.get(`${PEDIDOS_URL}`)
+			.get(`${PEDIDO_URL}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
+				return null;
+			});
+	},
+
+	async deletePedido(_idPedido) {
+    console.log(`deletePedido ${PEDIDO_URL}/${_idPedido}`);
+		return axios
+			.delete(`${PEDIDO_URL}/${_idPedido}`)
+			.then((response) => response.data)
+			.catch(function (error) {
+				console.log("Error response: ", error.response.data);
 				return null;
 			});
 	},
 
 	//User
+  async getUser(_IdUser) {
+    return axios
+      .get(`${USER_URL}/${_IdUser}`)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log("Error response: ", error.response.data); // ***
+        return null;
+      });
+  },
+
+  async updateUser(_idUser, userEntity) {
+    console.log(`updateUser ${USER_URL}/${_idUser}`);
+    return axios
+      .put(`${USER_URL}/${_idUser}`, userEntity)
+      .then((response) => response.data)
+      .catch(function (error) {
+        console.log("Error response: ", error.response.data); // ***
+        return null;
+      });
+  },
+
 	async getUsers() {
 		return axios
-			.get(`${USERS_URL}`)
-			.then((response) => response.data)
-			.catch(function (error) {
-				console.log("Error response: ", error.response.data); // ***
-				return null;
-			});
-	},
-
-	async createBeat(beatEntity) {
-		console.log(beatEntity);
-		console.log(`createBeat ${BEAT_URL}/create`);
-		return axios
-			.post(`${BEAT_URL}/create`, beatEntity)
-			.then((response) => response.data)
-			.catch(function (error) {
-				console.log("Error response: ", error.response.data); // ***
-				return null;
-			});
-	},
-
-	async setBeat(_idBeat, beatEntity) {
-		console.log(`updateBeat ${BEAT_URL}/${_idBeat}/update`);
-		return axios
-			.put(`${BEAT_URL}/${_idBeat}/update`, beatEntity)
+			.get(`${USER_URL}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
@@ -170,9 +181,9 @@ export default {
 	},
 
 	async deleteUser(_idUser) {
-		console.log(`deleteUser ${USER_URL}/${_idUser}/delete`);
+		console.log(`deleteUser ${USER_URL}/${_idUser}`);
 		return axios
-			.delete(`${USER_URL}/${_idUser}/delete`)
+			.delete(`${USER_URL}/${_idUser}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***

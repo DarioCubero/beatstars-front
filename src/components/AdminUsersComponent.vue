@@ -2,25 +2,19 @@
 	<v-data-table
 		dark
 		:headers="headers"
-		:items="beatsCustom"
+		:items="userCustom"
 		sort-by="calories"
 		class="elevation-1">
-		<!-- COLOR PRECIO -->
-		<template v-slot:[`item.precio`]="{ item }">
-			<v-chip :color="getColor(item.precio)">
-				{{ item.precio }}
-			</v-chip>
-		</template>
 
 		<template v-slot:top>
 			<v-toolbar flat>
-				<v-toolbar-title>Beats</v-toolbar-title>
+				<v-toolbar-title>Users</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
-				<v-dialog v-model="dialog" max-width="500px">
+				<!-- <v-dialog v-model="dialog" max-width="500px">
 					<template v-slot:activator="{ on, attrs }">
 						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-							<v-icon class="me-2" @click="beatDetails(item.id)"
+							<v-icon class="me-2" @click="userDetails(item.id)"
 								>mdi-plus-circle mdi-light</v-icon
 							>
 							New Type Beat
@@ -46,16 +40,17 @@
 							<v-btn color="blue darken-1" text @click="save"> Save </v-btn>
 						</v-card-actions>
 					</v-card>
-				</v-dialog>
+				</v-dialog> -->
+
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
 							>Are you sure you want to delete
 							{{
 								" with ID " +
-								beatDelete["id"] +
+								userDelete["id"] +
 								" and Name " +
-								beatDelete["name"]
+								userDelete["name"]
 							}}?</v-card-title
 						>
 						<v-card-actions>
@@ -75,7 +70,7 @@
 
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
-			<v-icon class="me-2" @click="beatDetails(item.id)"
+			<v-icon class="me-2" @click="UserDetails(item.id)"
 				>mdi-eye mdi-light</v-icon
 			>
 			<v-icon @click="editItem(item)" class="me-2">
@@ -84,6 +79,10 @@
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
+		</template>
+
+		<template v-slot:no-data>
+			<v-btn color="primary" @click="initialize"> Reset </v-btn>
 		</template>
 	</v-data-table>
 </template>
@@ -110,7 +109,7 @@
 			],
 			beats: [],
 			beatsCustom: [],
-			beatDelete: { id: "", beatName: "" },
+			userDelete: { id: "", userName: "" },
 			editedIndex: -1,
 		}),
 
@@ -127,6 +126,10 @@
 			dialogDelete(val) {
 				val || this.closeDelete();
 			},
+		},
+
+		created() {
+			this.initialize();
 		},
 
 		async beforeCreate() {
@@ -165,6 +168,8 @@
 				if (precio <= 80) return "orange";
 				if (precio <= 100) return "#FFA900";
 			},  
+
+			initialize() {},
 
 			deleteItem(item) {
 				this.editedIndex = this.beatsCustom.indexOf(item);

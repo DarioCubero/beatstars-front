@@ -18,6 +18,7 @@
 					</v-col>
 					<v-col cols="12" md="10" class="bg-red pa-0">
 						<AdminBeats v-if="tab === 'beats'"> </AdminBeats>
+						<AdminPedidos v-if="tab === 'pedidos'"> </AdminPedidos>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -31,6 +32,7 @@
 	import Footer from "@/components/FooterComponent.vue";
 	import AdminTabs from "@/components/AdminTabsComponent.vue";
 	import AdminBeats from "@/components/AdminBeatsComponent.vue";
+	import AdminPedidos from "@/components/AdminPedidosComponent.vue";
 
 	export default {
 		name: "admin-view",
@@ -40,6 +42,7 @@
 			Footer,
 			AdminTabs,
 			AdminBeats,
+      AdminPedidos
 		},
 
 		data() {

@@ -205,7 +205,7 @@ export default {
   async created() {
     // beforeMount, watch, beforeCreate
     // this.$vuetify.theme.dark = "dark";
-    this.user = await auth.getUser(this.idUserLocal);
+    this.user = await api.getUser(this.idUserLocal);
     console.log("getUser: ", this.user);
   },
 };

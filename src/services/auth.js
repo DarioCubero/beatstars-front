@@ -1,40 +1,19 @@
 // Librería JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7209/api/";
-const USER_URL = BASE_URL + "user";
-const REGISTER_URL = BASE_URL + "user/create";
+const BASE_URL = "https://localhost:7209/api/auth/";
+const USER_LOGIN = BASE_URL + "login";
+const REGISTER_URL = BASE_URL + "register";
 
 export default {
 
   async postLogin(userForLogin) {
     return axios
-      .post(`${USER_URL}/login`, userForLogin)
+      .post(`${USER_LOGIN}`, userForLogin)
       .then((response) => response.data)
       .catch(function (error) {
         console.log("Error response: ", error.response.data); // ***
         return -1;
-      });
-  },
-
-  async getUser(_IdUser) {
-    return axios
-      .get(`${USER_URL}/${_IdUser}`)
-      .then((response) => response.data)
-      .catch(function (error) {
-        console.log("Error response: ", error.response.data); // ***
-        return null;
-      });
-  },
-
-  async updateUser(_idUser, userEntity) {
-    console.log(`updateUser ${USER_URL}/${_idUser}/update`);
-    return axios
-      .put(`${USER_URL}/${_idUser}/update`, userEntity)
-      .then((response) => response.data)
-      .catch(function (error) {
-        console.log("Error response: ", error.response.data); // ***
-        return null;
       });
   },
 

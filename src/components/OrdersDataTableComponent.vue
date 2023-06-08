@@ -79,18 +79,17 @@
 				obj["dateCreated"] = this.dateTime(x.dateCreated);
 				obj["total"] = x.total;
 				obj["metodoPago"] = this.metodoPago(x.metodoPago);
+
 				const beatsPedido = await Api.getPedidoBeats(x.id);
 				obj["numBeats"] = Object.keys(beatsPedido).length;
 				this.numBeats.push({
 					orderId: x.id,
 					numBeats: Object.keys(beatsPedido).length,
 				});
+        
 				this.ordersCustom.push(obj);
 			});
 
-			console.log(this.numBeats);
 		},
 	};
 </script>
-
-<style lang="scss" scoped></style>

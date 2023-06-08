@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import ServicesApi from "@/services/api";
-import Auth from "@/services/auth";
+// import Auth from "@/services/auth";
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
@@ -39,7 +39,7 @@ export default new Vuex.Store({
   actions: {
     async vuexGetUser({ commit }, idUser) {
       console.log("VuexGetUser - State User cargado.");
-      let user = await Auth.getUser(idUser);
+      let user = await ServicesApi.getUser(idUser);
       commit("setUser", user);
     },
 

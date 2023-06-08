@@ -15,7 +15,7 @@
 				</v-row>
 
 				<!-- Subir/Editar Beat -->
-				<BeatForm :id="parseInt(id)"></BeatForm>
+				<BeatForm ref="childComponent" :id="parseInt(id)"></BeatForm>
 			</v-container>
 		</v-main>
 
@@ -47,12 +47,12 @@
 				() => this.$route.params,
 				(toParams, previousParams) => {
 					console.log("Reused component " + previousParams);
-					this.$refs.title.innerText = "Subir Beat";
+					this.$refs.title.innerText = "Subir Beat"; //empleamos la referencia ya que el dom fue cargado.
 					this.titleForm();
+          this.$refs.childComponent.reusedUploadBeatBtn(); //Cambiará la funcionalidad del botón a Subir Beat.
 				}
 			);
 		},
-
 
 		methods: {
 			titleForm() {

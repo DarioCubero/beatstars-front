@@ -94,12 +94,18 @@
 
 			<!-- botones -->
 			<v-row class="justify-center">
-				<v-col cols="4">
-					<!-- deshabilitar boton en caso de no ser valido -->
-					<!--  v-if="0" -->
-					<v-btn color="#0F7DD1" class="pa-6 ma-4" @click="validate"
-						><v-icon style="font-size: 2rem">mdi-upload</v-icon>Subir</v-btn
-					>
+				<v-col cols="4" class="justify-center">
+					<v-btn
+						dark
+						:disabled="!valid"
+						color="#0F7DD1"
+						class="pa-6 ma-4 justify-center"
+						@click="validate">
+						<v-icon style="font-size: 2.5rem">mdi-upload</v-icon>
+						<h1 ref="title">
+							{{ this.FormBeatTitle }}
+						</h1>
+					</v-btn>
 				</v-col>
 			</v-row>
 		</v-form>
@@ -112,13 +118,12 @@
 	let currentDate = new Date();
 
 	export default {
-		name: "perfil-view",
+		name: "beat-form",
 		props: {
 			id: {
 				type: Number,
 				default: null,
 			},
-    // cleanForm: Boolean
 		},
 
 		beforeMount() {
@@ -136,6 +141,8 @@
 
 		data: () => ({
 			idUserLocal: auth.getLocalStorage("userId"),
+			FormBeatTitle: "",
+			updateButton: false,
 			minValue: 5,
 			maxValue: 35,
 			colorSwitch: "red",
@@ -161,12 +168,10 @@
 			confirm: false,
 			prompt: false,
 			address: "",
-
 			beforeShow: "No event captured yet",
 			show: "No event captured yet",
 			beforeHide: "No event captured yet",
 			hide: "No event captured yet",
-
 			model: true,
 			// TYPEBEATS CHIP ITEMS/
 			items: [
@@ -235,11 +240,32 @@
 			},
 		},
 
+		created() {
+			if (this.id) {
+				// alert("Update", this.id);
+				this.FormBeatTitle = "Editar";
+				this.updateButton = true;
+			} else {
+				// alert("Subir", this.id)
+				this.FormBeatTitle = "Subir";
+				this.updateButton = false;
+			}
+		},
+
 		methods: {
+			reusedUploadBeatBtn: function () {
+				// alert("reusedUploadBeatBtn");
+				this.reset();
+        this.beat.precio=20;
+				this.FormBeatTitle = "Subir";
+				this.updateButton = false;
+			},
+
 			async infoBeat() {
 				console.log("infoBeat()");
 				this.beatSelected = await Api.getBeat(this.id);
 				console.log(this.beatSelected);
+				this.beat.id = this.id;
 				this.beat.nombre = this.beatSelected.nombre;
 				this.beat.tipo = this.beatSelected.tipo;
 				this.switchPremium(this.beatSelected.premium);
@@ -268,11 +294,10 @@
 			validate() {
 				if (this.$refs.form.validate()) {
 					this.formLoading = true;
-					// console.log(this.user); //cada usuario se asignará a la creación del beat
-					// console.log(this.beat);
-					// this.beat.id=5;
-					// this.beat.dateCreated = "20/05/2020";
-					Api.createBeat(this.beat);
+					// alert("this.updateButton " + this.updateButton);
+					this.updateButton ? Api.updateBeat(this.beatSelected.id, this.beat) : Api.createBeat(this.beat);
+					this.$router.push({ name: "admin" });
+
 					setTimeout(() => {
 						this.formLoading = false;
 					}, 2000);

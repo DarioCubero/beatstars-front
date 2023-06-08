@@ -26,12 +26,13 @@
 import BeatCard from "@/components/BeatCardComponent.vue";
 import Api from "@/services/api";
 import moment from "moment";
-import { mapState } from "vuex";
+import auth from "@/services/auth";
 
 export default {
 
   data() {
     return {
+      idUserLocal: auth.getLocalStorage("userId"),
       myBeats: [],
     };
   },
@@ -40,9 +41,6 @@ export default {
     BeatCard,
   },
 
-  computed: {
-    ...mapState(["user"]),
-  },
 
   methods: {
     dateTime(value) {
@@ -55,7 +53,7 @@ export default {
 
   async created() {
     // beforeMount, watch, beforeCreate
-    this.myBeats = await Api.getUserBeats(this.user.id);
+    this.myBeats = await Api.getUserBeats(this.idUserLocal);
   }
 
 
