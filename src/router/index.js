@@ -52,6 +52,11 @@ const routes = [
     component: () => import('../views/FormBeatView.vue')
   },
   {
+    path: '/update-user/:id',
+    name: 'update-user',
+    component: () => import('../views/ProfileAdminView.vue')
+  },
+  {
     path: '/carrito',
     name: 'carrito', 
     component: () => import('../views/CartView.vue')
@@ -65,6 +70,11 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/AdminView.vue')
+  },
+  {
+    path: '/admin-user/:id',
+    name: 'admin-user',
+    component: () => import('../views/AdminUserView.vue')
   },
   {
     path: '*',

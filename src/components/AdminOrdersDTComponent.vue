@@ -2,19 +2,19 @@
 	<v-data-table
 		dark
 		:headers="headers"
-		:items="userCustom"
+		:items="ordersCustom"
 		sort-by="calories"
 		class="elevation-1">
-
+		<!-- COLOR PRECIO -->
 		<template v-slot:top>
 			<v-toolbar flat>
-				<v-toolbar-title>Users</v-toolbar-title>
+				<v-toolbar-title>Pedidos</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
-				<!-- <v-dialog v-model="dialog" max-width="500px">
+				<v-dialog v-model="dialog" max-width="500px">
 					<template v-slot:activator="{ on, attrs }">
 						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-							<v-icon class="me-2" @click="userDetails(item.id)"
+							<v-icon class="me-2" @click="beatDetails(item.id)"
 								>mdi-plus-circle mdi-light</v-icon
 							>
 							New Type Beat
@@ -40,17 +40,16 @@
 							<v-btn color="blue darken-1" text @click="save"> Save </v-btn>
 						</v-card-actions>
 					</v-card>
-				</v-dialog> -->
-
+				</v-dialog>
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
 							>Are you sure you want to delete
 							{{
 								" with ID " +
-								userDelete["id"] +
+								orderDelete["id"] +
 								" and Name " +
-								userDelete["name"]
+								orderDelete["name"]
 							}}?</v-card-title
 						>
 						<v-card-actions>
@@ -66,23 +65,19 @@
 					</v-card>
 				</v-dialog>
 			</v-toolbar>
-		</template> 
+		</template>
 
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
-			<v-icon class="me-2" @click="UserDetails(item.id)"
+			<v-icon class="me-2" @click="orderDetail(item.id)"
 				>mdi-eye mdi-light</v-icon
 			>
-			<v-icon @click="editItem(item)" class="me-2">
+			<!-- <v-icon @click="editItem(item)" class="me-2">
 				mdi-pencil mdi-light
-			</v-icon>
+			</v-icon> -->
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
-		</template>
-
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize"> Reset </v-btn>
 		</template>
 	</v-data-table>
 </template>
@@ -91,25 +86,30 @@
 	import Api from "@/services/api";
 	import moment from "moment";
 	export default {
+		props: {
+			idUser: Number,
+		},
 		data: () => ({
 			dialog: false,
 			dialogDelete: false,
 			itemsPerPage: 5,
+			numBeats: [], //{IdOrder:xxx, numBeats: xxx}
 			headers: [
 				{
 					text: "ID",
 					align: "start",
 					value: "id",
 				},
-				{ text: "Nombre", value: "nombre" },
-				{ text: "Tipo", value: "tipo" },
-				{ text: "Precio(€)", value: "precio" },
 				{ text: "DateCreated", value: "dateCreated" },
+				{ text: "Total(€)", value: "total" },
+				{ text: "Método de pago", value: "metodoPago" },
+				{ text: "Usuario", value: "correoUsuario" },
+				{ text: "Nº Beats", value: "numBeats" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
 			beats: [],
-			beatsCustom: [],
-			userDelete: { id: "", userName: "" },
+			ordersCustom: [],
+			orderDelete: { id: "", beatName: "" },
 			editedIndex: -1,
 		}),
 
@@ -128,28 +128,53 @@
 			},
 		},
 
-		created() {
-			this.initialize();
-		},
+		async created() {
+			if (this.idUser) {
+				this.pedidos = await Api.getUserPedidos(this.idUser);
+			} else {
+				this.pedidos = await Api.getPedidos();
+			}
 
-		async beforeCreate() {
-			this.beats = await Api.getBeats();
-			console.log(this.beats);
-			await this.beats.forEach(async (x) => {
-        // DTO BEAT OBJECT
-				let obj = {};
-				obj["id"] = x.id;
-				obj["nombre"] = x.nombre;
-				obj["tipo"] = x.tipo;
-				obj["precio"] = x.precio;
-				obj["dateCreated"] = this.dateTime(x.dateCreated);
-				this.beatsCustom.push(obj);
-			});
+			console.log(this.pedidos);
+
+			if (this.pedidos) {
+				await this.pedidos.forEach(async (x) => {
+					// DTO BEAT OBJECT
+					let obj = {};
+					obj["id"] = x.id;
+					obj["dateCreated"] = this.dateTime(x.dateCreated);
+					obj["total"] = x.total;
+					obj["metodoPago"] = this.metodoPago(x.metodoPago);
+					obj["correoUsuario"] = x.correoUsuario;
+
+					const beatsPedido = await Api.getPedidoBeats(x.id);
+					obj["numBeats"] = Object.keys(beatsPedido).length;
+					this.numBeats.push({
+						orderId: x.id,
+						numBeats: Object.keys(beatsPedido).length,
+					});
+					this.ordersCustom.push(obj);
+				});
+			}
 		},
 
 		methods: {
-			beatDetails(beatId) {
-				this.$router.push({ name: "beat", params: { id: beatId } });
+			orderDetail(orderId) {
+				this.$router.push({
+					name: "pedido",
+					params: { id: orderId, numBeats: this.countOrderBeats(orderId) },
+				});
+			},
+
+			countOrderBeats(orderId) {
+				//orderId: xxx, numBeats: xxx
+				console.log("countOrderBeats orderId", orderId);
+				let obj = this.numBeats.find((x) => x.orderId === orderId);
+				return obj["numBeats"];
+			},
+
+			metodoPago(check) {
+				return check ? "PayPal" : "Tarjeta"; // false: Paypal
 			},
 
 			editItem(item) {
@@ -167,20 +192,18 @@
 				if (precio < 60) return "purple";
 				if (precio <= 80) return "orange";
 				if (precio <= 100) return "#FFA900";
-			},  
-
-			initialize() {},
+			},
 
 			deleteItem(item) {
-				this.editedIndex = this.beatsCustom.indexOf(item);
-				this.beatDelete = { id: item.id, name: item.nombre };
+				this.editedIndex = this.ordersCustom.indexOf(item);
+				this.orderDelete = { id: item.id, name: item.nombre };
 				this.dialogDelete = true;
 			},
 
 			deleteItemConfirm() {
 				console.log("deleteItemConfirm");
-				this.beatsCustom.splice(this.editedIndex, 1);
-				Api.deleteBeat(this.beatDelete["id"]);
+				this.ordersCustom.splice(this.editedIndex, 1);
+				Api.deleteOrder(this.orderDelete["id"]);
 				this.closeDelete();
 			},
 

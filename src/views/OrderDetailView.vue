@@ -13,11 +13,6 @@
             >Detalle Pedido
         </h1>
 
-
-
-
-
-
         <h3>ID: {{ pedidoSelected.id }}</h3>
         <h3>Nº Beats: {{ this.numBeats }}</h3>
         <OrderBeatListComponent /> <!-- :message="alertObject.message" -->
@@ -59,6 +54,7 @@ export default {
     this.pedidoSelected = await Api.getPedido(this.idPedidoSelected);
     this.pedidoBeatsList = await Api.getPedidoBeats(this.idPedidoSelected);
   },
+  
 };
 </script>
 

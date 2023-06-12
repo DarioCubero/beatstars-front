@@ -73,6 +73,8 @@
 
 		async beforeCreate() {
 			this.orders = await Api.getUserPedidos(auth.getLocalStorage("userId"));
+
+      if (this.orders){
 			await this.orders.forEach(async (x) => {
 				let obj = {};
 				obj["id"] = x.id;
@@ -89,6 +91,8 @@
         
 				this.ordersCustom.push(obj);
 			});
+      }
+
 
 		},
 	};

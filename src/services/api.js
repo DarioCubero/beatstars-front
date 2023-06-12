@@ -5,13 +5,13 @@ const BASE_URL = "https://localhost:7209/api/";
 
 // Single
 const USER_URL = BASE_URL + "user";
-const PEDIDO_URL = BASE_URL + "pedido";
+const ORDER_URL = BASE_URL + "pedido";
 const BEAT_URL = BASE_URL + "beat";
 
 // List
 // const USER_URL = BASE_URL + "users";
 // const BEAT_URL = BASE_URL + "beats";
-// const PEDIDO_URL = BASE_URL + "pedidos";
+// const ORDER_URL = BASE_URL + "pedidos";
 
 // const GET_USER_PEDIDOS = BASE_URL + "users";
 
@@ -87,7 +87,7 @@ export default {
 	//Pedido
 	async getPedido(_idPedido) {
 		return axios
-			.get(`${PEDIDO_URL}/${_idPedido}`)
+			.get(`${ORDER_URL}/${_idPedido}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
@@ -96,7 +96,7 @@ export default {
 	},
 	async getPedidoBeats(_idPedido) {
 		return axios
-			.get(`${PEDIDO_URL}/${_idPedido}/beats`)
+			.get(`${ORDER_URL}/${_idPedido}/beats`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
@@ -106,7 +106,7 @@ export default {
 
 	async getPedidos() {
 		return axios
-			.get(`${PEDIDO_URL}`)
+			.get(`${ORDER_URL}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
@@ -115,15 +115,27 @@ export default {
 	},
 
 	async deletePedido(_idPedido) {
-    console.log(`deletePedido ${PEDIDO_URL}/${_idPedido}`);
+    console.log(`deletePedido ${ORDER_URL}/${_idPedido}`);
 		return axios
-			.delete(`${PEDIDO_URL}/${_idPedido}`)
+			.delete(`${ORDER_URL}/${_idPedido}`)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data);
 				return null;
 			});
 	},
+
+	async deleteOrder(_idPedido) {
+    console.log(`deleteOrder ${ORDER_URL}/${_idPedido}`);
+		return axios
+			.delete(`${ORDER_URL}/${_idPedido}`)
+			.then((response) => response.data)
+			.catch(function (error) {
+				console.log("Error response: ", error.response.data);
+				return null;
+			});
+	},
+
 
 	//User
   async getUser(_IdUser) {

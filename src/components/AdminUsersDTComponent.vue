@@ -2,60 +2,24 @@
 	<v-data-table
 		dark
 		:headers="headers"
-		:items="beatsCustom"
+		:items="usersCustom"
 		sort-by="calories"
 		class="elevation-1">
-		<!-- COLOR PRECIO -->
-		<template v-slot:[`item.precio`]="{ item }">
-			<v-chip :color="getColor(item.precio)">
-				{{ item.precio }}
-			</v-chip>
-		</template>
-
 		<template v-slot:top>
 			<v-toolbar flat>
-				<v-toolbar-title>Beats</v-toolbar-title>
+				<v-toolbar-title>Usuarios</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
-				<v-dialog v-model="dialog" max-width="500px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-							<v-icon class="me-2" @click="beatDetails(item.id)"
-								>mdi-plus-circle mdi-light</v-icon
-							>
-							New Type Beat
-						</v-btn>
-					</template>
-					<v-card>
-						<v-card-title>
-							<span class="text-h5">{{ formTitle }}</span>
-						</v-card-title>
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field label="Type Beat"></v-text-field>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
 
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
-							<v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
 							>Are you sure you want to delete
 							{{
 								" with ID " +
-								beatDelete["id"] +
+								userDelete["id"] +
 								" and Name " +
-								beatDelete["name"]
+								userDelete["name"]
 							}}?</v-card-title
 						>
 						<v-card-actions>
@@ -71,11 +35,11 @@
 					</v-card>
 				</v-dialog>
 			</v-toolbar>
-		</template> 
+		</template>
 
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
-			<v-icon class="me-2" @click="beatDetails(item.id)"
+			<v-icon class="me-2" @click="userDetails(item.id)"
 				>mdi-eye mdi-light</v-icon
 			>
 			<v-icon @click="editItem(item)" class="me-2">
@@ -102,15 +66,16 @@
 					align: "start",
 					value: "id",
 				},
-				{ text: "Nombre", value: "nombre" },
-				{ text: "Tipo", value: "tipo" },
-				{ text: "Precio(€)", value: "precio" },
-				{ text: "DateCreated", value: "dateCreated" },
+				{ text: "Nombre cuenta", value: "nombreCuenta" },
+				{ text: "Email", value: "email" },
+				{ text: "Cartera(€)", value: "cartera" },
+				{ text: "Rol", value: "rol" },
+				{ text: "Fecha registro", value: "dateCreated" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
-			beats: [],
-			beatsCustom: [],
-			beatDelete: { id: "", beatName: "" },
+			users: [],
+			usersCustom: [],
+			userDelete: { id: "", userName: "" },
 			editedIndex: -1,
 		}),
 
@@ -127,44 +92,42 @@
 			dialogDelete(val) {
 				val || this.closeDelete();
 			},
+			$route(to, from) {
+				alert(to, from);
+			},
 		},
 
 		async beforeCreate() {
-			this.beats = await Api.getBeats();
-			console.log(this.beats);
-			await this.beats.forEach(async (x) => {
-        // DTO BEAT OBJECT
-				let obj = {};
-				obj["id"] = x.id;
-				obj["nombre"] = x.nombre;
-				obj["tipo"] = x.tipo;
-				obj["precio"] = x.precio;
-				obj["dateCreated"] = this.dateTime(x.dateCreated);
-				this.beatsCustom.push(obj);
-			});
+			this.users = await Api.getUsers();
+			console.log(this.users);
+
+			if (this.users) {
+				await this.users.forEach(async (x) => {
+					// DTO USER OBJECT
+					let obj = {};
+					obj["id"] = x.id;
+					obj["nombreCuenta"] = x.nombreCuenta;
+					obj["email"] = x.email;
+					obj["cartera"] = x.cartera;
+					obj["rol"] = x.rol;
+					obj["dateCreated"] = this.dateTime(x.dateCreated);
+					this.usersCustom.push(obj);
+				});
+			}
 		},
 
 		methods: {
-			beatDetails(beatId) {
-				this.$router.push({ name: "beat", params: { id: beatId } });
+			userDetails(userId) {
+				this.$router.push({ name: "admin-user", params: { id: userId } });
 			},
 
 			editItem(item) {
-				this.$router.push({ name: "update-beat", params: { id: item.id } });
+				this.$router.push({ name: "update-user", params: { id: item.id } });
 			},
 
 			dateTime(value) {
 				return moment(value).format("YYYY-MM-DD");
 			},
-
-			getColor(precio) {
-				if (precio <= 10) return "pink";
-				if (precio <= 20) return "green";
-				if (precio <= 35) return "blue";
-				if (precio < 60) return "purple";
-				if (precio <= 80) return "orange";
-				if (precio <= 100) return "#FFA900";
-			},  
 
 			deleteItem(item) {
 				this.editedIndex = this.beatsCustom.indexOf(item);

@@ -1,5 +1,7 @@
 <template>
+
   <v-row no-gutters>
+    
     <v-col
       v-for="(beat, index) in beats"
       :key="index"

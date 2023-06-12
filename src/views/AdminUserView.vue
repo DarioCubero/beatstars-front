@@ -5,11 +5,19 @@
 			<v-container fluid class="pa-10">
 				<!-- title -->
 				<v-row class="mt-1 pb-7 mb-4">
+					<a @click="$router.go(-1)"
+						><span span class="text-left"
+							><v-icon style="font-size: 2.5rem"
+								>mdi-arrow-left-thick mdi-light
+							</v-icon></span
+						></a
+					>
+
 					<v-icon style="font-size: 2.5rem; margin-left: 160px"
 						>mdi-cog mdi-light</v-icon
 					>
 					<h1>
-						<div ref="title">Admin</div>
+						<div ref="title">Admin User - {{ this.user.nombreCuenta }}</div>
 					</h1>
 				</v-row>
 				<v-row>
@@ -17,9 +25,10 @@
 						<AdminTabs @selectedTab="updateView"> </AdminTabs>
 					</v-col>
 					<v-col cols="12" md="10" class="bg-red pa-0">
-						<AdminBeats v-if="tab === 'beats'"> </AdminBeats>
-						<AdminPedidos v-if="tab === 'pedidos'"> </AdminPedidos>
-						<AdminUsers v-if="tab === 'usuarios'"> </AdminUsers>
+						<AdminBeats :idUser="user.id" v-if="tab === 'beats'"> </AdminBeats>
+						<AdminPedidos :idUser="user.id" v-if="tab === 'pedidos'">
+						</AdminPedidos>
+						<AdminUsers v-if="tab === 'usuarios' && !user.id"> </AdminUsers>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -36,8 +45,10 @@
 	import AdminPedidos from "@/components/AdminOrdersDTComponent.vue";
 	import AdminUsers from "@/components/AdminUsersDTComponent.vue";
 
+	import api from "@/services/api";
+
 	export default {
-		name: "admin-view",
+		name: "admin-user",
 
 		components: {
 			Header,
@@ -50,8 +61,13 @@
 
 		data() {
 			return {
+				user: {},
 				tab: "beats", //default item selected
 			};
+		},
+
+		async created() {
+			this.user = await api.getUser(this.$route.params.id);
 		},
 
 		methods: {

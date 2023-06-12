@@ -1,11 +1,18 @@
 <template>
+
 	<v-data-table
 		dark
 		:headers="headers"
-		:items="ordersCustom"
+		:items="beatsCustom"
 		sort-by="calories"
 		class="elevation-1">
 		<!-- COLOR PRECIO -->
+		<template v-slot:[`item.precio`]="{ item }">
+			<v-chip :color="getColor(item.precio)">
+				{{ item.precio }}
+			</v-chip>
+		</template>
+
 		<template v-slot:top>
 			<v-toolbar flat>
 				<v-toolbar-title>Beats</v-toolbar-title>
@@ -69,19 +76,15 @@
 
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
-			<v-icon class="me-2" @click="orderDetail(item.id)"
+			<v-icon class="me-2" @click="beatDetails(item.id)"
 				>mdi-eye mdi-light</v-icon
 			>
-			<!-- <v-icon @click="editItem(item)" class="me-2">
+			<v-icon @click="editItem(item)" class="me-2">
 				mdi-pencil mdi-light
-			</v-icon> -->
+			</v-icon>
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
-		</template>
-
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize"> Reset </v-btn>
 		</template>
 	</v-data-table>
 </template>
@@ -90,26 +93,27 @@
 	import Api from "@/services/api";
 	import moment from "moment";
 	export default {
+		props: {
+			idUser: Number,
+		},
 		data: () => ({
 			dialog: false,
 			dialogDelete: false,
 			itemsPerPage: 5,
-      numBeats: [], //{IdOrder:xxx, numBeats: xxx}
 			headers: [
 				{
 					text: "ID",
 					align: "start",
 					value: "id",
 				},
-        { text: "DateCreated", value: "dateCreated" },
-        { text: "Total(€)", value: "total" },
-        { text: "Método de pago", value: "metodoPago" },
-				{ text: "Usuario", value: "correoUsuario" },
-        { text: "Nº Beats", value: "numBeats" },
+				{ text: "Nombre", value: "nombre" },
+				{ text: "Tipo", value: "tipo" },
+				{ text: "Precio(€)", value: "precio" },
+				{ text: "DateCreated", value: "dateCreated" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
 			beats: [],
-			ordersCustom: [],
+			beatsCustom: [],
 			beatDelete: { id: "", beatName: "" },
 			editedIndex: -1,
 		}),
@@ -129,52 +133,33 @@
 			},
 		},
 
-		created() {
-			this.initialize();
-		},
+		async created() {
+      console.log("this.idUser...",this.idUser);
+			if (this.idUser) {
+				this.beats = await Api.getUserBeats(this.idUser);
+			} else {
+				this.beats = await Api.getBeats();
+			}
 
-		async beforeCreate() {
-			this.pedidos = await Api.getPedidos();
-			console.log(this.pedidos);
+			console.log(this.beats);
 
-			await this.pedidos.forEach(async (x) => {
-				// DTO BEAT OBJECT
-				let obj = {};
-				obj["id"] = x.id;
-        obj["dateCreated"] = this.dateTime(x.dateCreated);
-        obj["total"] = x.total;
-				obj["metodoPago"] = this.metodoPago(x.metodoPago);
-        obj["correoUsuario"] = x.correoUsuario;
-
-				const beatsPedido = await Api.getPedidoBeats(x.id);
-				obj["numBeats"] = Object.keys(beatsPedido).length;
-				this.numBeats.push({
-					orderId: x.id,
-					numBeats: Object.keys(beatsPedido).length,
+			if (this.beats) {
+				await this.beats.forEach(async (x) => {
+					// DTO BEAT OBJECT
+					let obj = {};
+					obj["id"] = x.id;
+					obj["nombre"] = x.nombre;
+					obj["tipo"] = x.tipo;
+					obj["precio"] = x.precio;
+					obj["dateCreated"] = this.dateTime(x.dateCreated);
+					this.beatsCustom.push(obj);
 				});
-				this.ordersCustom.push(obj);
-			});
-
-
+			}
 		},
 
 		methods: {
-			orderDetail(orderId) {
-				this.$router.push({
-					name: "pedido",
-					params: { id: orderId, numBeats: this.countOrderBeats(orderId) },
-				});
-			},
-
-			countOrderBeats(orderId) {
-				//orderId: xxx, numBeats: xxx
-				console.log("countOrderBeats orderId", orderId);
-				let obj = this.numBeats.find((x) => x.orderId === orderId);
-				return obj["numBeats"];
-			},
-
-			metodoPago(check) {
-				return check ? "PayPal" : "Tarjeta"; // false: Paypal
+			beatDetails(beatId) {
+				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
 
 			editItem(item) {
@@ -193,8 +178,6 @@
 				if (precio <= 80) return "orange";
 				if (precio <= 100) return "#FFA900";
 			},
-
-			initialize() {},
 
 			deleteItem(item) {
 				this.editedIndex = this.beatsCustom.indexOf(item);

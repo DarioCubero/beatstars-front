@@ -208,6 +208,7 @@ export default {
     this.user = await api.getUser(this.idUserLocal);
     console.log("getUser: ", this.user);
   },
+  
 };
 </script>
 

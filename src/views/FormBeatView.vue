@@ -26,7 +26,7 @@
 <script>
 	import Header from "@/components/HeaderComponent.vue";
 	import Footer from "@/components/FooterComponent.vue";
-	import BeatForm from "@/components/BeatUploadFormComponent.vue";
+	import BeatForm from "@/components/BeatFormComponent.vue";
 	// import moment from "moment";
 
 	export default {
