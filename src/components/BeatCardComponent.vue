@@ -23,7 +23,7 @@
 			</v-row>
 
 			<v-card-text>
-				<v-row class="">
+				<v-row>
 					<v-col class="pa-0" cols="12" md="6" sm="6">
 						<div class="grey--text ms-4">{{ dateCreated }}</div>
 					</v-col>
@@ -44,25 +44,39 @@
 							>mdi-eye mdi-dark</v-icon
 						>
 					</v-col>
-					<v-col cols="12" md="6" sm="6">
-						<a @click="like(id)">
-							<v-icon style="font-size: 2rem"
-								>mdi-heart-outline mdi-dark
-							</v-icon>
-						</a>
+
+					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="!comprado">
+						<v-btn @click="addCart(id)" color="blue" size="x-large"
+							><v-icon>mdi-cart-plus mdi-light</v-icon></v-btn
+						>
+					</v-col>
+
+					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="comprado">
+						<v-btn
+							@click="deleteCart(id)"
+							ref="id+'delete'"
+							color="red"
+							size="x-large"
+							><v-icon>mdi-cart-remove mdi-light</v-icon></v-btn
+						>
 					</v-col>
 				</v-row>
+				<!-- <v-btn @click="checkComprado()" color="red" size="x-large"
+					><v-icon>mdi-cart-house mdi-light</v-icon></v-btn
+				> -->
 			</v-card-text>
 		</div>
 	</v-card>
 </template>
 
 <script>
-	// import { mapActions } from "vuex";
+	import { mapActions } from "vuex";
 
 	export default {
 		data() {
-			return {};
+			return {
+				show: true,
+			};
 		},
 		props: {
 			id: Number,
@@ -72,17 +86,34 @@
 			premium: String,
 			dateCreated: String,
 			imageUrl: String,
-		},
-
-		created() {
+			myBeats: Boolean,
+			comprado: Boolean,
 		},
 
 		methods: {
+			...mapActions(["vuexAddBeatToCart"]),
+			...mapActions(["vuexDeleteBeatFromCart"]),
+
 			beatDetails(beatId) {
 				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
-			like(beatId) {
-				alert(beatId);
+
+			created() {
+				alert(this.comprado);
+			},
+
+			addCart(beatId) {
+				this.vuexAddBeatToCart(beatId);
+				this.show = false;
+			},
+
+			deleteCart(beatId) {
+				this.show = true;
+				this.vuexDeleteBeatFromCart(beatId);
+			},
+
+			checkComprado() {
+				console.log(this.comprado);
 			},
 		},
 	};
@@ -104,5 +135,7 @@
 		// max-height: 5em;
 		// line-height: 1.8em;
 	}
-
+	.hide {
+		display: none !important;
+	}
 </style>

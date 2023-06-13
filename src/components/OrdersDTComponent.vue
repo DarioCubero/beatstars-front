@@ -16,7 +16,6 @@
 </template>
 
 <script>
-	// import { mapActions } from "vuex";
 	import Api from "@/services/api";
 	import auth from "@/services/auth";
 	import moment from "moment";

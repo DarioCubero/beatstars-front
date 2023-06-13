@@ -81,8 +81,6 @@ import auth from "@/services/auth";
 export default {
 
   data() {
-    this.created();
-
     return {
       beatNameFilter: "",
       checkAdmin: false,

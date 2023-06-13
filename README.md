@@ -2,10 +2,13 @@
 
 ## Colors
 
-Hex: #0FC900
+Primary: 
+- Verde #0FC900
+- Negro #000
 
-Principal #e63722
-Secundary #222222
+Secundary :
+- Azul: #0F7DD1
+- Rosa: #C00BD4
 
 ## Project setup
 
