@@ -2,7 +2,7 @@
 	<v-data-table
 		dark
 		:headers="headers"
-		:items="beatsCustom"
+		:items="this.beatsCustom"
 		sort-by="calories"
 		class="elevation-1">
 		<!-- COLOR PRECIO -->
@@ -12,23 +12,50 @@
 			</v-chip>
 		</template>
 
+    <!-- DIALOG -->
+		<template v-slot:top>
+			<v-dialog v-model="dialogDelete" max-width="500px">
+				<v-card>
+					<v-card-title class="text-h5"
+						>Are you sure you want to delete from Cart
+						{{
+							" with ID '" +
+							beatDelete["id"] +
+							"' and Name '" +
+							beatDelete["name"] + "'"
+						}}?</v-card-title
+					>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="blue darken-1" text @click="closeDelete"
+							>Cancel</v-btn
+						>
+						<v-btn color="blue darken-1" text @click="deleteItemConfirm()"
+							>OK</v-btn
+						>
+						<v-spacer></v-spacer>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</template>
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
 		</template>
+
+
+
 	</v-data-table>
 </template>
 
+
 <script>
-	import Api from "@/services/api";
 	import moment from "moment";
+	import { mapActions } from "vuex";
 
 	export default {
-		props: {
-			idUser: Number,
-		},
 		data: () => ({
 			dialog: false,
 			dialogDelete: false,
@@ -45,7 +72,7 @@
 				{ text: "DateCreated", value: "dateCreated" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
-			beats: [],
+			cartBeats: [],
 			beatsCustom: [],
 			beatDelete: { id: "", beatName: "" },
 			editedIndex: -1,
@@ -67,17 +94,9 @@
 		},
 
 		async created() {
-			console.log("this.idUser...", this.idUser);
-			if (this.idUser) {
-				this.beats = await Api.getUserBeats(this.idUser);
-			} else {
-				this.beats = await Api.getBeats();
-			}
-
-			console.log(this.beats);
-
-			if (this.beats) {
-				await this.beats.forEach(async (x) => {
+			this.cartBeats = this.$store.state.cart;
+			if (this.cartBeats) {
+				await this.cartBeats.forEach(async (x) => {
 					// DTO BEAT OBJECT
 					let obj = {};
 					obj["id"] = x.id;
@@ -87,10 +106,14 @@
 					obj["dateCreated"] = this.dateTime(x.dateCreated);
 					this.beatsCustom.push(obj);
 				});
+			} else {
+				console.log("Carrito vacío");
 			}
 		},
 
 		methods: {
+			...mapActions(["vuexDeleteBeatFromCart"]),
+
 			beatDetails(beatId) {
 				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
@@ -109,11 +132,11 @@
 				if (precio <= 35) return "blue";
 				if (precio < 60) return "purple";
 				if (precio <= 80) return "orange";
-				if (precio <= 100) return "#FFA900";
+				if (precio <= 100) return "amber accent-4";
 			},
 
 			deleteItem(item) {
-				this.editedIndex = this.beatsCustom.indexOf(item);
+				this.show = true;
 				this.beatDelete = { id: item.id, name: item.nombre };
 				this.dialogDelete = true;
 			},
@@ -121,7 +144,7 @@
 			deleteItemConfirm() {
 				console.log("deleteItemConfirm");
 				this.beatsCustom.splice(this.editedIndex, 1);
-				Api.deleteBeat(this.beatDelete["id"]);
+				this.vuexDeleteBeatFromCart(this.beatDelete["id"]);
 				this.closeDelete();
 			},
 
@@ -141,15 +164,6 @@
 				});
 			},
 
-			save() {
-				console.log("save");
-				// if (this.editedIndex > -1) {
-				//   Object.assign(this.desserts[this.editedIndex], this.editedItem)
-				// } else {
-				//   this.desserts.push(this.editedItem)
-				// }
-				this.close();
-			},
 		},
 	};
 </script>

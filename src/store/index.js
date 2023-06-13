@@ -42,37 +42,39 @@ export default new Vuex.Store({
 	actions: {
 		async vuexGetUser({ commit }, idUser) {
 			console.log("VuexGetUser - State User cargado.");
-			let user = await ServicesApi.getUser(idUser);
+			const user = await ServicesApi.getUser(idUser);
+			commit("setUser", user);
+		},
+
+		async vuexSetUser({ commit }, user) {
+			console.log("vuexSetUser - State User cargado.");
 			commit("setUser", user);
 		},
 
 		async vuexAddBeatToCart({ commit }, idBeat) {
-			console.log("vuexAddBeatToCart");
-
 			let beat = await ServicesApi.getBeat(idBeat);
-
 			if (!this.state.cart.some((x) => x.id === idBeat)) {
-				console.log("Beat " + beat.nombre + " añadido a la cesta");
-
+				console.log("vuexAddBeatToCart- Beat '" + beat.nombre + "' añadido a la cesta");
 				commit("pushCart", beat);
 			} else {
-				console.log("El Beat " + beat.nombre + " ya fue añadido a la cesta.");
+				console.log("El Beat '" + beat.nombre + "' ya fue añadido a la cesta.");
 			}
 		},
 
 		async vuexDeleteBeatFromCart({ commit }, idBeat) {
-			console.log("vuexDeleteBeatFromCart - " + idBeat);
-
-			for (var i = 0; i < this.state.cart.length; i++) {
-        let index = this.state.cart.indexOf(this.state.cart[i]);
-
-        if (this.state.cart[i].id === idBeat ){
-          console.log(this.state.cart[i].nombre);
-          console.log('index', index);
-          this.state.cart.splice(i, 1);
-        }
+			for (let  i = 0; i < this.state.cart.length; i++) {
+				if (this.state.cart[i].id === idBeat) {
+					console.log("vuexDeleteBeatFromCart - Borrado de '" + this.state.cart[i].nombre + "'");
+					this.state.cart.splice(i, 1);
+				}
 			}
-      commit("setCart", this.state.cart);
+			commit("setCart", this.state.cart);
+		},
+
+		async vuexCleanCart({ commit }) {
+      console.log("vuexCleanCart - Carrito vaciado");
+			this.state.cart = [];
+			commit("setCart", this.state.cart);
 		},
 
 		// async vuexCheckUserLogged({ commit }) {

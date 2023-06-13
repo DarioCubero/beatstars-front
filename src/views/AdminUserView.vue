@@ -3,23 +3,23 @@
 		<Header />
 		<v-main style="padding: 0px 0px 0px; !important;">
 			<v-container fluid class="pa-10">
-				<!-- title -->
+        <!-- title -->
 				<v-row class="mt-1 pb-7 mb-4">
-					<a @click="$router.go(-1)"
-						><span span class="text-left"
-							><v-icon style="font-size: 2.5rem"
-								>mdi-arrow-left-thick mdi-light
-							</v-icon></span
-						></a
-					>
+					<h1 class="text-left">
+						<a @click="$router.go(-1)"
+							><span span class="text-left"
+								><v-icon style="font-size: 2.5rem"
+									>mdi-arrow-left-thick mdi-light
+								</v-icon></span
+							></a
+						>
 
-					<v-icon style="font-size: 2.5rem; margin-left: 160px"
-						>mdi-cog mdi-light</v-icon
-					>
-					<h1>
-						<div ref="title">Admin User - {{ this.user.nombreCuenta }}</div>
+						<v-icon style="font-size: 2.5rem; margin-left: 130px"
+							>mdi-eye mdi-light</v-icon
+						><span ref="title">Admin User - {{ this.user.nombreCuenta }}</span>
 					</h1>
 				</v-row>
+
 				<v-row>
 					<v-col cols="12" md="2" class="bg-red pa-0">
 						<AdminTabs @selectedTab="updateView"> </AdminTabs>

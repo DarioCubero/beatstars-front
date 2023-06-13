@@ -191,7 +191,7 @@
 				if (precio <= 35) return "blue";
 				if (precio < 60) return "purple";
 				if (precio <= 80) return "orange";
-				if (precio <= 100) return "#FFA900";
+				if (precio <= 100) return "amber accent-4";
 			},
 
 			deleteItem(item) {

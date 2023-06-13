@@ -14,11 +14,15 @@
 			<v-divider class="mx-4"></v-divider>
 			<v-row class="">
 				<v-col class="pa-3" cols="12" md="6" sm="6">
-					<div class="my-4 text-subtitle-1">{{ tipo }}</div>
+					<div class="my-4 text-subtitle-1 pa-2">{{ tipo }}</div>
 				</v-col>
 
 				<v-col class="pa-3" cols="12" md="6" sm="6">
-					<div class="my-4 text-subtitle-1">{{ precio }}€</div>
+					<div
+						v-bind:class="getColor(precio)"
+						class="my-4 text-subtitle-1 rounded-xl pa-2" style="color: white !important">
+						{{ precio }}€
+					</div>
 				</v-col>
 			</v-row>
 
@@ -38,7 +42,7 @@
 					</v-col>
 				</v-row>
 
-				<v-row>
+				<v-row class="pt-3">
 					<v-col cols="12" md="6" sm="6">
 						<v-icon style="font-size: 2rem" @click="beatDetails(id)"
 							>mdi-eye mdi-dark</v-icon
@@ -55,7 +59,7 @@
 						<v-btn
 							@click="deleteCart(id)"
 							ref="id+'delete'"
-							color="red"
+							color="#C00BD4"
 							size="x-large"
 							><v-icon>mdi-cart-remove mdi-light</v-icon></v-btn
 						>
@@ -93,6 +97,15 @@
 		methods: {
 			...mapActions(["vuexAddBeatToCart"]),
 			...mapActions(["vuexDeleteBeatFromCart"]),
+
+			getColor(precio) {
+				if (precio <= 10) return "pink";
+				if (precio <= 20) return "green";
+				if (precio <= 35) return "blue";
+				if (precio < 60) return "purple";
+				if (precio <= 80) return "orange";
+				if (precio <= 100) return "amber accent-4";
+			},
 
 			beatDetails(beatId) {
 				this.$router.push({ name: "beat", params: { id: beatId } });

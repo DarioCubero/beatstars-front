@@ -1,5 +1,4 @@
 <template>
-
 	<v-data-table
 		dark
 		:headers="headers"
@@ -53,10 +52,11 @@
 						<v-card-title class="text-h5"
 							>Are you sure you want to delete
 							{{
-								" with ID " +
+								" with ID '" +
 								beatDelete["id"] +
-								" and Name " +
-								beatDelete["name"]
+								"' and Name '" +
+								beatDelete["name"] +
+								"'"
 							}}?</v-card-title
 						>
 						<v-card-actions>
@@ -134,7 +134,7 @@
 		},
 
 		async created() {
-      console.log("this.idUser...",this.idUser);
+			console.log("this.idUser...", this.idUser);
 			if (this.idUser) {
 				this.beats = await Api.getUserBeats(this.idUser);
 			} else {
@@ -176,7 +176,7 @@
 				if (precio <= 35) return "blue";
 				if (precio < 60) return "purple";
 				if (precio <= 80) return "orange";
-				if (precio <= 100) return "#FFA900";
+				if (precio <= 100) return "amber accent-4";
 			},
 
 			deleteItem(item) {

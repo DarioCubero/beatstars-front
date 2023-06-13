@@ -6,13 +6,23 @@
 			<v-container class="pa-10">
 				<!-- title -->
 				<v-row class="mt-1 pb-7">
-					<v-icon style="font-size: 2.5rem; margin-left: 100px"
-						>mdi-account mdi-light</v-icon
-					>
 					<h1>
-						<div ref="title">{{ this.FormBeatTitle }}</div>
+						<a @click="$router.go(-1)"
+							><span span class="text-left"
+								><v-icon style="font-size: 2.5rem"
+									>mdi-arrow-left-thick mdi-light
+								</v-icon></span
+							></a
+						>
+
+						<v-icon style="font-size: 2.5rem; margin-left: 100px"
+							>mdi-account mdi-light</v-icon
+						>
+
+						<span ref="title">{{ this.FormBeatTitle }}</span>
 					</h1>
 				</v-row>
+
 
 				<!-- Subir/Editar Beat -->
 				<BeatForm ref="childComponent" :id="parseInt(id)"></BeatForm>
@@ -49,7 +59,7 @@
 					console.log("Reused component " + previousParams);
 					this.$refs.title.innerText = "Subir Beat"; //empleamos la referencia ya que el dom fue cargado.
 					this.titleForm();
-          this.$refs.childComponent.reusedUploadBeatBtn(); //Cambiará la funcionalidad del botón a Subir Beat.
+					this.$refs.childComponent.reusedUploadBeatBtn(); //Cambiará la funcionalidad del botón a Subir Beat.
 				}
 			);
 		},

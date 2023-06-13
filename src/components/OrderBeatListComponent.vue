@@ -17,6 +17,7 @@
         :premium="premium(beat.premium)"
         :dateCreated="dateTime(beat.dateCreated)"
         imageUrl="https://random.imagecdn.app/500/150"
+         :myBeats="true"
       />
     </v-col>
   </v-row>

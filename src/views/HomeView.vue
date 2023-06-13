@@ -15,7 +15,7 @@
                 </h1>
                 <div class="text-h5">
                   Keep
-                  <span style="color:#CF0BE6 " class="text-h4 font-weight-bold"
+                  <span style="color:#C00BD4 " class="text-h4 font-weight-bold"
                     >100% of the earnings</span
                   >
                   we collect for you!
