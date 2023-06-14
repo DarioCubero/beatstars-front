@@ -22,9 +22,9 @@
 
 					<v-btn
 						to="/payment" 
-						color="#0FC900" outlined
+						color="#0F7DD1" 
 						class="pa-6 ma-4 justify-center">
-						<h3>Tramitar pedido</h3>
+						<h3 class="white--text">Tramitar pedido</h3>
 					</v-btn>
 
 						<!-- <v-btn to="/payment" color="primary" class="pa-6 ma-4 justify-center">

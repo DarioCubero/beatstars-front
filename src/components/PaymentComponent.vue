@@ -69,7 +69,7 @@
 						@click="validate"
 						color="#0FC900"
 						class="pa-6 ma-4 justify-center">
-						<h3>Comprar</h3>
+						<h3 class="white--text">Comprar</h3>
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -108,7 +108,6 @@
 				required: (value) => !!value || "Required.",
 			},
 
-			select: { type: "PayPal", value: "False" },
 			items: [
 				{ type: "PayPal", value: "false" },
 				{ type: "Tarjeta", value: "true" },
@@ -128,7 +127,7 @@
 			this.idUserLocal = auth.getLocalStorage("userId");
 			this.user = await api.getUser(this.idUserLocal);
 			this.order.correoUsuario = this.user.email;
-			this.order.userId = this.user.id;
+			this.order.IdUser = this.user.id;
 
 			this.countCart();
 		},
@@ -146,15 +145,12 @@
 							this.formLoading = false;
 						}, 2000);
 
-						console.log("idBeatList--> ", this.idBeatList);
-						console.log("userId--> ", this.order.userId);
-						console.log("order--> ", this.order);
+						this.order.metodoPago = this.metodoPago(this.order.metodoPago);
+						api.createOrder(this.order);
 
-						api.createOrder(this.idBeatList, this.order.userId, this.order);
-
-						// this.reset()
-						// this.vuexCleanCart();
-						// this.$router.push({ name: "pedidos" });
+						this.reset()
+						this.vuexCleanCart();
+						this.$router.push({ name: "pedidos" });
 
 						// Alert........
 					} else {
@@ -172,14 +168,15 @@
 				this.$refs.form.resetValidation();
 			},
 
-			// metodoPago(check) {
-			// 	return check == "PayPal" ? "false" : "true"; // false: Paypal
-			// },
+			metodoPago(check) {
+				return check == "PayPal" ? false : true; // false: Paypal
+			},
 
 			async countCart() {
 				if (this.cartBeats) {
+					this.order.IdBeatList = [];
 					await this.cartBeats.forEach(async (x) => {
-						this.idBeatList.push(x.id);
+						this.order.IdBeatList.push(x.id);
 						this.order.total += x.precio;
 					});
 				} else {

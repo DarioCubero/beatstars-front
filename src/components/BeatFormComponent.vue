@@ -96,15 +96,12 @@
 			<v-row class="justify-center">
 				<v-col cols="4" class="justify-center">
 					<v-btn
-						dark
-						:disabled="!valid"
+						@click="validate"
 						color="#0F7DD1"
-						class="pa-6 ma-4 justify-center"
-						@click="validate">
-						<v-icon style="font-size: 2.5rem">mdi-upload</v-icon>
-						<h1 ref="title">
+						class="pa-6 ma-4 justify-center">
+						<h3 ref="title" class="white--text">
 							{{ this.FormBeatTitle }}
-						</h1>
+						</h3>
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -256,7 +253,7 @@
 			reusedUploadBeatBtn: function () {
 				// alert("reusedUploadBeatBtn");
 				this.reset();
-        this.beat.precio=20;
+				this.beat.precio = 20;
 				this.FormBeatTitle = "Subir";
 				this.updateButton = false;
 			},
@@ -295,7 +292,9 @@
 				if (this.$refs.form.validate()) {
 					this.formLoading = true;
 					// alert("this.updateButton " + this.updateButton);
-					this.updateButton ? Api.updateBeat(this.beatSelected.id, this.beat) : Api.createBeat(this.beat);
+					this.updateButton
+						? Api.updateBeat(this.beatSelected.id, this.beat)
+						: Api.createBeat(this.beat);
 					this.$router.push({ name: "admin" });
 
 					setTimeout(() => {

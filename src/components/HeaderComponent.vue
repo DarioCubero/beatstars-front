@@ -1,77 +1,122 @@
 <template>
-	<v-card height="107px" color="#0FC900 !important" class="py-3">
-		<v-app-bar fixed app height="100px" class="pl-10" id="header">
-			<router-link to="/home" class="logo-home">
-				<v-img
-					class="mx-3"
-					:src="
-						require('@/assets/images/white_square_logo_DreamDrum.svg')
-					"></v-img>
-			</router-link>
+	<div>
+		<v-row>
+			<v-col cols="12" lg="12" md="12" sm="12">
+				<v-card height="107px" color="#0FC900 !important" class="py-3">
+					<!-- appbar -->
+					<v-app-bar fixed app height="100px" class="pl-6" id="header">
+						<!-- logo -->
+						<router-link to="/home" class="logo-home">
+							<v-img
+								width="80"
+								:src="
+									require('@/assets/images/white_square_logo_DreamDrum.svg')
+								"></v-img>
+						</router-link>
 
-			<v-form ref="form" @submit.prevent="validate">
-				<v-card color="white" class="rounded-card pa-2" flat width="370px">
-					<v-row no-gutters>
-						<v-col btn cols="12" lg="1" md="1" sm="1">
-							<a type="submit">
-								<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
-							</a>
-						</v-col>
+						<!-- left form -->
+						<v-form ref="form" @submit.prevent="validate">
+							<v-row style="display: flex; align-items: center">
+								<!-- Buscador -->
+								<v-col cols="12" lg="5" md="5" sm="5" class="ml-6 mr-2">
+									<v-card color="white" class="rounded-card pa-2" width="350px">
+										<v-row no-gutters>
+											<!-- lupa -->
+											<v-col btn cols="12" lg="1" md="1" sm="1">
+												<a type="submit">
+													<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
+												</a>
+											</v-col>
+											<!-- buscador -->
+											<v-col cols="12" lg="11" md="11" sm="11">
+												<v-text-field
+													v-model="beatNameFilter"
+													label="¿Qué estás buscando?"
+													:rules="[rules.required]"
+													max-height="6"
+													max-width="10"
+													single-line
+													color="black"
+													class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
+													hide-details="auto"
+													clearable
+													placeholder="Nombre del Beat..."></v-text-field>
+											</v-col>
+										</v-row>
+									</v-card>
+								</v-col>
 
-						<v-col cols="12" lg="11" md="11" sm="11">
-							<!-- v-click-outside="onClickOutside" -->
-							<v-text-field
-								v-model="beatNameFilter"
-								label="¿Qué estás buscando?"
-								:rules="[rules.required]"
-								max-height="6"
-								max-width="10"
-								single-line
-								color="black"
-								class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
-								hide-details="auto"
-								clearable
-								placeholder="Nombre del Beat..."></v-text-field>
-						</v-col>
-					</v-row>
+								<!-- sort-->
+								<v-col cols="12" lg="3" md="3" sm="3">
+                  <!-- sortOrder desc -->
+									<v-row>
+										<div>
+											<v-simple-checkbox
+												v-model="sortOrder"></v-simple-checkbox>
+										</div>
+										<div>
+											<span class="white--text"
+												><v-icon>mdi-sort-descending mdi-light</v-icon>DESC
+											</span>
+										</div>
+									</v-row>
+                   <!-- sortBy -->
+									<v-row style="max-height: 50px">
+										<v-col cols="12" lg="12" md="12" sm="12">
+											<v-select
+												dark
+												v-model="sortBy"
+												:items="items"
+												item-text="item"
+												item-value="item"
+												label="Filtrar por:"
+												single-line>
+											</v-select>
+										</v-col>
+									</v-row>
+								</v-col>
+							</v-row>
+						</v-form>
+
+						<!-- spacer -->
+						<v-spacer></v-spacer>
+
+						<!-- right toolbar -->
+						<v-toolbar-items class="hidden-sm-and-down" color="transparent">
+							<v-btn
+								v-for="item in menu"
+								:prepend-icon="item.icon ? item.icon : null"
+								:style="item.claseColor ? item.claseColor : null"
+								:key="item.icon ? item.claseColor : null"
+								:to="item.url">
+								<v-icon left v-if="item.icon"> {{ item.icon }} </v-icon
+								>{{ item.title }}
+								<span v-if="item.title == 'Carrito' && cartCount !== 0">
+									{{ "(" + cartCount + ")" }}
+								</span>
+							</v-btn>
+
+							<v-btn
+								style="color: #0fc900 !important"
+								v-if="$store.state.user.rol === 'admin'"
+								to="/admin">
+								Admin
+							</v-btn>
+							<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
+						</v-toolbar-items>
+
+						<!-- menu hamburguesa hide/show -->
+						<v-app-bar-nav-icon
+							variant="text"
+							class="hidden-md-and-up"
+							@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+					</v-app-bar>
+					<!-- END appbar -->
 				</v-card>
-			</v-form>
+			</v-col>
+		</v-row>
 
-			<!-- spacer -->
-			<v-spacer></v-spacer>
-
-			<!-- toolbar -->
-			<v-toolbar-items class="hidden-sm-and-down" color="transparent">
-				<v-btn
-					v-for="item in menu"
-					:prepend-icon="item.icon ? item.icon : null"
-					:style="item.claseColor ? item.claseColor : null"
-					:key="item.icon ? item.claseColor : null"
-					:to="item.url"
-					>
-          <v-icon left v-if="item.icon"> {{ item.icon }} </v-icon>{{ item.title }} 
-					<span v-if="item.title == 'Carrito' && cartCount !== 0">
-						{{ "(" + cartCount + ")" }}
-					</span>
-				</v-btn>
-
-				<v-btn
-					style="color: #0fc900 !important"
-					v-if="$store.state.user.rol === 'admin'"
-					to="/admin">
-					Admin
-				</v-btn>
-				<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
-			</v-toolbar-items>
-
-			<!-- menu hamburguesa hide/show -->
-			<v-app-bar-nav-icon
-				variant="text"
-				class="hidden-md-and-up"
-				@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-		</v-app-bar>
-		<!-- END appbar -->
-
+		<!-- Menú App Mobile -->
 		<v-navigation-drawer
 			src="../assets/texture/dark-wood.jpg"
 			app
@@ -79,7 +124,7 @@
 			location="bottom"
 			temporary>
 		</v-navigation-drawer>
-	</v-card>
+	</div>
 </template>
 
 <script>
@@ -89,6 +134,16 @@
 	export default {
 		data() {
 			return {
+				sortOrder: false,
+				sortBy: null,
+				items: [
+					{ item: "Nombre" },
+					{ item: "Premium" },
+					{ item: "TypeBeat" },
+					{ item: "Precio" },
+					{ item: "Fecha" },
+				],
+
 				beatNameFilter: "",
 				checkAdmin: false,
 				drawer: false,
@@ -161,12 +216,13 @@
 
 			async validate() {
 				if (await this.$refs.form.validate()) {
+					console.log("sortOrder: " + this.sortOrder);
 					this.$router.push({
 						name: "beats",
 						query: { name: this.beatNameFilter },
 					});
 
-					this.$refs.form.reset();
+					// this.$refs.form.reset();
 				} else {
 					console.error(
 						"Búsqueda de Beat no válida: debes escribir un nombre."
@@ -211,7 +267,9 @@
 	/* .v-toolbar__items > a:active{
   background-color: green !important;
 } */
-
+	.v-form {
+		width: 100%;
+	}
 	.v-toolbar {
 		background-color: #222222 !important;
 	}

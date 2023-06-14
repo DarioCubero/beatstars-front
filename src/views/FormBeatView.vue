@@ -16,7 +16,7 @@
 						>
 
 						<v-icon style="font-size: 2.5rem; margin-left: 100px"
-							>mdi-account mdi-light</v-icon
+							>mdi-upload mdi-light</v-icon
 						>
 
 						<span ref="title">{{ this.FormBeatTitle }}</span>

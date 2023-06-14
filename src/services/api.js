@@ -124,11 +124,11 @@ export default {
 			});
 	},
 
-	async createOrder(idBeatList, idUser, orderEntity) {
+	async createOrder(data) {
 		console.log(`createOrder ${ORDER_URL}`);
-    console.log(orderEntity);
 		return axios
-			.post(`${ORDER_URL}`, { params: { _IdBeatList: idBeatList, _IdUser : idUser }}, orderEntity) //_IdBeatList ?? _IdUser ??
+			// .post(`${ORDER_URL}`, { params: { _IdBeatList: idBeatList, _IdUser : idUser }}, orderEntity) //_IdBeatList ?? _IdUser ??
+			.post(`${ORDER_URL}`, data) 
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***

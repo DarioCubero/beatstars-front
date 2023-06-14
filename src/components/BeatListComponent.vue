@@ -60,6 +60,7 @@
 			// beforeMount, watch, beforeCreate
 			//TODO: Pending filtrado por QUERY PARAM
 			let nameParam = this.$route.query.name;
+      console.log(nameParam);
 			if (nameParam) {
 				console.log("getBeatsByName...  " + nameParam);
 				this.beats = await Api.getBeats(nameParam);
