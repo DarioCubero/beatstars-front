@@ -16,23 +16,42 @@
 
 						<!-- left form -->
 						<v-form ref="form" @submit.prevent="validate">
-							<v-row style="display: flex; align-items: center">
+							<v-row
+								style="
+									display: flex;
+									align-items: center;
+									max-height: 150px !important;
+								">
 								<!-- Buscador -->
-								<v-col cols="12" lg="5" md="5" sm="5" class="ml-6 mr-2">
-									<v-card color="white" class="rounded-card pa-2" width="350px">
+								<v-col
+									style="
+										min-width: 50px !important;
+										max-width: 300px !important;
+										max-height: 150px !important;
+									"
+									cols="12"
+									lg="5"
+									md="5"
+									sm="5"
+									class="ml-6 mr-2">
+									<v-card
+										color="white"
+										class="rounded-card pa-2"
+										min-width="200px"
+										max-width="3  00px">
 										<v-row no-gutters>
 											<!-- lupa -->
 											<v-col btn cols="12" lg="1" md="1" sm="1">
-												<a type="submit">
+												<a v-on:click="validate">
 													<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
 												</a>
 											</v-col>
 											<!-- buscador -->
 											<v-col cols="12" lg="11" md="11" sm="11">
 												<v-text-field
-													v-model="beatNameFilter"
-													label="¿Qué estás buscando?"
-													:rules="[rules.required]"
+													@keydown.enter.prevent="validate"
+													v-model="searchString"
+													label="¿Buscas un Beat?"
 													max-height="6"
 													max-width="10"
 													single-line
@@ -48,11 +67,18 @@
 
 								<!-- sort-->
 								<v-col cols="12" lg="3" md="3" sm="3">
-                  <!-- sortOrder desc -->
-									<v-row>
+									<!-- sortOrder desc -->
+									<v-row
+										style="
+											min-width: 500px !important;
+											max-width: 300px !important;
+											max-height: 50px;
+										">
 										<div>
 											<v-simple-checkbox
-												v-model="sortOrder"></v-simple-checkbox>
+												color="green"
+												@click="sortOrderCheckbox()"
+												v-model="sortOrderValue"></v-simple-checkbox>
 										</div>
 										<div>
 											<span class="white--text"
@@ -60,17 +86,24 @@
 											</span>
 										</div>
 									</v-row>
-                   <!-- sortBy -->
-									<v-row style="max-height: 50px">
+									<!-- sortBy -->
+									<v-row
+										style="
+											min-width: 150px !important;
+											max-width: 300px !important;
+											max-height: 50px;
+										">
 										<v-col cols="12" lg="12" md="12" sm="12">
 											<v-select
 												dark
+												color="#0F7DD1"
 												v-model="sortBy"
 												:items="items"
 												item-text="item"
 												item-value="item"
-												label="Filtrar por:"
+												label="Ordenar por:"
 												single-line>
+												<!--  :rules="[rules.required]" -->
 											</v-select>
 										</v-col>
 									</v-row>
@@ -108,7 +141,7 @@
 						<!-- menu hamburguesa hide/show -->
 						<v-app-bar-nav-icon
 							variant="text"
-							class="hidden-md-and-up"
+							class="hidden-lg-and-up"
 							@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 					</v-app-bar>
 					<!-- END appbar -->
@@ -129,22 +162,23 @@
 
 <script>
 	import auth from "@/services/auth";
+	import { mapActions } from "vuex";
 	// import api from "@/services/api";
 
 	export default {
 		data() {
 			return {
-				sortOrder: false,
 				sortBy: null,
+				sortOrderValue: false,
+				sortOrder: null,
+				searchString: "",
 				items: [
-					{ item: "Nombre" },
-					{ item: "Premium" },
-					{ item: "TypeBeat" },
+					// { item: "Nombre" },
+					// { item: "Premium" },
+					// { item: "TypeBeat" },
 					{ item: "Precio" },
-					{ item: "Fecha" },
+					// { item: "Fecha" },
 				],
-
-				beatNameFilter: "",
 				checkAdmin: false,
 				drawer: false,
 				cartCount: this.$store.state.cart.length,
@@ -199,28 +233,57 @@
 					//   url: "/logout",
 					// },
 				],
-				rules: {
-					required: (value) => !!value,
-				},
+				// rules: {
+				// 	required: (value) => !!value,
+				// },
 			};
 		},
 
+		// async beforeCreate() {
+		// 	window.addEventListener("keyup", function (ev) {
+		// 		if (ev.key == "Enter") {
+		// 			this.$refs.form.submit.click();
+		// 		}
+		// 	});
+		// },
+
+		created() {
+			if (!auth.getLocalStorage("userId")) {
+				console.info("Acceso restringido. Debes logearte primero.");
+				this.$router.push({ name: "login" });
+				// this.$store.commit("setUser", {});
+			}
+		},
+
 		methods: {
-			created() {
-				if (!auth.getLocalStorage("userId")) {
-					console.info("Acceso restringido. Debes logearte primero.");
-					this.$router.push({ name: "login" });
-					// this.$store.commit("setUser", {});
+			...mapActions(["vuexCleanCart"]),
+			sortOrderCheckbox() {
+				if (this.sortOrderValue) {
+					this.sortOrder = "desc";
 				}
 			},
 
 			async validate() {
+				console.log("validate");
 				if (await this.$refs.form.validate()) {
-					console.log("sortOrder: " + this.sortOrder);
+					// console.log("VALIDATE: " + this.$refs.form);
+
 					this.$router.push({
 						name: "beats",
-						query: { name: this.beatNameFilter },
-					});
+						query: {
+							sortBy: this.sortBy,
+							sortOrder: this.sortOrder,
+							searchString: this.searchString,
+						},
+					})
+          this.$router.go()
+          .catch(error => {
+            if (error.name != "NavigationDuplicated") {
+              throw error;
+            }
+          });
+
+
 
 					// this.$refs.form.reset();
 				} else {
@@ -246,6 +309,7 @@
 				auth.closeSession();
 				this.$store.commit("setUser", {});
 				this.$router.push({ name: "login" });
+				this.vuexCleanCart();
 				console.log("Logout --> Close sesion, clean states & localStorage");
 			},
 
@@ -349,4 +413,20 @@
 		color: red !important;
 		background-color: #0fc900 !important;
 	}
+
+	.v-list-item:hover {
+		background-color: #98d2ff !important;
+		color: white !important;
+	}
+
+	/*
+	.v-list-item--active {
+		background-color: #4bff3e !important;
+		color: white !important;
+	}
+
+	.v-list-item--highlighted {
+		background-color: #0F7DD1 !important;
+		color: white !important;
+	} */
 </style>

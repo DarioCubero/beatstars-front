@@ -25,13 +25,13 @@
 	import BeatCard from "@/components/BeatCardComponent.vue";
 	import Api from "@/services/api";
 	import moment from "moment";
-  
+
 	export default {
 		data() {
 			return {
 				beatNameFilter: "",
 				beats: [],
-        cart: [],
+				cart: [],
 			};
 		},
 
@@ -43,7 +43,7 @@
 			checkComprado(idBeat) {
 				for (var i = 0; i < this.$store.state.cart.length; i++) {
 					if (this.$store.state.cart[i].id === idBeat) {
-           return true;
+						return true;
 					}
 				}
 			},
@@ -51,6 +51,7 @@
 			dateTime(value) {
 				return moment(value).format("YYYY-MM-DD");
 			},
+
 			premium(check) {
 				return check ? "Premium" : "Estándar";
 			},
@@ -59,17 +60,22 @@
 		async created() {
 			// beforeMount, watch, beforeCreate
 			//TODO: Pending filtrado por QUERY PARAM
-			let nameParam = this.$route.query.name;
-      console.log(nameParam);
-			if (nameParam) {
-				console.log("getBeatsByName...  " + nameParam);
-				this.beats = await Api.getBeats(nameParam);
-				console.log(this.beats);
+			let sortBy = this.$route.query.sortBy;
+			let sortOrder = this.$route.query.sortOrder;
+			let searchString = this.$route.query.searchString;
+			console.log(
+				"sortBy: " + sortBy,
+				"sortOrder: " + sortOrder,
+				"searchString: " + searchString
+			);
+			if (sortBy || sortOrder || searchString) {
+				console.log("sort - beats");
+				this.beats = await Api.getBeats(sortBy, sortOrder, searchString);
 				// allBeats.filter(o =>
 				//     Object.keys(o).some(k => o[Type].toLowerCase().includes(nameParam.toLowerCase())));
 			} else {
+				console.log("full - beats");
 				this.beats = await Api.getBeats();
-				console.info("getBeats...");
 			}
 		},
 

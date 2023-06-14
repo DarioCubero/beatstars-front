@@ -27,16 +27,38 @@ export default {
 			});
 	},
 
-	async getBeats() {
+	async getBeats(sortBy, sortOrder, searchString) {
 		console.log(`getBeats ${BEAT_URL}`);
 		return axios
-			.get(`${BEAT_URL}`)
+			.get(`${BEAT_URL}`, {
+				params: {
+					sortBy: sortBy,
+					sortOrder: sortOrder,
+					searchString: searchString,
+				},
+			})
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data);
 				return null;
 			});
 	},
+	// async getBeats(sortBy, sortOrder, searchString) {
+	// 	console.log(`getBeats ${BEAT_URL}`);
+	// 	return axios
+	// 		.get(`${BEAT_URL}`, {
+	// 			params: {
+	// 				sortBy: sortBy,
+	// 				sortOrder: sortOrder,
+	// 				searchString: searchString,
+	// 			},
+	// 		})
+	// 		.then((response) => response.data)
+	// 		.catch(function (error) {
+	// 			console.log("Error response: ", error.response.data);
+	// 			return null;
+	// 		});
+	// },
 
 	async deleteBeat(_idBeat) {
 		console.log(`deleteBeat ${BEAT_URL}/${_idBeat}`);
@@ -72,8 +94,8 @@ export default {
 			});
 	},
 
-	//TODO: Pending filtrado por QUERY PARAM
-	// async getBeatsByName(beatName){//pending hacer el filtrado por query param
+	// TODO: Pending filtrado por QUERY PARAM
+	// async getFilteredBeats(beatName){//pending hacer el filtrado por query param
 	//   return axiosa
 	//     .get(`${BASE_URL}/beatsFilter`, {params: {'beatName':beatName}})
 	//     .then((response) => response.data)
@@ -93,6 +115,7 @@ export default {
 				return null;
 			});
 	},
+
 	async getPedidoBeats(_idPedido) {
 		return axios
 			.get(`${ORDER_URL}/${_idPedido}/beats`)
@@ -126,14 +149,16 @@ export default {
 
 	async createOrder(data) {
 		console.log(`createOrder ${ORDER_URL}`);
-		return axios
-			// .post(`${ORDER_URL}`, { params: { _IdBeatList: idBeatList, _IdUser : idUser }}, orderEntity) //_IdBeatList ?? _IdUser ??
-			.post(`${ORDER_URL}`, data) 
-			.then((response) => response.data)
-			.catch(function (error) {
-				console.log("Error response: ", error.response.data); // ***
-				return null;
-			});
+		return (
+			axios
+				// .post(`${ORDER_URL}`, { params: { _IdBeatList: idBeatList, _IdUser : idUser }}, orderEntity) //_IdBeatList ?? _IdUser ??
+				.post(`${ORDER_URL}`, data)
+				.then((response) => response.data)
+				.catch(function (error) {
+					console.log("Error response: ", error.response.data); // ***
+					return null;
+				})
+		);
 	},
 
 	//User
