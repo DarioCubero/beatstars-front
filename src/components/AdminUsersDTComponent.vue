@@ -223,7 +223,9 @@
 			sortOrderCheckbox() {
 				if (this.sortOrderValue) {
 					this.sortOrder = "desc";
-				}
+				}else{
+         this.sortOrder = null;
+        }
 			},
 
 			async validate() {
