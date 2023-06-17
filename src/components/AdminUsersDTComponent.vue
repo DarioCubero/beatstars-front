@@ -11,6 +11,98 @@
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
 
+				<!-- left email search form -->
+				<v-form ref="form" @submit.prevent="validate" novalidate="true">
+					<v-row>
+						<!-- Buscador -->
+						<v-col
+							style="
+								min-width: 50px !important;
+								max-width: 300px !important;
+								max-height: 150px !important;
+							"
+							cols="12"
+							lg="5"
+							md="5"
+							sm="5">
+							<v-card
+								color="white"
+								class="rounded-card pa-2"
+								min-width="200px"
+								max-width="3  00px">
+								<v-row no-gutters>
+									<!-- lupa -->
+									<v-col btn cols="12" lg="1" md="1" sm="1">
+										<a v-on:click="validate">
+											<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
+										</a>
+									</v-col>
+									<!-- buscador -->
+									<v-col cols="12" lg="11" md="11" sm="11">
+										<v-text-field
+											@keydown.enter.prevent="validate"
+											v-model="searchString"
+											label="Buscar por Email"
+											max-height="6"
+											max-width="10"
+											single-line
+											color="black"
+											class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
+											hide-details="auto"
+											clearable
+											placeholder="Email del Usuario..."></v-text-field>
+									</v-col>
+								</v-row>
+							</v-card>
+						</v-col>
+
+						<!-- sort-->
+						<v-col cols="12" lg="3" md="3" sm="3" class="ml-3" >
+							<!-- DESCENDENTE -->
+							<v-row
+								style="
+									min-width: 500px !important;
+									max-width: 300px !important;
+									max-height: 20px;
+								">
+								<div>
+									<v-simple-checkbox
+										color="green"
+										@click="sortOrderCheckbox()"
+										v-model="sortOrderValue"></v-simple-checkbox>
+								</div>
+								<div>
+									<span class="white--text"
+										><v-icon>mdi-sort-descending mdi-light</v-icon>DESC
+									</span>
+								</div>
+							</v-row>
+
+							<!-- ORDENAR POR -->
+							<v-row
+								style="
+									min-width: 150px !important;
+									max-width: 300px !important;
+									max-height: 10px;
+								">
+								<v-col cols="12" lg="12" md="12" sm="12" style="padding-left: 0px;">
+									<v-select
+										dark
+										color="#0F7DD1"
+										v-model="sortBy"
+										:items="items"
+										item-text="item"
+										item-value="item"
+										label="Ordenar por:"
+										single-line>
+										<!--  :rules="[rules.required]" -->
+									</v-select>
+								</v-col>
+							</v-row>
+						</v-col>
+					</v-row>
+				</v-form>
+
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
@@ -60,6 +152,12 @@
 			dialog: false,
 			dialogDelete: false,
 			itemsPerPage: 5,
+			// search
+			sortBy: null,
+			sortOrderValue: false,
+			sortOrder: null,
+			searchString: "",
+			items: [{ item: "Email" }],
 			headers: [
 				{
 					text: "ID",
@@ -99,10 +197,15 @@
 
 		async beforeCreate() {
 			this.users = await Api.getUsers();
-			console.log(this.users);
-
 			if (this.users) {
-				await this.users.forEach(async (x) => {
+				this.formatCustomUsers(this.users);
+			}
+		},
+
+		methods: {
+			async formatCustomUsers(list) {
+				this.usersCustom = [];
+				await list.forEach(async (x) => {
 					// DTO USER OBJECT
 					let obj = {};
 					obj["id"] = x.id;
@@ -113,10 +216,34 @@
 					obj["dateCreated"] = this.dateTime(x.dateCreated);
 					this.usersCustom.push(obj);
 				});
-			}
-		},
+			},
 
-		methods: {
+			sortOrderCheckbox() {
+				if (this.sortOrderValue) {
+					this.sortOrder = "desc";
+				}
+			},
+
+			async validate() {
+				let sortBy = this.sortBy;
+				let sortOrder = this.sortOrder;
+				let searchString = this.searchString;
+				console.log(
+					"sortBy: " + sortBy,
+					"sortOrder: " + sortOrder,
+					"searchString: " + searchString
+				);
+				if (sortBy || sortOrder || searchString) {
+					console.log("sort - beats");
+					this.formatCustomUsers(
+						await Api.getUsers(sortBy, sortOrder, searchString)
+					);
+				} else {
+					console.log("full - beats");
+					this.usersCustom = await Api.getUsers();
+				}
+			},
+
 			userDetails(userId) {
 				this.$router.push({ name: "admin-user", params: { id: userId } });
 			},

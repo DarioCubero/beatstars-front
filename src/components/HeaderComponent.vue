@@ -14,7 +14,7 @@
 								"></v-img>
 						</router-link>
 
-						<!-- left form -->
+						<!-- left search form -->
 						<v-form ref="form" @submit.prevent="validate">
 							<v-row
 								style="
@@ -86,6 +86,8 @@
 											</span>
 										</div>
 									</v-row>
+
+                  
 									<!-- sortBy -->
 									<v-row
 										style="
@@ -114,7 +116,7 @@
 						<!-- spacer -->
 						<v-spacer></v-spacer>
 
-						<!-- right toolbar -->
+						<!-- right menu toolbar -->
 						<v-toolbar-items class="hidden-sm-and-down" color="transparent">
 							<v-btn
 								v-for="item in menu"
@@ -282,8 +284,6 @@
               throw error;
             }
           });
-
-
 
 					// this.$refs.form.reset();
 				} else {

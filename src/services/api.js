@@ -172,20 +172,28 @@ export default {
 			});
 	},
 
-	async updateUser(_idUser, userEntity) {
-		console.log(`updateUser ${USER_URL}/${_idUser}`);
+	//getUsers
+	async getUsers(sortBy, sortOrder, searchString) {
+		console.log(`getUsers ${USER_URL}`);
 		return axios
-			.put(`${USER_URL}/${_idUser}`, userEntity)
+			.get(`${USER_URL}`, {
+				params: {
+					sortBy: sortBy,
+					sortOrder: sortOrder,
+					searchString: searchString,
+				},
+			})
 			.then((response) => response.data)
 			.catch(function (error) {
-				console.log("Error response: ", error.response.data); // ***
+				console.log("Error response: ", error.response.data);
 				return null;
 			});
 	},
 
-	async getUsers() {
+	async updateUser(_idUser, userEntity) {
+		console.log(`updateUser ${USER_URL}/${_idUser}`);
 		return axios
-			.get(`${USER_URL}`)
+			.put(`${USER_URL}/${_idUser}`, userEntity)
 			.then((response) => response.data)
 			.catch(function (error) {
 				console.log("Error response: ", error.response.data); // ***
