@@ -169,6 +169,7 @@
 				{ text: "Cartera(€)", value: "cartera" },
 				{ text: "Rol", value: "rol" },
 				{ text: "Fecha registro", value: "dateCreated" },
+				{ text: "Activo", value: "activo" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
 			users: [],
@@ -214,6 +215,7 @@
 					obj["cartera"] = x.cartera;
 					obj["rol"] = x.rol;
 					obj["dateCreated"] = this.dateTime(x.dateCreated);
+					obj["activo"] = x.activo;
 					this.usersCustom.push(obj);
 				});
 			},

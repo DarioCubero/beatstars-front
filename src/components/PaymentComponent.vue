@@ -134,7 +134,8 @@
 
 		methods: {
 			...mapActions(["vuexCleanCart"]),
-
+			...mapActions(["vuexSetUser"]),
+      
 			validate() {
 				if (this.$refs.form.validate()) {
 					console.log(JSON.stringify(this.order));
@@ -147,6 +148,12 @@
 
 						this.order.metodoPago = this.metodoPago(this.order.metodoPago);
 						api.createOrder(this.order);
+
+            // descontar el dinero al usuario
+					console.log("Actualizando State User tras el Update.");
+          this.user.cartera = this.user.cartera - this.order.total;
+					this.vuexSetUser(this.user);
+          api.updateUser(this.$store.state.user.id, this.user);
 
 						this.reset()
 						this.vuexCleanCart();
