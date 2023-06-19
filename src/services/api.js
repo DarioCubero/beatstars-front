@@ -1,7 +1,8 @@
 // Librería JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7209/api/";
+const BASE_URL = "https://localhost:6948/api/";
+// const BASE_URL = "http://+:8001/api/";
 
 // Single
 const USER_URL = BASE_URL + "user";
