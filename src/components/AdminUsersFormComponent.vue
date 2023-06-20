@@ -48,32 +48,34 @@
 				<v-col cols="12" md="6">
 					<v-text-field
 						dark
-						readonly
 						label="Password"
 						v-model="user.password"
 						outlined
-						prepend-inner-icon="mdi-key"
-						@click:append="showBoolPassword = !showBoolPassword"
-						:append-icon="
-							showBoolPassword ? 'mdi-eye mdi-light' : 'mdi-eye-off mdi-light'
-						"
-						:type="showBoolPassword ? 'text' : 'password'" />
-				</v-col>
-				<v-col cols="12" md="6">
-					<v-text-field
-						dark
-						label="New Password"
-						v-model="newPassword"
-						outlined
-						prepend-inner-icon="mdi-key-arrow-right"
+						prepend-inner-icon="mdi-account-arrow-left-outline"
 						hint="At least 6 characters"
 						counter="20"
 						@click:append="showBoolPassword = !showBoolPassword"
 						:append-icon="
 							showBoolPassword ? 'mdi-eye mdi-light' : 'mdi-eye-off mdi-light'
 						"
-						:type="showBoolPassword ? 'text' : 'password'"
-						:rules="[rules.required]" />
+						:type="showBoolPassword ? 'text' : 'password'" />
+				</v-col>
+
+				<v-col cols="12" md="6">
+					<v-text-field
+						dark
+						label="Password Verify"
+						v-model="passwordVerify"
+						outlined
+						prepend-inner-icon="mdi-cellphone"
+						hint="At least 6 characters"
+						counter="20"
+						@click:append="showBoolPassword2 = !showBoolPassword2"
+						:append-icon="
+							showBoolPassword2 ? 'mdi-eye mdi-light' : 'mdi-eye-off mdi-light'
+						"
+						:type="showBoolPassword2 ? 'text' : 'password'"
+						:rules="[rules.required, passwordMatch]" />
 				</v-col>
 			</v-row>
 
@@ -129,8 +131,7 @@
 							outlined
 							v-model="user.activo"
 							label="Activo"
-							color="#FFD700"
-							></v-switch>
+							color="#FFD700"></v-switch>
 					</v-card>
 				</v-col>
 			</v-row>
@@ -166,7 +167,9 @@
 		data: () => ({
 			idUserLocal: auth.getLocalStorage("userId"),
 			newPassword: "",
+      passwordVerify: "",
 			showBoolPassword: "",
+      showBoolPassword2: "",
 			user: {},
 			valid: false,
 			formLoading: false,
@@ -209,8 +212,15 @@
 
 		async created() {
 			this.user = await api.getUser(this.$route.params.id);
-      this.newPassword = this.user.password;
+			this.newPassword = this.user.password;
 			this.dateUserFormat = this.dateTime(this.user.dateCreated);
+		},
+
+		computed: {
+			passwordMatch() {
+				return () =>
+					this.user.password === this.passwordVerify || "Password must match";
+			},
 		},
 
 		methods: {
@@ -223,9 +233,9 @@
 			validate() {
 				if (this.$refs.form.validate()) {
 					this.formLoading = true;
-          this.user.password = this.newPassword;
+					this.user.password = this.newPassword;
 					console.log(JSON.stringify(this.user));
-          
+
 					api.updateUser(this.$store.state.user.id, this.user);
 
 					console.log("Actualizando State User tras el Update.");
@@ -234,7 +244,6 @@
 					setTimeout(() => {
 						this.formLoading = false;
 					}, 2000);
-
 				}
 			},
 

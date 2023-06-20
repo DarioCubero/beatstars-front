@@ -1,18 +1,17 @@
 // Librería JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP
 import axios from "axios";
 
-const BASE_URL = "https://localhost:6948/api/";
-// const BASE_URL = "http://+:8001/api/";
+// const BASE_URL = "https://beatstars.azurewebsites.net;
+// const BASE_URL = "https://localhost:7209";
+const BASE_URL =  "https://localhost:6948"
+// const BASE_URL = "http://+:8001;
 
+// process.env.API_URL
 // Single
-const USER_URL = BASE_URL + "user";
-const ORDER_URL = BASE_URL + "pedido";
-const BEAT_URL = BASE_URL + "beat";
+const USER_URL = BASE_URL + "/api/user";
+const ORDER_URL = BASE_URL + "/api/pedido";
+const BEAT_URL = BASE_URL + "/api/beat";
 
-// List
-// const USER_URL = BASE_URL + "users";
-// const BEAT_URL = BASE_URL + "beats";
-// const ORDER_URL = BASE_URL + "pedidos";
 
 // const GET_USER_PEDIDOS = BASE_URL + "users";
 

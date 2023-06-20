@@ -18,8 +18,24 @@ npm install
 
 ### Compiles and hot-reloads for development
 
+### ENV VARS 
+
+npm install dotenv --save
+
+_ENV VARS_
+BASE_URL=XXX
+
+_MODES_
+Development
+.env
 ```
-npm run serve
+npm run serve --mode develop
+```
+
+Azure
+.env.azure
+```
+npm run serve --mode azure
 ```
 
 ### Compiles and minifies for production

@@ -1,14 +1,16 @@
 // Librería JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP
-import axios from "axios";
+import axios from "axios"
 
-const BASE_URL = "https://localhost:6948/api/auth/";
-// const BASE_URL = "http://+:8001/api/auth/";
+// const API_URL = "https://beatstars.azurewebsites.net/api/auth/";
+// const API_URL = "https://localhost:7209/api/auth/";
+// const API_URL = "http://+:8001/api/auth/";
+const API_URL = "https://localhost:6948";
 
-const USER_LOGIN = BASE_URL + "login";
-const REGISTER_URL = BASE_URL + "register";
+// process.env.API_URL
+const USER_LOGIN = API_URL + "/api/auth/login";
+const REGISTER_URL = API_URL + "/api/auth/register";
 
 export default {
-
   async postLogin(userForLogin) {
     return axios
       .post(`${USER_LOGIN}`, userForLogin)

@@ -143,15 +143,15 @@
                     block
                     v-model="registerPasswordVerify"
                     :append-icon="
-                      showBoolPasswordRegister ? 'mdi-eye' : 'mdi-eye-off'
+                      showBoolPasswordRegister2 ? 'mdi-eye' : 'mdi-eye-off'
                     "
                     :rules="[rules.required, passwordMatch]"
-                    :type="showBoolPasswordRegister ? 'text' : 'password'"
+                    :type="showBoolPasswordRegister2 ? 'text' : 'password'"
                     name="registerPasswordVerifyName"
                     label="Confirm Password"
                     counter="20"
                     @click:append="
-                      showBoolPasswordRegister = !showBoolPasswordRegister
+                      showBoolPasswordRegister2 = !showBoolPasswordRegister2
                     "
                   ></v-text-field>
                 </v-col>
@@ -194,6 +194,7 @@ export default {
 
     showBoolPasswordLogin: "",
     showBoolPasswordRegister: "",
+    showBoolPasswordRegister2: "",
     // tab: 0,
     tabs: [
       { name: "Login", icon: "mdi-account" },

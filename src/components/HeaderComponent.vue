@@ -87,7 +87,6 @@
 										</div>
 									</v-row>
 
-                  
 									<!-- sortBy -->
 									<v-row
 										style="
@@ -132,7 +131,7 @@
 							</v-btn>
 
 							<v-btn
-								style="color: #0fc900 !important"
+								id="btnAdmin"
 								v-if="$store.state.user.rol === 'admin'"
 								to="/admin">
 								Admin
@@ -262,9 +261,9 @@
 			sortOrderCheckbox() {
 				if (this.sortOrderValue) {
 					this.sortOrder = "desc";
-				}else{
-         this.sortOrder = null;
-        }
+				} else {
+					this.sortOrder = null;
+				}
 			},
 
 			async validate() {
@@ -279,13 +278,12 @@
 							sortOrder: this.sortOrder,
 							searchString: this.searchString,
 						},
-					})
-          this.$router.go()
-          .catch(error => {
-            if (error.name != "NavigationDuplicated") {
-              throw error;
-            }
-          });
+					});
+					this.$router.go().catch((error) => {
+						if (error.name != "NavigationDuplicated") {
+							throw error;
+						}
+					});
 
 					// this.$refs.form.reset();
 				} else {
@@ -333,6 +331,15 @@
 	/* .v-toolbar__items > a:active{
   background-color: green !important;
 } */
+
+	#btnAdmin {
+		color: #0fc900 !important;
+	}
+	#btnAdmin:hover {
+		background-color: white !important;
+		color: black !important;
+	}
+
 	.v-form {
 		width: 100%;
 	}
@@ -360,8 +367,10 @@
 	.btnHeader:hover {
 		/* hover botones menu */
 		border-radius: 50px;
-		color: white;
-		background-color: #0f7dd1 !important;
+		color: rgb(255, 255, 255) !important;
+		font-weight: bold;
+		background-color: #12800a !important;
+    transition: 0.3s;
 	}
 
 	.v-btn--active {
