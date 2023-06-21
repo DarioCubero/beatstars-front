@@ -4,12 +4,12 @@ import axios from "axios"
 let API_URL = "";
 if (process.env.VUE_APP_MODE.toUpperCase() == "DEV") {
 	API_URL = process.env.VUE_APP_API_URL_DEV;
-}
-if (process.env.VUE_APP_MODE.toUpperCase() == "COMPOSE") {
+}else if (process.env.VUE_APP_MODE.toUpperCase() == "COMPOSE") {
 	API_URL = process.env.VUE_APP_API_URL_COMPOSE;
-}
-if (process.env.VUE_APP_MODE.toUpperCase() == "AZURE") {
+}else if(process.env.VUE_APP_MODE.toUpperCase() == "AZURE") {
 	API_URL = process.env.VUE_APP_API_URL_AZURE;
+}else{
+  API_URL = process.env.VUE_APP_API_URL_DEV;
 }
 
 const USER_LOGIN = API_URL + "/api/auth/login";
