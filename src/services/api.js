@@ -1,19 +1,20 @@
 // Librería JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP
 import axios from "axios";
 
-// const BASE_URL = "https://beatstars.azurewebsites.net;
-// const BASE_URL = "https://localhost:7209";
-const BASE_URL =  "https://localhost:6948"
-// const BASE_URL = "http://+:8001;
+let API_URL = "";
+if (process.env.VUE_APP_MODE.toUpperCase() == "DEV") {
+	API_URL = process.env.VUE_APP_API_URL_DEV;
+}
+if (process.env.VUE_APP_MODE.toUpperCase() == "COMPOSE") {
+	API_URL = process.env.VUE_APP_API_URL_COMPOSE;
+}
+if (process.env.VUE_APP_MODE.toUpperCase() == "AZURE") {
+	API_URL = process.env.VUE_APP_API_URL_AZURE;
+}
 
-// process.env.API_URL
-// Single
-const USER_URL = BASE_URL + "/api/user";
-const ORDER_URL = BASE_URL + "/api/pedido";
-const BEAT_URL = BASE_URL + "/api/beat";
-
-
-// const GET_USER_PEDIDOS = BASE_URL + "users";
+const USER_URL = API_URL + "/api/user";
+const ORDER_URL = API_URL + "/api/pedido";
+const BEAT_URL = API_URL + "/api/beat";
 
 export default {
 	// Beat
@@ -43,22 +44,6 @@ export default {
 				return null;
 			});
 	},
-	// async getBeats(sortBy, sortOrder, searchString) {
-	// 	console.log(`getBeats ${BEAT_URL}`);
-	// 	return axios
-	// 		.get(`${BEAT_URL}`, {
-	// 			params: {
-	// 				sortBy: sortBy,
-	// 				sortOrder: sortOrder,
-	// 				searchString: searchString,
-	// 			},
-	// 		})
-	// 		.then((response) => response.data)
-	// 		.catch(function (error) {
-	// 			console.log("Error response: ", error.response.data);
-	// 			return null;
-	// 		});
-	// },
 
 	async deleteBeat(_idBeat) {
 		console.log(`deleteBeat ${BEAT_URL}/${_idBeat}`);
@@ -93,17 +78,6 @@ export default {
 				return null;
 			});
 	},
-
-	// TODO: Pending filtrado por QUERY PARAM
-	// async getFilteredBeats(beatName){//pending hacer el filtrado por query param
-	//   return axiosa
-	//     .get(`${BASE_URL}/beatsFilter`, {params: {'beatName':beatName}})
-	//     .then((response) => response.data)
-	//     .catch(function (error) {
-	//       console.log("Error response: ", error.response.data); // ***
-	//       return null;
-	//     });
-	// },
 
 	//Pedido
 	async getPedido(_idPedido) {

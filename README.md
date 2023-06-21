@@ -29,7 +29,13 @@ _MODES_
 Development
 .env
 ```
-npm run serve --mode develop
+npm run serve
+```
+
+Docker
+.env
+```
+npm run serve --mode compose
 ```
 
 Azure
