@@ -11,7 +11,7 @@
 					</h1>
 				</v-row>
 
-        <MyBeatListComponent/>
+        <UserBeatsListComponent/>
       </v-container>
     </v-main>
      <Footer/>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import MyBeatListComponent from "@/components/UserBeatsListComponent.vue";
+import UserBeatsListComponent from "@/components/UserBeatsListComponent.vue";
 import Header from "@/components/HeaderComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 
@@ -28,7 +28,7 @@ export default {
   name: "mis-beats",
 
   components: {
-    MyBeatListComponent, Header, Footer
+    UserBeatsListComponent, Header, Footer
   },
 };
 </script>

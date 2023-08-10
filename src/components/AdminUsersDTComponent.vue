@@ -57,7 +57,7 @@
 						</v-col>
 
 						<!-- sort-->
-						<v-col cols="12" lg="3" md="3" sm="3" class="ml-3" >
+						<v-col cols="12" lg="3" md="3" sm="3" class="ml-3">
 							<!-- DESCENDENTE -->
 							<v-row
 								style="
@@ -85,7 +85,12 @@
 									max-width: 300px !important;
 									max-height: 10px;
 								">
-								<v-col cols="12" lg="12" md="12" sm="12" style="padding-left: 0px;">
+								<v-col
+									cols="12"
+									lg="12"
+									md="12"
+									sm="12"
+									style="padding-left: 0px">
 									<v-select
 										dark
 										color="#0F7DD1"
@@ -223,22 +228,22 @@
 			sortOrderCheckbox() {
 				if (this.sortOrderValue) {
 					this.sortOrder = "desc";
-				}else{
-         this.sortOrder = null;
-        }
+				} else {
+					this.sortOrder = null;
+				}
 			},
 
 			async validate() {
 				let sortBy = this.sortBy;
 				let sortOrder = this.sortOrder;
 				let searchString = this.searchString;
-				console.log(
-					"sortBy: " + sortBy,
-					"sortOrder: " + sortOrder,
-					"searchString: " + searchString
-				);
 				if (sortBy || sortOrder || searchString) {
 					console.log("sort - beats");
+					console.log(
+						"sortBy: " + sortBy,
+						"sortOrder: " + sortOrder,
+						"searchString: " + searchString
+					);
 					this.formatCustomUsers(
 						await Api.getUsers(sortBy, sortOrder, searchString)
 					);

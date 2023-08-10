@@ -15,7 +15,8 @@
 				:precio="beat.precio"
 				:premium="premium(beat.premium)"
 				:dateCreated="dateTime(beat.dateCreated)"
-				:comprado="checkComprado(beat.id)"
+				:selected="checkSelected(beat.id)"
+				:purchased="checkPurchased(beat.id)"
 				imageUrl="https://random.imagecdn.app/500/150" />
 		</v-col>
 	</v-row>
@@ -24,13 +25,16 @@
 <script>
 	import BeatCard from "@/components/BeatCardComponent.vue";
 	import Api from "@/services/api";
+	import auth from "@/services/auth";
 	import moment from "moment";
 
 	export default {
 		data() {
 			return {
+				idUserLocal: auth.getLocalStorage("userId"),
 				beatNameFilter: "",
 				beats: [],
+				myBeats: [],
 				cart: [],
 			};
 		},
@@ -40,10 +44,21 @@
 		},
 
 		methods: {
-			checkComprado(idBeat) {
-				for (var i = 0; i < this.$store.state.cart.length; i++) {
-					if (this.$store.state.cart[i].id === idBeat) {
+			checkSelected(idBeat) {
+				for (const b of this.$store.state.cart) {
+					if (b.id === idBeat) {
 						return true;
+					}
+				}
+			},
+
+			checkPurchased(idBeat) {
+				if (this.myBeats) {
+					for (const mb of this.myBeats) {
+						if (mb.id === idBeat) {
+              console.log(mb.nombre, " comprado");
+							return true;
+						}
 					}
 				}
 			},
@@ -57,12 +72,17 @@
 			},
 		},
 
+    
 		async created() {
+			//Comprobamos cuales han sido comprados por el usuario
+			this.myBeats = await Api.getUserBeats(this.idUserLocal);
+
 			// beforeMount, watch, beforeCreate
 			//TODO: Pending filtrado por QUERY PARAM
 			let sortBy = this.$route.query.sortBy;
 			let sortOrder = this.$route.query.sortOrder;
 			let searchString = this.$route.query.searchString;
+
 			console.log(
 				"sortBy: " + sortBy,
 				"sortOrder: " + sortOrder,

@@ -1,5 +1,10 @@
 <template>
-	<v-card class="mx-auto my-12" max-width="374">
+	<v-card class="mx-auto my-12" max-width="374" 
+  :disabled='purchased ? true : false' 
+  :class='purchased ? "green lighten-4" : "white"' 
+  :style='purchased ? "opacity: 0.25;" : "display: block"'
+  >
+
 		<v-img height="250" :src="imageUrl"></v-img>
 
 		<template slot="progress">
@@ -49,13 +54,13 @@
 						>
 					</v-col>
 
-					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="!comprado">
+					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="!selected">
 						<v-btn @click="addCart(id)" color="blue" size="x-large"
 							><v-icon>mdi-cart-plus mdi-light</v-icon></v-btn
 						>
 					</v-col>
 
-					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="comprado">
+					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="selected">
 						<v-btn
 							@click="deleteCart(id)"
 							ref="id+'delete'"
@@ -65,7 +70,7 @@
 						>
 					</v-col>
 				</v-row>
-				<!-- <v-btn @click="checkComprado()" color="red" size="x-large"
+				<!-- <v-btn @click="checkSelected()" color="red" size="x-large"
 					><v-icon>mdi-cart-house mdi-light</v-icon></v-btn
 				> -->
 			</v-card-text>
@@ -91,7 +96,8 @@
 			dateCreated: String,
 			imageUrl: String,
 			myBeats: Boolean,
-			comprado: Boolean,
+			selected: Boolean,
+      purchased: Boolean,
 		},
 
 		methods: {
@@ -111,10 +117,6 @@
 				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
 
-			created() {
-				alert(this.comprado);
-			},
-
 			addCart(beatId) {
 				this.vuexAddBeatToCart(beatId);
 				this.show = false;
@@ -125,8 +127,8 @@
 				this.vuexDeleteBeatFromCart(beatId);
 			},
 
-			checkComprado() {
-				console.log(this.comprado);
+			checkSelected() {
+				console.log(this.selected);
 			},
 		},
 	};
