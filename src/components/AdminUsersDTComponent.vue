@@ -114,17 +114,65 @@
 							>Are you sure you want to delete
 							{{
 								" with ID " +
-								userDelete["id"] +
+								itemSelected["id"] +
 								" and Name " +
-								userDelete["name"]
+								itemSelected["name"]
 							}}?</v-card-title
 						>
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" text @click="closeDelete"
+							<v-btn color="blue darken-1" text @click="closeDialog"
 								>Cancel</v-btn
 							>
 							<v-btn color="blue darken-1" text @click="deleteItemConfirm()"
+								>OK</v-btn
+							>
+							<v-spacer></v-spacer>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<v-dialog v-model="dialogReactivate" max-width="500px">
+					<v-card>
+						<v-card-title class="text-h5"
+							>Are you sure you want to reactivate
+							{{
+								" with ID " +
+								itemSelected["id"] +
+								" and Name " +
+								itemSelected["name"]
+							}}?</v-card-title
+						>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="blue darken-1" text @click="closeDialog"
+								>Cancel</v-btn
+							>
+							<v-btn color="blue darken-1" text @click="reactivateItemConfirm()"
+								>OK</v-btn
+							>
+							<v-spacer></v-spacer>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<v-dialog v-model="dialogDeactivate" max-width="500px">
+					<v-card>
+						<v-card-title class="text-h5"
+							>Are you sure you want to deactivate
+							{{
+								" with ID " +
+								itemSelected["id"] +
+								" and Name " +
+								itemSelected["name"]
+							}}?</v-card-title
+						>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="blue darken-1" text @click="closeDialog"
+								>Cancel</v-btn
+							>
+							<v-btn color="blue darken-1" text @click="deactivateItemConfirm()"
 								>OK</v-btn
 							>
 							<v-spacer></v-spacer>
@@ -142,6 +190,15 @@
 			<v-icon @click="editItem(item)" class="me-2">
 				mdi-pencil mdi-light
 			</v-icon>
+
+			<v-icon v-if="item.activo && item.nombreCuenta !='admin'"  @click="deactivateItem(item)" class="me-2">
+				mdi-account-cancel-outline mdi-light
+			</v-icon>
+
+			<v-icon v-if="!item.activo && item.nombreCuenta !='admin'" @click="reactivateItem(item)" class="me-2">
+				mdi-account-reactivate mdi-light
+			</v-icon>
+
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
@@ -156,6 +213,8 @@
 		data: () => ({
 			dialog: false,
 			dialogDelete: false,
+			dialogReactivate: false,
+			dialogDeactivate: false,
 			itemsPerPage: 5,
 			// search
 			sortBy: null,
@@ -179,7 +238,7 @@
 			],
 			users: [],
 			usersCustom: [],
-			userDelete: { id: "", userName: "" },
+			itemSelected: { id: "", userName: "" },
 			editedIndex: -1,
 		}),
 
@@ -194,7 +253,7 @@
 				val || this.close();
 			},
 			dialogDelete(val) {
-				val || this.closeDelete();
+				val || this.closeDialog();
 			},
 			$route(to, from) {
 				alert(to, from);
@@ -265,43 +324,65 @@
 				return moment(value).format("YYYY-MM-DD");
 			},
 
+			deactivateItem(item) {
+				this.editedIndex = this.usersCustom.indexOf(item);
+				this.itemSelected = { id: item.id, name: item.nombreCuenta };
+				this.dialogDeactivate = true;
+			},
+
+			reactivateItem(item) {
+				this.editedIndex = this.usersCustom.indexOf(item);
+				this.itemSelected = { id: item.id, name: item.nombreCuenta };
+
+				this.dialogReactivate = true;
+			},
+
 			deleteItem(item) {
-				this.editedIndex = this.beatsCustom.indexOf(item);
-				this.beatDelete = { id: item.id, name: item.nombre };
+				this.editedIndex = this.usersCustom.indexOf(item);
+				this.itemSelected = { id: item.id, name: item.nombreCuenta };
 				this.dialogDelete = true;
 			},
 
 			deleteItemConfirm() {
 				console.log("deleteItemConfirm");
-				this.beatsCustom.splice(this.editedIndex, 1);
-				Api.deleteBeat(this.beatDelete["id"]);
-				this.closeDelete();
-			},
+				this.usersCustom.splice(this.editedIndex, 1);
+				Api.deleteUser(this.itemSelected["id"]); //lo borra de la BBDD
 
-			close() {
-				this.dialog = false;
 				this.$nextTick(() => {
 					this.editedItem = Object.assign({}, this.defaultItem);
 					this.editedIndex = -1;
 				});
+				this.closeDialog();
 			},
 
-			closeDelete() {
+			reactivateItemConfirm() {
+				console.log("reactivateItemConfirm");
+
+				let userFind = this.users.find((u) => u.id === this.itemSelected.id);
+        userFind.activo = true;
+
+				Api.updateUser(userFind.id, userFind);
+				console.log("Reactivado el usuario con nombre: " + userFind.nombreCuenta);
+
+				this.closeDialog();
+			},
+
+			deactivateItemConfirm() {
+				console.log("deactivateItemConfirm");
+
+				let userFind = this.users.find((u) => u.id === this.itemSelected.id);
+        userFind.activo = false;
+
+				Api.updateUser(userFind.id, userFind);
+				console.log("Desactivado el usuario con nombre: " + userFind.nombreCuenta);
+
+				this.closeDialog();
+			},
+
+			closeDialog() {
 				this.dialogDelete = false;
-				this.$nextTick(() => {
-					this.editedItem = Object.assign({}, this.defaultItem);
-					this.editedIndex = -1;
-				});
-			},
-
-			save() {
-				console.log("save");
-				// if (this.editedIndex > -1) {
-				//   Object.assign(this.desserts[this.editedIndex], this.editedItem)
-				// } else {
-				//   this.desserts.push(this.editedItem)
-				// }
-				this.close();
+				this.dialogReactivate = false;
+				this.dialogDeactivate = false;
 			},
 		},
 	};

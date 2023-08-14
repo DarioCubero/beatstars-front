@@ -96,11 +96,29 @@
 					<v-btn color="white" outlined @click="validate"> Actualizar </v-btn>
 				</v-col>
 				<v-col cols="2">
-					<v-btn color="#0F7DD1" @click="deleteUser">
-						<v-icon>mdi-delete mdi-light</v-icon>
+					<v-btn color="#0F7DD1" @click="deactivateUser">
+						<v-icon>mdi-delete mdi-light mdi-light</v-icon>
 					</v-btn>
 				</v-col>
 			</v-row>
+
+			<v-dialog v-model="dialogDeactivate" max-width="500px">
+				<v-card>
+					<v-card-title class="text-h5"
+						>Are you sure you want to deactivate your account?
+					</v-card-title>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="blue darken-1" text @click="closeDialog"
+							>Cancel</v-btn
+						>
+						<v-btn color="blue darken-1" text @click="deactivateUserConfirm()"
+							>OK</v-btn
+						>
+						<v-spacer></v-spacer>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
 		</v-form>
 	</v-sheet>
 </template>
@@ -116,6 +134,7 @@
 			typeAlert: String,
 		},
 		data: () => ({
+			dialogDeactivate: false,
 			idUserLocal: auth.getLocalStorage("userId"),
 			passwordVerify: "",
 			showBoolPassword: "",
@@ -176,10 +195,20 @@
 					// Alert........
 				}
 			},
-			deleteUser() {
+
+			deactivateUser() {
+				this.dialogDeactivate = true;
+			},
+
+			deactivateUserConfirm() {
 				this.formLoading = true;
-				api.deleteUser(this.idUserLocal);
-				console.log("Ha sido borrado el usuario con ID: " + this.idUserLocal);
+				this.user.activo = false;
+				api.updateUser(this.$store.state.user.id, this.user);
+				console.log("Actualizando State User tras el Update.");
+				this.vuexSetUser(this.user);
+
+				console.log("Dado de baja el usuario con ID: " + this.user.name);
+
 				auth.closeSession();
 				this.$store.commit("setUser", {});
 
@@ -187,8 +216,7 @@
 					this.$router.push({ name: "login" });
 					this.formLoading = false;
 				}, 2000);
-
-				// Alert........
+				// Alert pending
 			},
 
 			reset() {
@@ -197,6 +225,11 @@
 			resetValidation() {
 				this.$refs.form.resetValidation();
 			},
+
+			closeDialog() {
+				this.dialogDeactivate = false;
+			},
+
 			// darkMode() {
 			//   this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
 			// },
