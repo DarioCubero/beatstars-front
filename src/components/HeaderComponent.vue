@@ -99,7 +99,7 @@
 												dark
 												color="#0F7DD1"
 												v-model="sortBy"
-												:items="items"
+												:items="sortByList"
 												item-text="item"
 												item-value="item"
 												label="Ordenar por:"
@@ -117,6 +117,32 @@
 
 						<!-- right menu toolbar -->
 						<v-toolbar-items class="hidden-sm-and-down" color="transparent">
+							<!-- BTN home -->
+							<v-btn to="/home"> Home </v-btn>
+
+							<!-- BTN menu beats -->
+							<v-menu offset-y open-on-hover transition="slide-y-transition">
+								<template v-slot:activator="{ on, attrs }">
+									<v-btn
+										color="primary"
+										dark
+										v-bind="attrs"
+										v-on="on"
+										to="beats">
+										Beats
+									</v-btn>
+								</template>
+
+								<v-list>
+									<v-list-item
+										v-for="(item, index) in menuBeatList"
+										:key="index"
+										:to="item.url">
+										<v-list-item-title>{{ item.title }}</v-list-item-title>
+									</v-list-item>
+								</v-list>
+							</v-menu>
+
 							<v-btn
 								v-for="item in menu"
 								:prepend-icon="item.icon ? item.icon : null"
@@ -137,6 +163,20 @@
 								Admin
 							</v-btn>
 							<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
+
+
+							<v-select
+								v-model="select"
+								:hint="`${select.state}, ${select.abbr}`"
+								:items="menuMultilanguage"
+								item-text="state"
+								item-value="abbr"
+								label="Select"
+								persistent-hint
+								return-object
+								single-line>
+							</v-select>
+              <v-icon class="pl-3">mdi-translate mdi-light</v-icon>
 						</v-toolbar-items>
 
 						<!-- menu hamburguesa hide/show -->
@@ -173,7 +213,27 @@
 				sortOrderValue: false,
 				sortOrder: null,
 				searchString: "",
-				items: [
+				menuBeatList: [
+					{
+						title: "Mis Beats",
+						url: "/mis-beats",
+						claseColor: "none",
+					},
+					{
+						title: "Subir Beat",
+						url: "/subir-beat",
+						claseColor: "none",
+					},
+				],
+				select: { state: "Florida", abbr: "FL" },
+				menuMultilanguage: [
+					{ state: "Florida", abbr: "FL" },
+					{ state: "Georgia", abbr: "GA" },
+					{ state: "Nebraska", abbr: "NE" },
+					{ state: "California", abbr: "CA" },
+					{ state: "New York", abbr: "NY" },
+				],
+				sortByList: [
 					// { item: "Nombre" },
 					// { item: "Premium" },
 					// { item: "TypeBeat" },
@@ -185,28 +245,8 @@
 				cartCount: this.$store.state.cart.length,
 				menu: [
 					{
-						title: "Home",
-						url: "/home",
-						claseColor: "none",
-					},
-					{
-						title: "Beats",
-						url: "/beats",
-						claseColor: "none",
-					},
-					{
-						title: "Mis Beats",
-						url: "/mis-beats",
-						claseColor: "none",
-					},
-					{
 						title: "Pedidos",
 						url: "/pedidos",
-						claseColor: "none",
-					},
-					{
-						title: "Subir Beat",
-						url: "/subir-beat",
 						claseColor: "none",
 					},
 					{
@@ -221,18 +261,6 @@
 							"background-color: #0FC900 !important; color: black !important; font-weight: bold !important",
 						icon: "mdi-cart mdi-dark",
 					},
-					// {
-					//   title: "Registrarse",
-					//   url: "/registro",
-					// },
-					// {
-					//   title: "Iniciar sesión",
-					//   url: "/login",
-					// },
-					// {
-					//   title: "Logout",
-					//   url: "/logout",
-					// },
 				],
 				// rules: {
 				// 	required: (value) => !!value,
@@ -347,6 +375,10 @@
 		background-color: #222222 !important;
 	}
 
+	.theme--dark.v-btn.v-btn--has-bg {
+		background-color: none !important;
+	}
+
 	.v-toolbar__items a.v-btn,
 	.btnHeader {
 		/* botones menu */
@@ -359,10 +391,6 @@
 		box-shadow: none;
 	}
 
-	.theme--dark.v-btn.v-btn--has-bg {
-		background-color: none !important;
-	}
-
 	.v-toolbar__items a.v-btn.v-btn--is-elevated:hover,
 	.btnHeader:hover {
 		/* hover botones menu */
@@ -370,7 +398,15 @@
 		color: rgb(255, 255, 255) !important;
 		font-weight: bold;
 		background-color: #12800a !important;
-    transition: 0.3s;
+		transition: 0.3s;
+	}
+
+	.v-toolbar__items {
+		padding: 27px;
+	}
+
+	.v-toolbar__content {
+		padding: 0px !important;
 	}
 
 	.v-btn--active {
@@ -384,14 +420,6 @@
 
 	.logo-home {
 		max-width: 7rem !important;
-	}
-
-	.v-toolbar__items {
-		padding: 27px;
-	}
-
-	.v-toolbar__content {
-		padding: 0px !important;
 	}
 
 	.custom-label-color .v-label {
