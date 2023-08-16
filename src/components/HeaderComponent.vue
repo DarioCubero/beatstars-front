@@ -162,21 +162,23 @@
 								to="/admin">
 								Admin
 							</v-btn>
-							<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
-
 
 							<v-select
+								dark
+								min-width="400px"
+								prepend-icon="mdi-translate mdi-light"
 								v-model="select"
-								:hint="`${select.state}, ${select.abbr}`"
 								:items="menuMultilanguage"
-								item-text="state"
+								item-text="language"
 								item-value="abbr"
 								label="Select"
-								persistent-hint
 								return-object
-								single-line>
+                solo
+                hide-details="true"
+                >
 							</v-select>
-              <v-icon class="pl-3">mdi-translate mdi-light</v-icon>
+
+							<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
 						</v-toolbar-items>
 
 						<!-- menu hamburguesa hide/show -->
@@ -225,13 +227,10 @@
 						claseColor: "none",
 					},
 				],
-				select: { state: "Florida", abbr: "FL" },
+				select: { language: "Español", abbr: "ES" },
 				menuMultilanguage: [
-					{ state: "Florida", abbr: "FL" },
-					{ state: "Georgia", abbr: "GA" },
-					{ state: "Nebraska", abbr: "NE" },
-					{ state: "California", abbr: "CA" },
-					{ state: "New York", abbr: "NY" },
+					{ language: "English", abbr: "EN" },
+					{ language: "Español", abbr: "ES" },
 				],
 				sortByList: [
 					// { item: "Nombre" },
@@ -359,6 +358,10 @@
 	/* .v-toolbar__items > a:active{
   background-color: green !important;
 } */
+
+	.v-select {
+		min-width: 170px !important;
+	}
 
 	#btnAdmin {
 		color: #0fc900 !important;
