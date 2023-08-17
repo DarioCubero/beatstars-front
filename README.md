@@ -87,6 +87,10 @@ vue add vuex
 ```
 
 ```vue
+vue add i18n
+```
+
+```vue
 npm i moment
 ```
 

@@ -1,0 +1,23 @@
+{
+  "cabeceraNavegador": {
+    "home": "Home",
+    "beats": {
+      "beats": "Beats",
+      "misBeats": "Mis Beats",
+      "subirBeat": "Subir Beat"
+    },
+    "pedidos": "Pedidos",
+    "perfil": "Mi perfil",
+    "carrito": "Carrito",
+    "admin": "Admin",
+    "desconectar": "Desconectar"
+  },
+  "cabeceraBuscador": {
+    "etiquetaBuscador": "¿Buscas un Beat?",
+    "placeholderBuscador": "Nombre del Beat",
+    "ordenarPor": {
+      "ordenarPor": "Ordenar por",
+      "precio": "Precio"
+    }
+  }
+}

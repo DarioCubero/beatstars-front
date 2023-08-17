@@ -51,7 +51,7 @@
 												<v-text-field
 													@keydown.enter.prevent="validate"
 													v-model="searchString"
-													label="¿Buscas un Beat?"
+													:label="$t('cabeceraBuscador.etiquetaBuscador')"
 													max-height="6"
 													max-width="10"
 													single-line
@@ -59,7 +59,10 @@
 													class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
 													hide-details="auto"
 													clearable
-													placeholder="Nombre del Beat..."></v-text-field>
+													:placeholder="
+														$t('cabeceraBuscador.placeholderBuscador')
+													">
+												</v-text-field>
 											</v-col>
 										</v-row>
 									</v-card>
@@ -100,9 +103,9 @@
 												color="#0F7DD1"
 												v-model="sortBy"
 												:items="sortByList"
-												item-text="item"
-												item-value="item"
-												label="Ordenar por:"
+												:label="$t('cabeceraBuscador.ordenarPor.ordenarPor')"
+                        :item-text="$t('cabeceraBuscador.ordenarPor.precio')"
+                        item-value="$t({item})"
 												single-line>
 												<!--  :rules="[rules.required]" -->
 											</v-select>
@@ -118,7 +121,7 @@
 						<!-- right menu toolbar -->
 						<v-toolbar-items class="hidden-sm-and-down" color="transparent">
 							<!-- BTN home -->
-							<v-btn to="/home"> Home </v-btn>
+							<v-btn to="/home"> {{ $t("cabeceraNavegador.home") }} </v-btn>
 
 							<!-- BTN menu beats -->
 							<v-menu offset-y open-on-hover transition="slide-y-transition">
@@ -129,7 +132,7 @@
 										v-bind="attrs"
 										v-on="on"
 										to="beats">
-										Beats
+										{{ $t("cabeceraNavegador.beats.beats") }}
 									</v-btn>
 								</template>
 
@@ -138,7 +141,7 @@
 										v-for="(item, index) in menuBeatList"
 										:key="index"
 										:to="item.url">
-										<v-list-item-title>{{ item.title }}</v-list-item-title>
+										<v-list-item-title>{{ $t(item.title) }}</v-list-item-title>
 									</v-list-item>
 								</v-list>
 							</v-menu>
@@ -149,8 +152,8 @@
 								:style="item.claseColor ? item.claseColor : null"
 								:key="item.icon ? item.claseColor : null"
 								:to="item.url">
-								<v-icon left v-if="item.icon"> {{ item.icon }} </v-icon
-								>{{ item.title }}
+								<v-icon left v-if="item.icon"> {{ item.icon }} </v-icon>
+								{{ $t(item.title) }}
 								<span v-if="item.title == 'Carrito' && cartCount !== 0">
 									{{ "(" + cartCount + ")" }}
 								</span>
@@ -160,7 +163,7 @@
 								id="btnAdmin"
 								v-if="$store.state.user.rol === 'admin'"
 								to="/admin">
-								Admin
+								{{ $t("cabeceraNavegador.admin") }}
 							</v-btn>
 
 							<v-select
@@ -173,12 +176,27 @@
 								item-value="abbr"
 								label="Select"
 								return-object
+								solo
+								hide-details="true">
+							</v-select>
+							<!-- <v-select
+								dark
+								min-width="400px"
+								prepend-icon="mdi-translate mdi-light"
+								v-model="select"
+								:items="menuMultilanguage"
+								item-text="language"
+								item-value="abbr"
+								label="Select"
+								return-object
                 solo
                 hide-details="true"
                 >
-							</v-select>
+							</v-select> -->
 
-							<v-btn class="btnHeader" @click="logoutClick"> Logout </v-btn>
+							<v-btn class="btnHeader" @click="logoutClick">
+								{{ $t("cabeceraNavegador.desconectar") }}
+							</v-btn>
 						</v-toolbar-items>
 
 						<!-- menu hamburguesa hide/show -->
@@ -206,6 +224,7 @@
 <script>
 	import auth from "@/services/auth";
 	import { mapActions } from "vuex";
+	// import i18n from "../i18n";
 	// import api from "@/services/api";
 
 	export default {
@@ -217,26 +236,26 @@
 				searchString: "",
 				menuBeatList: [
 					{
-						title: "Mis Beats",
+						title: "cabeceraNavegador.beats.misBeats",
 						url: "/mis-beats",
 						claseColor: "none",
 					},
 					{
-						title: "Subir Beat",
+						title: "cabeceraNavegador.beats.subirBeat",
 						url: "/subir-beat",
 						claseColor: "none",
 					},
 				],
-				select: { language: "Español", abbr: "ES" },
+				select: this.$i18n.locale,
 				menuMultilanguage: [
-					{ language: "English", abbr: "EN" },
-					{ language: "Español", abbr: "ES" },
+					{ language: "English", abbr: "en" },
+					{ language: "Español", abbr: "es" },
 				],
 				sortByList: [
 					// { item: "Nombre" },
 					// { item: "Premium" },
 					// { item: "TypeBeat" },
-					{ item: "Precio" },
+					{ item: "cabeceraBuscador.ordenarPor.precio" },
 					// { item: "Fecha" },
 				],
 				checkAdmin: false,
@@ -244,17 +263,17 @@
 				cartCount: this.$store.state.cart.length,
 				menu: [
 					{
-						title: "Pedidos",
+						title: "cabeceraNavegador.pedidos",
 						url: "/pedidos",
 						claseColor: "none",
 					},
 					{
-						title: "Mi Perfil",
+						title: "cabeceraNavegador.perfil",
 						url: "/perfil",
 						claseColor: "none",
 					},
 					{
-						title: "Carrito",
+						title: "cabeceraNavegador.carrito",
 						url: "/carrito",
 						claseColor:
 							"background-color: #0FC900 !important; color: black !important; font-weight: bold !important",
@@ -274,7 +293,6 @@
 		// 		}
 		// 	});
 		// },
-
 		created() {
 			if (!auth.getLocalStorage("userId")) {
 				console.info("Acceso restringido. Debes logearte primero.");
@@ -283,8 +301,16 @@
 			}
 		},
 
+		watch: {
+			select: function (val) {
+				this.$i18n.locale = val.abbr;
+				console.log(this.$i18n.locale);
+			},
+		},
+
 		methods: {
 			...mapActions(["vuexCleanCart"]),
+
 			sortOrderCheckbox() {
 				if (this.sortOrderValue) {
 					this.sortOrder = "desc";
@@ -360,6 +386,7 @@
 } */
 
 	.v-select {
+		margin-left: 5px !important;
 		min-width: 170px !important;
 	}
 
