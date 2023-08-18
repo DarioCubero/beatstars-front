@@ -97,6 +97,8 @@
 											max-width: 300px !important;
 											max-height: 50px;
 										">
+										<!--         :item-text="$t('cabeceraBuscador.ordenarPor.precio')"
+                        :item-value="$t({item})" -->
 										<v-col cols="12" lg="12" md="12" sm="12">
 											<v-select
 												dark
@@ -104,10 +106,15 @@
 												v-model="sortBy"
 												:items="sortByList"
 												:label="$t('cabeceraBuscador.ordenarPor.ordenarPor')"
-                        :item-text="$t('cabeceraBuscador.ordenarPor.precio')"
-                        item-value="$t({item})"
+												item-value="name"
+												item-text="name"
 												single-line>
-												<!--  :rules="[rules.required]" -->
+												<template v-slot:item="{ item }">
+													{{ $t(getText(item.name)) }}
+												</template>
+												<template v-slot:selection="{ item }">
+													{{ $t(getText(item.name)) }}
+												</template>
 											</v-select>
 										</v-col>
 									</v-row>
@@ -165,11 +172,10 @@
 								to="/admin">
 								{{ $t("cabeceraNavegador.admin") }}
 							</v-btn>
-
 							<v-select
 								dark
 								min-width="400px"
-								prepend-icon="mdi-translate mdi-light"
+								append-icon="mdi-translate mdi-light"
 								v-model="select"
 								:items="menuMultilanguage"
 								item-text="language"
@@ -179,20 +185,6 @@
 								solo
 								hide-details="true">
 							</v-select>
-							<!-- <v-select
-								dark
-								min-width="400px"
-								prepend-icon="mdi-translate mdi-light"
-								v-model="select"
-								:items="menuMultilanguage"
-								item-text="language"
-								item-value="abbr"
-								label="Select"
-								return-object
-                solo
-                hide-details="true"
-                >
-							</v-select> -->
 
 							<v-btn class="btnHeader" @click="logoutClick">
 								{{ $t("cabeceraNavegador.desconectar") }}
@@ -251,12 +243,16 @@
 					{ language: "English", abbr: "en" },
 					{ language: "Español", abbr: "es" },
 				],
+
 				sortByList: [
-					// { item: "Nombre" },
-					// { item: "Premium" },
-					// { item: "TypeBeat" },
-					{ item: "cabeceraBuscador.ordenarPor.precio" },
-					// { item: "Fecha" },
+					// { id: 1, name: this.$t("cabeceraBuscador.ordenarPor.precio") },
+					// { id: 2, name: this.$t("cabeceraBuscador.ordenarPor.nombre") },
+					{ id: 1, name: "cabeceraBuscador.ordenarPor.precio" },
+					// { id: 2, name: "cabeceraBuscador.ordenarPor.nombre" },
+					// "Premium",
+					// "TypeBeat",
+					// "cabeceraBuscador.ordenarPor.precio",
+					// "Fecha",
 				],
 				checkAdmin: false,
 				drawer: false,
@@ -286,13 +282,13 @@
 			};
 		},
 
-		// async beforeCreate() {
-		// 	window.addEventListener("keyup", function (ev) {
-		// 		if (ev.key == "Enter") {
-		// 			this.$refs.form.submit.click();
-		// 		}
-		// 	});
-		// },
+		async beforeCreate() {
+			window.addEventListener("keyup", function (ev) {
+				if (ev.key == "Enter") {
+					this.$refs.form.submit.click();
+				}
+			});
+		},
 		created() {
 			if (!auth.getLocalStorage("userId")) {
 				console.info("Acceso restringido. Debes logearte primero.");
@@ -310,6 +306,11 @@
 
 		methods: {
 			...mapActions(["vuexCleanCart"]),
+
+			getText(item) {
+				console.log(this.$t(item));
+				return this.$t(item);
+			},
 
 			sortOrderCheckbox() {
 				if (this.sortOrderValue) {
@@ -387,7 +388,8 @@
 
 	.v-select {
 		margin-left: 5px !important;
-		min-width: 170px !important;
+		min-width: 130px !important;
+		max-width: 170px !important;
 	}
 
 	#btnAdmin {

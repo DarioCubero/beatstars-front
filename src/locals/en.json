@@ -17,7 +17,8 @@
     "placeholderBuscador": "Name of the Beat",
     "ordenarPor": {
       "ordenarPor": "Order by",
-      "precio": "Price"
+      "precio": "Price",
+      "nombre": "Name"
     }
   }
 }
