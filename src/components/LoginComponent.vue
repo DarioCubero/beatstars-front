@@ -16,7 +16,7 @@
         :key="i"
       >
         <v-icon large>{{ item.icon }}</v-icon>
-        <div class="caption py-1">{{ item.name }}</div>
+        <div class="caption py-1" style="font-size:20px !important">{{ item.name }}</div>
       </v-tab>
 
       <!-- LOGIN -->
@@ -283,6 +283,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .v-tabs-slider-wrapper {
   height: 5px !important;
 }

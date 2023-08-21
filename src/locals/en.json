@@ -10,7 +10,7 @@
     "perfil": "My profile",
     "carrito": "Cart",
     "admin": "Admin",
-    "desconectar": "Disconnect"
+    "desconectar": "Logout"
   },
   "cabeceraBuscador": {
     "etiquetaBuscador": "Looking for a Beat?",

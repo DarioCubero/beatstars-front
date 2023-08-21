@@ -10,7 +10,15 @@ export default new Vuex.Store({
 	state: {
 		user: {},
 		cart: [],
+		appLanguage:
+			localStorage.getItem("appLanguage") ||
+			process.env.VUE_APP_I18N_LOCALE ||
+			"es",
 		// isLogged: false,
+	},
+
+	getters: {
+		getAppLanguage: (state) => state.appLanguage,
 	},
 
 	plugins: [createPersistedState()],
@@ -26,6 +34,11 @@ export default new Vuex.Store({
 
 		setCart(state, value) {
 			state.cart = value;
+		},
+
+		setAppLanguage(state, language) {
+			state.appLanguage = language;
+      localStorage.setItem("appLanguage", language); // Whenever we change the appLanguage we save it to the localStorage
 		},
 
 		// isLogged(state) {
@@ -51,10 +64,18 @@ export default new Vuex.Store({
 			commit("setUser", user);
 		},
 
+		async vuexSetLanguage({ commit }, language) {
+			console.log("vuexSetLanguage - Lenguaje cambiado: " + language);
+      localStorage.setItem("appLanguage", language); // Whenever we change the appLanguage we save it to the localStorage
+			commit("setAppLanguage", language);
+		},
+
 		async vuexAddBeatToCart({ commit }, idBeat) {
 			let beat = await ServicesApi.getBeat(idBeat);
 			if (!this.state.cart.some((x) => x.id === idBeat)) {
-				console.log("vuexAddBeatToCart- Beat '" + beat.nombre + "' añadido a la cesta");
+				console.log(
+					"vuexAddBeatToCart- Beat '" + beat.nombre + "' añadido a la cesta"
+				);
 				commit("pushCart", beat);
 			} else {
 				console.log("El Beat '" + beat.nombre + "' ya fue añadido a la cesta.");
@@ -62,9 +83,13 @@ export default new Vuex.Store({
 		},
 
 		async vuexDeleteBeatFromCart({ commit }, idBeat) {
-			for (let  i = 0; i < this.state.cart.length; i++) {
+			for (let i = 0; i < this.state.cart.length; i++) {
 				if (this.state.cart[i].id === idBeat) {
-					console.log("vuexDeleteBeatFromCart - Borrado de '" + this.state.cart[i].nombre + "'");
+					console.log(
+						"vuexDeleteBeatFromCart - Borrado de '" +
+							this.state.cart[i].nombre +
+							"'"
+					);
 					this.state.cart.splice(i, 1);
 				}
 			}
@@ -72,7 +97,7 @@ export default new Vuex.Store({
 		},
 
 		async vuexCleanCart({ commit }) {
-      console.log("vuexCleanCart - Carrito vaciado");
+			console.log("vuexCleanCart - Carrito vaciado");
 			this.state.cart = [];
 			commit("setCart", this.state.cart);
 		},

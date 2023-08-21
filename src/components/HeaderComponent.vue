@@ -110,10 +110,10 @@
 												item-text="name"
 												single-line>
 												<template v-slot:item="{ item }">
-													{{ $t(getText(item.name)) }}
+													{{ getText(item.name) }}
 												</template>
 												<template v-slot:selection="{ item }">
-													{{ $t(getText(item.name)) }}
+													{{ getText(item.name) }}
 												</template>
 											</v-select>
 										</v-col>
@@ -176,14 +176,23 @@
 								dark
 								min-width="400px"
 								append-icon="mdi-translate mdi-light"
-								v-model="select"
+								v-model="selectedLang"
 								:items="menuMultilanguage"
-								item-text="language"
+								item-text="name"
 								item-value="abbr"
-								label="Select"
+								label=""
 								return-object
 								solo
 								hide-details="true">
+								<template v-slot:selection="{ item }">
+									<img width="20" :src="item.image" />
+								</template>
+
+								<template v-slot:item="{ item }">
+									<img width="20" :src="item.image" /><span class="ml-1">{{
+										item.name
+									}}</span>
+								</template>
 							</v-select>
 
 							<v-btn class="btnHeader" @click="logoutClick">
@@ -222,6 +231,7 @@
 	export default {
 		data() {
 			return {
+				jeje: localStorage.getItem("appLanguage"),
 				sortBy: null,
 				sortOrderValue: false,
 				sortOrder: null,
@@ -238,10 +248,18 @@
 						claseColor: "none",
 					},
 				],
-				select: this.$i18n.locale,
+				selectedLang: this.$i18n.locale,
 				menuMultilanguage: [
-					{ language: "English", abbr: "en" },
-					{ language: "Español", abbr: "es" },
+					{
+						name: "English",
+						abbr: "en",
+						image: require("../assets/images/flags/en.svg"),
+					},
+					{
+						name: "Español",
+						abbr: "es",
+						image: require("../assets/images/flags/es.svg"),
+					}
 				],
 
 				sortByList: [
@@ -282,6 +300,14 @@
 			};
 		},
 
+		// computed: {
+		// 	menuMultilanguageComputed() {
+		// 		return this.menuMultilanguage.filter(
+		// 			(i) => i.abbr !== this.selectedLang.abbr
+		// 		);
+		// 	},
+		// },
+
 		async beforeCreate() {
 			window.addEventListener("keyup", function (ev) {
 				if (ev.key == "Enter") {
@@ -289,6 +315,7 @@
 				}
 			});
 		},
+
 		created() {
 			if (!auth.getLocalStorage("userId")) {
 				console.info("Acceso restringido. Debes logearte primero.");
@@ -298,9 +325,10 @@
 		},
 
 		watch: {
-			select: function (val) {
+			selectedLang: function (val) {
+				this.$store.commit("setAppLanguage", val.abbr);
 				this.$i18n.locale = val.abbr;
-				console.log(this.$i18n.locale);
+				console.log("i18n locale: " + this.$i18n.locale);
 			},
 		},
 
@@ -308,7 +336,6 @@
 			...mapActions(["vuexCleanCart"]),
 
 			getText(item) {
-				console.log(this.$t(item));
 				return this.$t(item);
 			},
 
@@ -385,11 +412,15 @@
 	/* .v-toolbar__items > a:active{
   background-color: green !important;
 } */
+	.v-list-item {
+		font-size: 17px !important;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
 
 	.v-select {
 		margin-left: 5px !important;
-		min-width: 130px !important;
-		max-width: 170px !important;
+    /* min-width: 200px; */
 	}
 
 	#btnAdmin {
