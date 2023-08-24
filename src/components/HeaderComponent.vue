@@ -153,16 +153,26 @@
 								</v-list>
 							</v-menu>
 
+							<v-btn v-if="this.$store.state.isLogged" to="/pedidos">
+								{{ $t("cabeceraNavegador.pedidos") }}
+							</v-btn>
+
+							<v-btn v-if="this.$store.state.isLogged" to="/perfil">
+								{{ $t("cabeceraNavegador.perfil") }}
+							</v-btn>
+
 							<v-btn
-								v-for="item in menu"
-								:prepend-icon="item.icon ? item.icon : null"
-								:style="item.claseColor ? item.claseColor : null"
-								:key="item.icon ? item.claseColor : null"
-								:to="item.url">
-								<v-icon left v-if="item.icon"> {{ item.icon }} </v-icon>
-								{{ $t(item.title) }}
-								<span v-if="item.title == 'Carrito' && cartCount !== 0">
-									{{ "(" + cartCount + ")" }}
+								style="
+									background-color: #0fc900 !important;
+									color: black !important;
+									font-weight: bold !important;
+								"
+								to="/carrito">
+								<v-icon left> mdi-cart mdi-dark </v-icon>
+								{{ $t("cabeceraNavegador.carrito") }}
+								{{ this.$store.state.isLogged }}
+								<span v-if="this.$store.state.cart.length !== 0">
+									{{ "(" + this.$store.state.cart.length + ")" }}
 								</span>
 							</v-btn>
 
@@ -172,38 +182,47 @@
 								to="/admin">
 								{{ $t("cabeceraNavegador.admin") }}
 							</v-btn>
-							<v-select
-								dark
-								min-width="400px"
-								append-icon="mdi-translate mdi-light"
-								v-model="selectedLang"
-								:items="menuMultilanguage"
-								item-text="name"
-								item-value="abbr"
-								label=""
-								return-object
-								solo
-								hide-details="true">
-								<template v-slot:selection="{ item }">
-									<img width="20" :src="item.image" />
-								</template>
+							<div><!-- @mouseover="languageHover" -->
+								<v-select
+									dark
+									min-width="400px"
+									append-icon="mdi-translate mdi-light"
+									ref="selectedLang"
+									v-model="selectedLang"
+									:items="menuMultilanguage"
+									item-text="name"
+									item-value="abbr"
+									label=""
+									return-object
+									solo
+									hide-details="true">
+									<template v-slot:selection="{ item }">
+										<img width="20" :src="item.image" /> &nbsp;
+										{{ item.abbr.toUpperCase() }}
+									</template>
 
-								<template v-slot:item="{ item }">
-									<img width="20" :src="item.image" /><span class="ml-1">{{
-										item.name
-									}}</span>
-								</template>
-							</v-select>
+									<template v-slot:item="{ item }">
+										<img width="20" :src="item.image" /><span class="ml-1">{{
+											item.name
+										}}</span>
+									</template>
+								</v-select>
+							</div>
+							<v-btn class="btnHeader" to="/login">
+								<v-icon class="pr-1">mdi-login mdi-light</v-icon
+								>{{ $t("cabeceraNavegador.conectar") }}
+							</v-btn>
 
 							<v-btn class="btnHeader" @click="logoutClick">
-								{{ $t("cabeceraNavegador.desconectar") }}
+								<v-icon class="pr-1">mdi-reply-outline mdi-light</v-icon
+								>{{ $t("cabeceraNavegador.desconectar") }}
 							</v-btn>
 						</v-toolbar-items>
 
 						<!-- menu hamburguesa hide/show -->
 						<v-app-bar-nav-icon
 							variant="text"
-							class="hidden-lg-and-up"
+							class="hidden-lg-and-up pr-9"
 							@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 					</v-app-bar>
 					<!-- END appbar -->
@@ -224,14 +243,13 @@
 
 <script>
 	import auth from "@/services/auth";
-	import { mapActions } from "vuex";
+	import { mapActions } from "vuex"; //mapState
 	// import i18n from "../i18n";
 	// import api from "@/services/api";
 
 	export default {
 		data() {
 			return {
-				jeje: localStorage.getItem("appLanguage"),
 				sortBy: null,
 				sortOrderValue: false,
 				sortOrder: null,
@@ -259,54 +277,21 @@
 						name: "Español",
 						abbr: "es",
 						image: require("../assets/images/flags/es.svg"),
-					}
+					},
 				],
 
 				sortByList: [
-					// { id: 1, name: this.$t("cabeceraBuscador.ordenarPor.precio") },
-					// { id: 2, name: this.$t("cabeceraBuscador.ordenarPor.nombre") },
 					{ id: 1, name: "cabeceraBuscador.ordenarPor.precio" },
-					// { id: 2, name: "cabeceraBuscador.ordenarPor.nombre" },
-					// "Premium",
-					// "TypeBeat",
-					// "cabeceraBuscador.ordenarPor.precio",
+					// { id: 2, name: this.$t("cabeceraBuscador.ordenarPor.nombre") },
 					// "Fecha",
 				],
 				checkAdmin: false,
 				drawer: false,
-				cartCount: this.$store.state.cart.length,
-				menu: [
-					{
-						title: "cabeceraNavegador.pedidos",
-						url: "/pedidos",
-						claseColor: "none",
-					},
-					{
-						title: "cabeceraNavegador.perfil",
-						url: "/perfil",
-						claseColor: "none",
-					},
-					{
-						title: "cabeceraNavegador.carrito",
-						url: "/carrito",
-						claseColor:
-							"background-color: #0FC900 !important; color: black !important; font-weight: bold !important",
-						icon: "mdi-cart mdi-dark",
-					},
-				],
 				// rules: {
 				// 	required: (value) => !!value,
 				// },
 			};
 		},
-
-		// computed: {
-		// 	menuMultilanguageComputed() {
-		// 		return this.menuMultilanguage.filter(
-		// 			(i) => i.abbr !== this.selectedLang.abbr
-		// 		);
-		// 	},
-		// },
 
 		async beforeCreate() {
 			window.addEventListener("keyup", function (ev) {
@@ -317,11 +302,11 @@
 		},
 
 		created() {
-			if (!auth.getLocalStorage("userId")) {
-				console.info("Acceso restringido. Debes logearte primero.");
-				this.$router.push({ name: "login" });
-				// this.$store.commit("setUser", {});
-			}
+			// if (!auth.getLocalStorage("userId")) {
+			// 	console.info("Acceso restringido. Debes logearte primero.");
+			// 	this.$router.push({ name: "login" });
+			// 	// this.$store.commit("setUser", {});
+			// }
 		},
 
 		watch: {
@@ -334,6 +319,12 @@
 
 		methods: {
 			...mapActions(["vuexCleanCart"]),
+			...mapActions(["vuexIsLogged"]),
+
+			// languageHover() {
+      //   console.log('??');
+			// 	this.$refs.selectedLang.click=true;
+			// },
 
 			getText(item) {
 				return this.$t(item);
@@ -374,34 +365,19 @@
 				}
 			},
 
-			// checkUserLogged() {
-			//   console.log("checkUserLogged()...");
-			//   let id = auth.getLocalStorage("userId");
-			//   if (id == null) {
-			//     alert("null");
-			//     this.$router.push({ name: "login" });
-			//     this.$store.commit("setUser", {});
-			//   } else {
-			//     this.vuexGetUser(id);
-			//   }
-			// },
-
 			logoutClick() {
 				auth.closeSession();
 				this.$store.commit("setUser", {});
-				this.$router.push({ name: "login" });
 				this.vuexCleanCart();
+				localStorage.removeItem("userId");
 				console.log("Logout --> Close sesion, clean states & localStorage");
+				this.vuexIsLogged(false);
+				if (this.$route.name !== "home") this.$router.push({ name: "home" });
 			},
 
 			// onClickOutside() {
 			//   //Limpiamos el error del required en el searchBeatByName
 			//   this.$refs.form.resetValidation();
-			// },
-
-			// async created() {
-			//   console.log("checkUserLogged()...");
-			//   this.checkUserLogged();
 			// },
 		},
 	};
@@ -420,7 +396,7 @@
 
 	.v-select {
 		margin-left: 5px !important;
-    /* min-width: 200px; */
+		min-width: 110px;
 	}
 
 	#btnAdmin {

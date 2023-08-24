@@ -10,22 +10,21 @@ export default new Vuex.Store({
 	state: {
 		user: {},
 		cart: [],
-		appLanguage:
-			localStorage.getItem("appLanguage") ||
-			process.env.VUE_APP_I18N_LOCALE ||
-			"es",
-		// isLogged: false,
+		appLanguage: "es" || process.env.VUE_APP_I18N_LOCALE || "es",
+		isLogged: false,
 	},
 
 	getters: {
 		getAppLanguage: (state) => state.appLanguage,
+		// getIsLogged: (state) => state.isLogged,
 	},
 
 	plugins: [createPersistedState()],
 
 	mutations: {
 		setUser(state, value) {
-			state.user = value;
+			console.log("vuex-SetUser");
+			this.state.user = value;
 		},
 
 		pushCart(state, beat) {
@@ -38,43 +37,32 @@ export default new Vuex.Store({
 
 		setAppLanguage(state, language) {
 			state.appLanguage = language;
-      localStorage.setItem("appLanguage", language); // Whenever we change the appLanguage we save it to the localStorage
 		},
 
-		// isLogged(state) {
-		//   if (Object.keys(state.user).length !== 0) {
-		//     state.isLogged = true;
-		//     console.log('vuexCheckUserLogged... TRUE');
-		//   } else {
-		//     console.log('vuexCheckUserLogged... FALSE');
-		//     state.isLogged = false;
-		//   }
-		// },
 	},
 
 	actions: {
+    vuexIsLogged( value ) {
+      console.log("WTF____" + value);
+			this.state.isLogged = value;
+		},
+
 		async vuexGetUser({ commit }, idUser) {
-			console.log("VuexGetUser - State User cargado.");
+			console.log("vuex-setUser - State User cargado.");
 			const user = await ServicesApi.getUser(idUser);
 			commit("setUser", user);
 		},
 
 		async vuexSetUser({ commit }, user) {
-			console.log("vuexSetUser - State User cargado.");
+			console.log("vuex-setUser - State User cargado.");
 			commit("setUser", user);
-		},
-
-		async vuexSetLanguage({ commit }, language) {
-			console.log("vuexSetLanguage - Lenguaje cambiado: " + language);
-      localStorage.setItem("appLanguage", language); // Whenever we change the appLanguage we save it to the localStorage
-			commit("setAppLanguage", language);
 		},
 
 		async vuexAddBeatToCart({ commit }, idBeat) {
 			let beat = await ServicesApi.getBeat(idBeat);
 			if (!this.state.cart.some((x) => x.id === idBeat)) {
 				console.log(
-					"vuexAddBeatToCart- Beat '" + beat.nombre + "' añadido a la cesta"
+					"vuex-addBeatToCart- Beat '" + beat.nombre + "' añadido a la cesta"
 				);
 				commit("pushCart", beat);
 			} else {
@@ -86,7 +74,7 @@ export default new Vuex.Store({
 			for (let i = 0; i < this.state.cart.length; i++) {
 				if (this.state.cart[i].id === idBeat) {
 					console.log(
-						"vuexDeleteBeatFromCart - Borrado de '" +
+						"vuex-deleteBeatFromCart - Borrado de '" +
 							this.state.cart[i].nombre +
 							"'"
 					);
@@ -97,19 +85,15 @@ export default new Vuex.Store({
 		},
 
 		async vuexCleanCart({ commit }) {
-			console.log("vuexCleanCart - Carrito vaciado");
+			console.log("vuex-cleanCart - Carrito vaciado");
 			this.state.cart = [];
 			commit("setCart", this.state.cart);
 		},
 
-		// async vuexCheckUserLogged({ commit }) {
-		//   commit("isLogged");
-		// },
+		async vuexSetLanguage({ commit }, language) {
+			console.log("vuex-setLanguage - Lenguaje cambiado: " + language);
+			localStorage.setItem("appLanguage", language); // Whenever we change the appLanguage we save it to the localStorage
+			commit("setAppLanguage", language);
+		},
 	},
-
-	// getters: {
-	//   isLoggedIn(state) {
-	//     return state.isLogged;
-	//   },
-	// },
 });

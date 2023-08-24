@@ -7,14 +7,15 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'login',
-    component: LoginView
-  },
-  {
     path: '/home',
+    alias: '/',
     name: 'home',
     component: () => import('../views/HomeView.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   },
   {
     path: '/beats',
