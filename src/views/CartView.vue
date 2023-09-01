@@ -19,17 +19,12 @@
 				<v-row class="justify-center">
 					<v-col cols="4" class="justify-center">
 						<!--  :disabled="!valid"  @click="validate"   -->
-
-					<v-btn
-						to="/payment" 
-						color="#0F7DD1" 
-						class="pa-6 ma-4 justify-center">
-						<h3 class="white--text">Tramitar pedido</h3>
-					</v-btn>
-
-						<!-- <v-btn to="/payment" color="primary" class="pa-6 ma-4 justify-center">
+						<v-btn
+							v-on:click="buy"
+							color="#0F7DD1"
+							class="pa-6 ma-4 justify-center">
 							<h3 class="white--text">Tramitar pedido</h3>
-						</v-btn> -->
+						</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -43,10 +38,10 @@
 	import Footer from "@/components/FooterComponent.vue";
 	import CartBeatsDT from "@/components/CartBeatsDTComponent.vue";
 
-	import api from "@/services/api";
+	import Api from "@/services/api";
 	import { mapActions } from "vuex";
 
-  // let currentDate = new Date();
+	// let currentDate = new Date();
 
 	export default {
 		name: "cart-view",
@@ -58,13 +53,21 @@
 		},
 
 		data: () => ({
-			order: [
-
-      ]
+			order: [],
 		}),
+
 
 		methods: {
 			...mapActions(["vuexGetUser"]),
+
+			buy() {
+				if (this.$store.state.isLogged) {
+					this.$router.push(`/payment`);
+				} else {
+					this.$store.commit("loginMenuChange", true); //abrimos login
+				}
+			},
+
 
 			validate() {
 				if (this.$refs.form.validate()) {
@@ -72,7 +75,7 @@
 					this.user.password = this.newPassword;
 					console.log(JSON.stringify(this.user));
 
-					api.updateUser(this.$store.state.user.id, this.user);
+					Api.updateUser(this.$store.state.user.id, this.user);
 
 					console.log("Actualizando State User tras el Update.");
 					this.vuexGetUser(this.$store.state.user.id);

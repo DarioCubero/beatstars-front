@@ -10,12 +10,13 @@ export default new Vuex.Store({
 	state: {
 		user: {},
 		cart: [],
+		actions: { loginMenu: false },
 		appLanguage: "es" || process.env.VUE_APP_I18N_LOCALE || "es",
 		isLogged: false,
 	},
 
 	getters: {
-		getAppLanguage: (state) => state.appLanguage,
+		// getAppLanguage: (state) => state.appLanguage,
 		// getIsLogged: (state) => state.isLogged,
 	},
 
@@ -39,14 +40,18 @@ export default new Vuex.Store({
 			state.appLanguage = language;
 		},
 
+		setIsLogged(state, value) {
+			console.log("setIsLogged..." + value);
+			state.isLogged = value;
+		},
+
+    loginMenuChange (state, value) {
+      state.actions.loginMenu = value;
+    }
+
 	},
 
 	actions: {
-    vuexIsLogged( value ) {
-      console.log("WTF____" + value);
-			this.state.isLogged = value;
-		},
-
 		async vuexGetUser({ commit }, idUser) {
 			console.log("vuex-setUser - State User cargado.");
 			const user = await ServicesApi.getUser(idUser);

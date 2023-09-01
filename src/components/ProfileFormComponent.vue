@@ -125,7 +125,7 @@
 
 <script>
 	import auth from "@/services/auth";
-	import api from "@/services/api";
+	import Api from "@/services/api";
 	import { mapActions } from "vuex";
 
 	export default {
@@ -183,7 +183,7 @@
 					this.formLoading = true;
 					console.log(JSON.stringify(this.user));
 
-					api.updateUser(this.$store.state.user.id, this.user);
+					Api.updateUser(this.$store.state.user.id, this.user);
 
 					console.log("Actualizando State User tras el Update.");
 					this.vuexSetUser(this.user);
@@ -203,7 +203,7 @@
 			deactivateUserConfirm() {
 				this.formLoading = true;
 				this.user.activo = false;
-				api.updateUser(this.$store.state.user.id, this.user);
+				Api.updateUser(this.$store.state.user.id, this.user);
 				console.log("Actualizando State User tras el Update.");
 				this.vuexSetUser(this.user);
 
@@ -244,7 +244,7 @@
 		async created() {
 			// beforeMount, watch, beforeCreate
 			// this.$vuetify.theme.dark = "dark";
-			this.user = await api.getUser(this.idUserLocal);
+			this.user = await Api.getUser(this.idUserLocal);
 			console.log("getUser: ", this.user);
 		},
 	};

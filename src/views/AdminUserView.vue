@@ -45,7 +45,7 @@
 	import AdminPedidos from "@/components/AdminOrdersDTComponent.vue";
 	import AdminUsers from "@/components/AdminUsersDTComponent.vue";
 
-	import api from "@/services/api";
+	import Api from "@/services/api";
 
 	export default {
 		name: "admin-user",
@@ -67,7 +67,7 @@
 		},
 
 		async created() {
-			this.user = await api.getUser(this.$route.params.id);
+			this.user = await Api.getUser(this.$route.params.id);
 		},
 
 		methods: {

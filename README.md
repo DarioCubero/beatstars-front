@@ -9,6 +9,7 @@ Primary:
 Secundary :
 - Azul: #0F7DD1
 - Rosa: #C00BD4
+- Gris: #222222
 
 ## Project setup
 

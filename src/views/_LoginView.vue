@@ -8,7 +8,7 @@
             :message="alertObject.message"
             :type="alertObject.type"
           />
-          <LoginComponent @sendAlert="getAlert" />
+          <LoginComponent @sendAlert="getAlert" @loginDialog="loginDialog" />
         </v-col>
       </v-row>
     </v-container>
@@ -24,6 +24,7 @@ export default {
 
   data() {
     return {
+      loginDialog: false,
       alertObject: {
         status: false, // The alert get value (false => hide. True => show).
         message: "",
@@ -39,7 +40,6 @@ export default {
   },
 
   methods: {
-    
     async getAlert(alertReceive) {
       this.alertObject.status = alertReceive.status;
       this.alertObject.type = alertReceive.type;

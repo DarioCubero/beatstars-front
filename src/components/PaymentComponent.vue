@@ -79,7 +79,7 @@
 
 <script>
 	import auth from "@/services/auth";
-	import api from "@/services/api";
+	import Api from "@/services/api";
 	import { mapActions } from "vuex";
 
 	let currentDate = new Date();
@@ -125,7 +125,7 @@
 			}
 
 			this.idUserLocal = auth.getLocalStorage("userId");
-			this.user = await api.getUser(this.idUserLocal);
+			this.user = await Api.getUser(this.idUserLocal);
 			this.order.correoUsuario = this.user.email;
 			this.order.IdUser = this.user.id;
 
@@ -147,13 +147,13 @@
 						}, 2000);
 
 						this.order.metodoPago = this.metodoPago(this.order.metodoPago);
-						api.createOrder(this.order);
+						Api.createOrder(this.order);
 
             // descontar el dinero al usuario
 					console.log("Actualizando State User tras el Update.");
           this.user.cartera = this.user.cartera - this.order.total;
 					this.vuexSetUser(this.user);
-          api.updateUser(this.$store.state.user.id, this.user);
+          Api.updateUser(this.$store.state.user.id, this.user);
 
 						this.reset()
 						this.vuexCleanCart();

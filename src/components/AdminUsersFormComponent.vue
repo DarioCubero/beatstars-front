@@ -154,7 +154,7 @@
 
 <script>
 	import auth from "@/services/auth";
-	import api from "@/services/api";
+	import Api from "@/services/api";
 	import { mapActions } from "vuex";
 
 	import moment from "moment";
@@ -166,10 +166,9 @@
 		},
 		data: () => ({
 			idUserLocal: auth.getLocalStorage("userId"),
-			newPassword: "",
-      passwordVerify: "",
+			passwordVerify: "",
 			showBoolPassword: "",
-      showBoolPassword2: "",
+			showBoolPassword2: "",
 			user: {},
 			valid: false,
 			formLoading: false,
@@ -211,8 +210,8 @@
 		}),
 
 		async created() {
-			this.user = await api.getUser(this.$route.params.id);
-			this.newPassword = this.user.password;
+			this.user = await Api.getUser(this.$route.params.id);
+			this.passwordVerify = this.user.password;
 			this.dateUserFormat = this.dateTime(this.user.dateCreated);
 		},
 
@@ -233,13 +232,14 @@
 			validate() {
 				if (this.$refs.form.validate()) {
 					this.formLoading = true;
-					this.user.password = this.newPassword;
 					console.log(JSON.stringify(this.user));
 
-					api.updateUser(this.$store.state.user.id, this.user);
+					Api.updateUser(this.$store.state.user.id, this.user);
 
 					console.log("Actualizando State User tras el Update.");
 					this.vuexGetUser(this.$store.state.user.id);
+
+					this.$router.go(-1);
 
 					setTimeout(() => {
 						this.formLoading = false;
@@ -249,7 +249,7 @@
 
 			deleteUser() {
 				this.formLoading = true;
-				api.deleteUser(this.idUserLocal);
+				Api.deleteUser(this.idUserLocal);
 				console.log("Ha sido borrado el usuario con ID: " + this.idUserLocal);
 				auth.closeSession();
 				this.$store.commit("setUser", {});

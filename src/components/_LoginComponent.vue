@@ -1,4 +1,5 @@
 <template>
+<div>
 	<v-card color="black" max-width="800px" min-width="600px">
 		<v-card-title class="text-center justify-center">
 			<v-img
@@ -243,7 +244,6 @@
 						this.vuexGetUser(idLoggedUser);
 						this.$router.push({ name: "home" });
 						console.log("Logeado!");
-						this.vuexIsLogged(true);
 					} else {
 						console.info("Login incorrecto. Vuelva a intentarlo.");
 						this.alertObject.status = false;

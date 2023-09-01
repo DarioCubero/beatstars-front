@@ -75,7 +75,7 @@
     
 		async created() {
 			//Comprobamos cuales han sido comprados por el usuario
-			this.myBeats = await Api.getUserBeats(this.idUserLocalidUserLocal);
+			this.myBeats = await Api.getUserBeats(this.idUserLocal);
 
 			// beforeMount, watch, beforeCreate
 			//TODO: Pending filtrado por QUERY PARAM

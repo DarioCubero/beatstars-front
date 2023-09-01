@@ -328,13 +328,14 @@
 				this.editedIndex = this.usersCustom.indexOf(item);
 				this.itemSelected = { id: item.id, name: item.nombreCuenta };
 				this.dialogDeactivate = true;
+        this.$forceUpdate();
 			},
 
 			reactivateItem(item) {
 				this.editedIndex = this.usersCustom.indexOf(item);
 				this.itemSelected = { id: item.id, name: item.nombreCuenta };
-
 				this.dialogReactivate = true;
+        this.$forceUpdate();
 			},
 
 			deleteItem(item) {
