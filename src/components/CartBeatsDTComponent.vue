@@ -12,44 +12,14 @@
 			</v-chip>
 		</template>
 
-    <!-- DIALOG -->
-		<template v-slot:top>
-			<v-dialog v-model="dialogDelete" max-width="500px">
-				<v-card>
-					<v-card-title class="text-h5"
-						>Are you sure you want to delete from Cart
-						{{
-							" with ID '" +
-							beatDelete["id"] +
-							"' and Name '" +
-							beatDelete["name"] + "'"
-						}}?</v-card-title
-					>
-					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn color="blue darken-1" text @click="closeDelete"
-							>Cancel</v-btn
-						>
-						<v-btn color="blue darken-1" text @click="deleteItemConfirm()"
-							>OK</v-btn
-						>
-						<v-spacer></v-spacer>
-					</v-card-actions>
-				</v-card>
-			</v-dialog>
-		</template>
 		<!-- ACTIONS -->
 		<template v-slot:[`item.actions`]="{ item }">
 			<v-icon @click="deleteItem(item)" class="me-2">
 				mdi-delete mdi-light
 			</v-icon>
 		</template>
-
-
-
 	</v-data-table>
 </template>
-
 
 <script>
 	import moment from "moment";
@@ -74,7 +44,6 @@
 			],
 			cartBeats: [],
 			beatsCustom: [],
-			beatDelete: { id: "", beatName: "" },
 			editedIndex: -1,
 		}),
 
@@ -136,32 +105,9 @@
 			},
 
 			deleteItem(item) {
-				this.show = true;
-				this.beatDelete = { id: item.id, name: item.nombre };
-				this.dialogDelete = true;
-			},
-
-			deleteItemConfirm() {
-				console.log("deleteItemConfirm");
+				this.editedIndex = this.beatsCustom.indexOf(item);
 				this.beatsCustom.splice(this.editedIndex, 1);
-				this.vuexDeleteBeatFromCart(this.beatDelete["id"]);
-				this.closeDelete();
-			},
-
-			close() {
-				this.dialog = false;
-				this.$nextTick(() => {
-					this.editedItem = Object.assign({}, this.defaultItem);
-					this.editedIndex = -1;
-				});
-			},
-
-			closeDelete() {
-				this.dialogDelete = false;
-				this.$nextTick(() => {
-					this.editedItem = Object.assign({}, this.defaultItem);
-					this.editedIndex = -1;
-				});
+				this.vuexDeleteBeatFromCart(item.id);
 			},
 
 		},

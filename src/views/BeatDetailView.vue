@@ -19,7 +19,6 @@
 						>Detalle Beat
 					</h1>
 				</v-row>
-				<!-- @click="addToCart(id)"  -->
 
 				<v-card class="mx-auto mb-5 mt-6" max-width="400">
 					<v-img height="150" src="https://random.imagecdn.app/500/150"></v-img>
@@ -61,22 +60,6 @@
 							</v-col>
 						</v-row>
 
-						<v-row>
-							<!-- <v-col cols="12" md="6" sm="6">
-                  <v-card-actions class="justify-center">
-                    <v-btn color="red" class="ms-2" variant="text"
-                      ><v-icon>mdi-play</v-icon></v-btn
-                    >
-                  </v-card-actions>
-                </v-col> -->
-							<v-col cols="12" md="12" sm="12">
-								<v-card-actions class="justify-center">
-									<v-btn color="black" size="x-large"
-										><v-icon>mdi-cart-plus</v-icon></v-btn
-									>
-								</v-card-actions>
-							</v-col>
-						</v-row>
 					</v-card-text>
 				</v-card>
 				<vuetify-audio

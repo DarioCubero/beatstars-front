@@ -14,8 +14,8 @@
 								"></v-img>
 						</router-link>
 
-						<!-- left search form -->
-						<v-form ref="form" @submit.prevent="validate">
+						<!-- searchform -->
+						<v-form ref="searchForm" @submit.prevent="validateSearch">
 							<v-row
 								style="
 									display: flex;
@@ -42,14 +42,14 @@
 										<v-row no-gutters>
 											<!-- lupa -->
 											<v-col btn cols="12" lg="1" md="1" sm="1">
-												<a v-on:click="validate">
+												<a v-on:click="validateSearch">
 													<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
 												</a>
 											</v-col>
 											<!-- buscador -->
 											<v-col cols="12" lg="11" md="11" sm="11">
 												<v-text-field
-													@keydown.enter.prevent="validate"
+													@keydown.enter.prevent="validateSearch"
 													v-model="searchString"
 													:label="$t('cabeceraBuscador.etiquetaBuscador')"
 													max-height="6"
@@ -277,7 +277,7 @@
 						</div>
 					</v-tab>
 
-					<!-- LOGIN -->
+					<!-- loginform -->
 					<v-tab-item>
 						<v-card>
 							<v-card-text>
@@ -286,16 +286,16 @@
 										<v-col cols="12">
 											<v-text-field
 												v-model="nameAndEmail"
-												:rules="[rules.required]"
+												:rules="[rulesLogin.required]"
 												label=" Nombre de Cuenta / Email"></v-text-field>
 										</v-col>
 										<v-col cols="12">
 											<v-text-field
-												v-model="user.Password"
+												v-model="userLogin.Password"
 												:append-icon="
 													showBoolPasswordLogin ? 'mdi-eye' : 'mdi-eye-off'
 												"
-												:rules="[rules.required, rules.min6Char]"
+												:rules="[rulesLogin.required, rulesLogin.min6Char]"
 												:type="showBoolPasswordLogin ? 'text' : 'password'"
 												name="loginPassword"
 												label="Password"
@@ -324,7 +324,7 @@
 						</v-card>
 					</v-tab-item>
 
-					<!-- REGISTER -->
+					<!-- registerform -->
 					<v-tab-item>
 						<v-card>
 							<v-card-text>
@@ -335,11 +335,11 @@
 									<v-row>
 										<v-col cols="12" sm="12" md="12">
 											<v-text-field
-												v-model="user.NombreCuenta"
+												v-model="userRegister.NombreCuenta"
 												:rules="[
-													rules.required,
-													rules.min6Char,
-													rules.userNameMaxChar,
+													rulesRegister.required,
+													rulesRegister.userNameMin6,
+													rulesRegister.userNameMaxChar,
 												]"
 												label="Nombre de Usuario"
 												hint="At least 6 characters"
@@ -366,22 +366,23 @@
                 </v-col> -->
 										<v-col cols="12">
 											<v-text-field
-												v-model="user.Email"
-												:rules="rules.emailRules"
+												v-model="userRegister.Email"
+												:rules="[
+													rulesRegister.required,
+													rulesRegister.emailMin6,
+													rulesRegister.emailMax35,
+													rulesRegister.emailValid,
+												]"
 												label="Email"
-												counter="50"></v-text-field>
+												counter="35"></v-text-field>
 										</v-col>
 										<v-col cols="12">
 											<v-text-field
-												v-model="user.Password"
+												v-model="userRegister.Password"
 												:append-icon="
 													showBoolPasswordRegister ? 'mdi-eye' : 'mdi-eye-off'
 												"
-												:rules="[
-													rules.required,
-													rules.min6Char,
-													rules.passwordMaxChar,
-												]"
+												:rules="[rulesRegister.required, rulesRegister.passwordMin6, rulesRegister.passwordMax15]"
 												:type="showBoolPasswordRegister ? 'text' : 'password'"
 												name="registerPassword"
 												label="Password"
@@ -398,7 +399,7 @@
 												:append-icon="
 													showBoolPasswordRegister2 ? 'mdi-eye' : 'mdi-eye-off'
 												"
-												:rules="[rules.required, passwordMatch]"
+												:rules="[rulesRegister.required, passwordMatch]"
 												:type="showBoolPasswordRegister2 ? 'text' : 'password'"
 												name="registerPasswordVerifyName"
 												label="Confirm Password"
@@ -461,7 +462,16 @@
 					{ name: "Register", icon: "mdi-account-plus-outline" },
 				],
 				nameAndEmail: "",
-				user: {
+				userLogin: {
+					NombreCuenta: "",
+					Email: "",
+					Password: "",
+					Cartera: 0,
+					DateCreated: currentDate,
+					Rol: "estandar",
+					Activo: true,
+				},
+				userRegister: {
 					NombreCuenta: "",
 					Email: "",
 					Password: "",
@@ -475,19 +485,22 @@
 					message: "",
 					type: "",
 				},
-				rules: {
+				rulesLogin: {
 					required: (v) => !!v || "Required.",
 					min6Char: (v) =>
-						(v && v.length >= 6) || "Name must be less than 10 characters",
-					userNameMaxChar: (v) => v.length < 20 || "Max 20 characters",
-					emailMaxChar: (v) => v.length < 50 || "Max 50 characters",
-					passwordMaxChar: (v) => v.length < 15 || "Max 15 characters",
-					emailRules: [
-						(v) => !!v || "Required",
-						(v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-						(v) => v.length >= 6 || "Min 6 characters",
-						(v) => v.length < 50 || "Max 50 characters",
-					],
+						(v && v.length >= 6) || "Name must be more than 6 characters",
+				},
+				rulesRegister: {
+					required: (v) => !!v || "Required.",
+					userNameMin6: (v) =>
+						(v && v.length >= 6) || "Username must be more than 6 characters",
+					userNameMaxChar: (v) =>
+						(v && v.length < 20) || "Username must be less than 6 characters",
+					emailValid: (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+					emailMin6: (v) => (v && v.length >= 6) || "Email Min must be more than 6 characters",
+					emailMax35: (v) => (v && v.length < 35) || "Email must be less than 35 characters",
+					passwordMin6: (v) => (v && v.length >= 6) || "Password must be more than 6 characters",
+          passwordMax15: (v) => (v && v.length < 15) || "Password must be less than 15 characters",
 				},
 
 				sortBy: null,
@@ -533,13 +546,6 @@
 			};
 		},
 
-		// created() {
-		// 	if (!this.$store.state.isLogged) {
-		// 		console.info("Acceso restringido. Debes logearte primero.");
-		// 		this.$router.push({ name: "login" });
-		// 		// this.$store.commit("setUser", {});
-		// 	}
-		// },
 		methods: {
 			...mapActions(["vuexGetUser"]),
 			...mapActions(["vuexCleanCart"]),
@@ -561,11 +567,9 @@
 				}
 			},
 
-			async validate() {
-				console.log("validate");
-				if (await this.$refs.form.validate()) {
-					// console.log("VALIDATE: " + this.$refs.form);
-
+			async validateSearch() {
+				console.log("validateSearch");
+				if (await this.$refs.searchForm.validate()) {
 					this.$router.push({
 						name: "beats",
 						query: {
@@ -604,10 +608,11 @@
 			// },
 
 			async validateLogin() {
+				console.log("validateLogin");
 				if (this.$refs.loginForm.validate()) {
-					this.user.NombreCuenta = this.nameAndEmail;
-					this.user.Email = this.nameAndEmail;
-					let idLoggedUser = await auth.postLogin(this.user);
+					this.userLogin.NombreCuenta = this.nameAndEmail;
+					this.userLogin.Email = this.nameAndEmail;
+					let idLoggedUser = await auth.postLogin(this.userLogin);
 					console.log(idLoggedUser);
 					if (idLoggedUser != -1) {
 						console.log("LocalStorage de ID response API recogido");
@@ -622,8 +627,7 @@
 						this.$refs.loginForm.reset();
 						console.log(this.currentRouteName);
 						if (this.currentRouteName == "beats") {
-              console.log("FORCE UPDATE");
-							window.location.reload();
+							window.location.reload(); //forzar refrescar
 						}
 					} else {
 						console.info("Login incorrecto. Vuelva a intentarlo.");
@@ -634,25 +638,31 @@
 					}
 				}
 			},
+
 			async validateRegister() {
+				console.log("validateRegister");
 				if (this.$refs.registerForm.validate()) {
 					alert("Registro realizado correctamente.");
-					let registerInfo = await auth.postRegister(this.user);
+					let registerInfo = await auth.postRegister(this.userRegister);
 					console.log(registerInfo);
 					this.tab = 0; //lo redireccionamos al login y le enviamos una alerta type success
-					this.$refs.registerForm.reset();
+					this.$refs.registerForm.reset(); //CLEAN
 				} else {
 					console.log("Error en la validación del formulario de registro");
 				}
 			},
 		},
 
-		async beforeCreate() {
+		mounted() {
 			window.addEventListener("keyup", function (ev) {
 				if (ev.key == "Enter") {
-					this.$refs.form.submit.click();
+					this.$refs.searchForm.submit.click();
 				}
 			});
+		},
+
+		async beforeCreate() {
+			this.$store.commit("loginMenuChange", false);
 		},
 
 		computed: {
@@ -664,9 +674,8 @@
 			},
 
 			passwordMatch() {
-				// console.log( this.user.Password === this.registerPasswordVerify);
 				return () =>
-					this.user.Password === this.registerPasswordVerify ||
+					this.userRegister.Password === this.registerPasswordVerify ||
 					"Password must match";
 			},
 		},

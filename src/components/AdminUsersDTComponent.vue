@@ -191,11 +191,17 @@
 				mdi-pencil mdi-light
 			</v-icon>
 
-			<v-icon v-if="item.activo && item.nombreCuenta !='admin'"  @click="deactivateItem(item)" class="me-2">
+			<v-icon
+				v-if="item.activo && item.nombreCuenta != 'admin'"
+				@click="deactivateItem(item)"
+				class="me-2">
 				mdi-account-cancel-outline mdi-light
 			</v-icon>
 
-			<v-icon v-if="!item.activo && item.nombreCuenta !='admin'" @click="reactivateItem(item)" class="me-2">
+			<v-icon
+				v-if="!item.activo && item.nombreCuenta != 'admin'"
+				@click="reactivateItem(item)"
+				class="me-2">
 				mdi-account-reactivate mdi-light
 			</v-icon>
 
@@ -328,14 +334,14 @@
 				this.editedIndex = this.usersCustom.indexOf(item);
 				this.itemSelected = { id: item.id, name: item.nombreCuenta };
 				this.dialogDeactivate = true;
-        this.$forceUpdate();
+				this.$forceUpdate();
 			},
 
 			reactivateItem(item) {
 				this.editedIndex = this.usersCustom.indexOf(item);
 				this.itemSelected = { id: item.id, name: item.nombreCuenta };
 				this.dialogReactivate = true;
-        this.$forceUpdate();
+				this.$forceUpdate();
 			},
 
 			deleteItem(item) {
@@ -360,10 +366,13 @@
 				console.log("reactivateItemConfirm");
 
 				let userFind = this.users.find((u) => u.id === this.itemSelected.id);
-        userFind.activo = true;
+				userFind.activo = true;
 
 				Api.updateUser(userFind.id, userFind);
-				console.log("Reactivado el usuario con nombre: " + userFind.nombreCuenta);
+				console.log(
+					"Reactivado el usuario con nombre: " + userFind.nombreCuenta
+				);
+				window.location.reload();
 
 				this.closeDialog();
 			},
@@ -372,11 +381,13 @@
 				console.log("deactivateItemConfirm");
 
 				let userFind = this.users.find((u) => u.id === this.itemSelected.id);
-        userFind.activo = false;
+				userFind.activo = false;
 
 				Api.updateUser(userFind.id, userFind);
-				console.log("Desactivado el usuario con nombre: " + userFind.nombreCuenta);
-
+				console.log(
+					"Desactivado el usuario con nombre: " + userFind.nombreCuenta
+				);
+				window.location.reload();
 				this.closeDialog();
 			},
 

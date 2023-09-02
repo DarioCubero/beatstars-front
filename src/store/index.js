@@ -41,7 +41,7 @@ export default new Vuex.Store({
 		},
 
 		setIsLogged(state, value) {
-			console.log("setIsLogged..." + value);
+			console.log("mutation setIsLogged..." + value);
 			state.isLogged = value;
 		},
 
