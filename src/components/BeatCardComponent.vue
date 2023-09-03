@@ -1,10 +1,10 @@
 <template>
-	<v-card class="mx-auto my-12" max-width="374" 
-  :disabled='purchased ? true : false' 
-  :class='purchased ? "green lighten-4" : "white"' 
-  :style='purchased ? "opacity: 0.25;" : "display: block"'
-  >
-
+	<v-card
+		class="mx-auto my-12"
+		max-width="374"
+		:disabled="purchased ? true : false"
+		:class="purchased ? 'green lighten-4' : 'white'"
+		:style="purchased ? 'opacity: 0.25;' : 'display: block'">
 		<v-img height="250" :src="imageUrl"></v-img>
 
 		<template slot="progress">
@@ -25,7 +25,8 @@
 				<v-col class="pa-3" cols="12" md="6" sm="6">
 					<div
 						v-bind:class="getColor(precio)"
-						class="my-4 text-subtitle-1 rounded-xl pa-2" style="color: white !important">
+						class="my-4 text-subtitle-1 rounded-xl pa-2"
+						style="color: white !important">
 						{{ precio }}€
 					</div>
 				</v-col>
@@ -57,6 +58,12 @@
 					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="!selected">
 						<v-btn @click="addCart(id)" color="#6633FF" size="x-large"
 							><v-icon>mdi-cart-plus mdi-light</v-icon></v-btn
+						>
+					</v-col>
+
+					<v-col v-if="myBeats" cols="12" md="6" sm="6" v-show="!selected">
+						<v-btn @click="editItem(id)" color="#6633FF" size="x-large"
+							><v-icon>mdi-pencil mdi-light</v-icon></v-btn
 						>
 					</v-col>
 
@@ -94,12 +101,16 @@
 			imageUrl: String,
 			myBeats: Boolean,
 			selected: Boolean,
-      purchased: Boolean,
+			purchased: Boolean,
 		},
 
 		methods: {
 			...mapActions(["vuexAddBeatToCart"]),
 			...mapActions(["vuexDeleteBeatFromCart"]),
+
+			editItem(id) {
+				this.$router.push({ name: "actualizar-beat", params: { id: id } });
+			},
 
 			getColor(precio) {
 				if (precio <= 10) return "pink";
