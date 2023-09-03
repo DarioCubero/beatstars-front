@@ -38,7 +38,7 @@
 	import PaymentComponent from "@/components/PaymentComponent.vue";
 
 	export default {
-		name: "cart-view",
+		name: "pagos-view",
 
 		components: {
 			Header,

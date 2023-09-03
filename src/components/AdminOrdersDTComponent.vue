@@ -7,40 +7,11 @@
 		class="elevation-1">
 		<!-- COLOR PRECIO -->
 		<template v-slot:top>
-			<v-toolbar flat>
-				<v-toolbar-title>Pedidos</v-toolbar-title>
+			<v-toolbar flat style="height: 100px !important">
+				<v-toolbar-title style="width: 150px !important">Pedidos</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
-				<v-dialog v-model="dialog" max-width="500px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
-							<v-icon class="me-2" @click="beatDetails(item.id)"
-								>mdi-plus-circle mdi-light</v-icon
-							>
-							New Type Beat
-						</v-btn>
-					</template>
-					<v-card>
-						<v-card-title>
-							<span class="text-h5">{{ formTitle }}</span>
-						</v-card-title>
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field label="Type Beat"></v-text-field>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
 
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
-							<v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
@@ -90,17 +61,16 @@
 			idUser: Number,
 		},
 		data: () => ({
-			dialog: false,
 			dialogDelete: false,
 			itemsPerPage: 5,
 			numBeats: [], //{IdOrder:xxx, numBeats: xxx}
 			headers: [
 				{
-					text: "ID",
+					text: "Pedido",
 					align: "start",
 					value: "id",
 				},
-				{ text: "DateCreated", value: "dateCreated" },
+				{ text: "Fecha", value: "dateCreated" },
 				{ text: "Total(€)", value: "total" },
 				{ text: "Método de pago", value: "metodoPago" },
 				{ text: "Usuario", value: "correoUsuario" },
@@ -120,9 +90,6 @@
 		},
 
 		watch: {
-			dialog(val) {
-				val || this.close();
-			},
 			dialogDelete(val) {
 				val || this.closeDelete();
 			},
@@ -178,7 +145,7 @@
 			},
 
 			editItem(item) {
-				this.$router.push({ name: "update-beat", params: { id: item.id } });
+				this.$router.push({ name: "actualizar-beat", params: { id: item.id } });
 			},
 
 			dateTime(value) {

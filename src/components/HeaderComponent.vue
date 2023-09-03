@@ -143,7 +143,7 @@
 									</v-btn>
 								</template>
 
-								<v-list>
+								<v-list v-if="this.$store.state.isLogged">
 									<v-list-item
 										v-for="(item, index) in menuBeatList"
 										:key="index"
@@ -382,7 +382,11 @@
 												:append-icon="
 													showBoolPasswordRegister ? 'mdi-eye' : 'mdi-eye-off'
 												"
-												:rules="[rulesRegister.required, rulesRegister.passwordMin6, rulesRegister.passwordMax15]"
+												:rules="[
+													rulesRegister.required,
+													rulesRegister.passwordMin6,
+													rulesRegister.passwordMax15,
+												]"
 												:type="showBoolPasswordRegister ? 'text' : 'password'"
 												name="registerPassword"
 												label="Password"
@@ -466,7 +470,7 @@
 					NombreCuenta: "",
 					Email: "",
 					Password: "",
-					Cartera: 0,
+					Saldo: 0,
 					DateCreated: currentDate,
 					Rol: "estandar",
 					Activo: true,
@@ -475,7 +479,7 @@
 					NombreCuenta: "",
 					Email: "",
 					Password: "",
-					Cartera: 0,
+					Saldo: 0,
 					DateCreated: currentDate,
 					Rol: "estandar",
 					Activo: true,
@@ -497,10 +501,14 @@
 					userNameMaxChar: (v) =>
 						(v && v.length < 20) || "Username must be less than 6 characters",
 					emailValid: (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-					emailMin6: (v) => (v && v.length >= 6) || "Email Min must be more than 6 characters",
-					emailMax35: (v) => (v && v.length < 35) || "Email must be less than 35 characters",
-					passwordMin6: (v) => (v && v.length >= 6) || "Password must be more than 6 characters",
-          passwordMax15: (v) => (v && v.length < 15) || "Password must be less than 15 characters",
+					emailMin6: (v) =>
+						(v && v.length >= 6) || "Email Min must be more than 6 characters",
+					emailMax35: (v) =>
+						(v && v.length < 35) || "Email must be less than 35 characters",
+					passwordMin6: (v) =>
+						(v && v.length >= 6) || "Password must be more than 6 characters",
+					passwordMax15: (v) =>
+						(v && v.length < 15) || "Password must be less than 15 characters",
 				},
 
 				sortBy: null,
@@ -620,13 +628,18 @@
 						console.log("vuexGetUser State de Usuario cargado");
 						this.vuexGetUser(idLoggedUser);
 						console.log("Logeado!");
+
 						// this.$emit("loginDialog", this.alertObject);
+						//Props (parent -> child) || $emit (child -> parent)
+						this.alertObject.status = true;
+						this.alertObject.type = "error";
+						this.alertObject.message = "Incorrect Username or Password!";
+
 						this.loginMenuCommit(false);
 						this.$store.commit("setIsLogged", true);
 						this.vuexCleanCart();
 						this.$refs.loginForm.reset();
-						console.log(this.currentRouteName);
-						if (this.currentRouteName == "beats") {
+						if (this.currentRouteName == "beats") { //fix refresh icon beats ya comprados seleccionados
 							window.location.reload(); //forzar refrescar
 						}
 					} else {
@@ -634,7 +647,6 @@
 						this.alertObject.status = false;
 						this.alertObject.type = "error";
 						this.alertObject.message = "Incorrect Username or Password!";
-						this.$emit("sendAlert", this.alertObject);
 					}
 				}
 			},
@@ -653,13 +665,13 @@
 			},
 		},
 
-		mounted() {
-			window.addEventListener("keyup", function (ev) {
-				if (ev.key == "Enter") {
-					this.$refs.searchForm.submit.click();
-				}
-			});
-		},
+		// mounted() {
+		// 	window.addEventListener("keyup", function (ev) {
+		// 		if (ev.key == "Enter") {
+		// 			this.$refs.searchForm.submit.click();
+		// 		}
+		// 	});
+		// },
 
 		async beforeCreate() {
 			this.$store.commit("loginMenuChange", false);

@@ -26,7 +26,7 @@
 				itemsPerPage: 5,
 				headers: [
 					{
-						text: "ID",
+						text: "Pedido",
 						align: "start",
 						sortable: false,
 						value: "id",

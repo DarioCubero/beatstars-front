@@ -6,13 +6,13 @@
 		sort-by="calories"
 		class="elevation-1">
 		<template v-slot:top>
-			<v-toolbar flat>
-				<v-toolbar-title>Usuarios</v-toolbar-title>
+			<v-toolbar flat style="height: 100px !important">
+				<v-toolbar-title style="width: 150px !important">Usuarios</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
 
 				<!-- left email search form -->
-				<v-form ref="form" @submit.prevent="validate" novalidate="true">
+				<v-form ref="formAdminUsers" @submit.prevent="validateAdminUsers" novalidate="true">
 					<v-row>
 						<!-- Buscador -->
 						<v-col
@@ -33,14 +33,14 @@
 								<v-row no-gutters>
 									<!-- lupa -->
 									<v-col btn cols="12" lg="1" md="1" sm="1">
-										<a v-on:click="validate">
+										<a v-on:click="validateAdminUsers">
 											<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
 										</a>
 									</v-col>
 									<!-- buscador -->
 									<v-col cols="12" lg="11" md="11" sm="11">
 										<v-text-field
-											@keydown.enter.prevent="validate"
+											@keydown.enter.prevent="validateAdminUsers"
 											v-model="searchString"
 											label="Buscar por Email"
 											max-height="6"
@@ -100,7 +100,6 @@
 										item-value="item"
 										label="Ordenar por:"
 										single-line>
-										<!--  :rules="[rules.required]" -->
 									</v-select>
 								</v-col>
 							</v-row>
@@ -236,9 +235,9 @@
 				},
 				{ text: "Nombre cuenta", value: "nombreCuenta" },
 				{ text: "Email", value: "email" },
-				{ text: "Cartera(€)", value: "cartera" },
+				{ text: "Saldo(€)", value: "cartera" },
 				{ text: "Rol", value: "rol" },
-				{ text: "Fecha registro", value: "dateCreated" },
+				{ text: "Fecha", value: "dateCreated" },
 				{ text: "Activo", value: "activo" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
@@ -285,7 +284,7 @@
 					obj["cartera"] = x.cartera;
 					obj["rol"] = x.rol;
 					obj["dateCreated"] = this.dateTime(x.dateCreated);
-					obj["activo"] = x.activo;
+					obj["activo"] = this.activo(x.activo);
 					this.usersCustom.push(obj);
 				});
 			},
@@ -298,7 +297,7 @@
 				}
 			},
 
-			async validate() {
+			async validateAdminUsers() {
 				let sortBy = this.sortBy;
 				let sortOrder = this.sortOrder;
 				let searchString = this.searchString;
@@ -323,11 +322,19 @@
 			},
 
 			editItem(item) {
-				this.$router.push({ name: "update-user", params: { id: item.id } });
+				this.$router.push({ name: "actualizar-usuario", params: { id: item.id } });
 			},
 
 			dateTime(value) {
 				return moment(value).format("YYYY-MM-DD");
+			},
+
+			activo(value) {
+				if(value){
+          return "Si"
+        }else{
+          return  "No"
+        }
 			},
 
 			deactivateItem(item) {
@@ -399,3 +406,11 @@
 		},
 	};
 </script>
+
+<style>
+.v-toolbar__content{
+  height: 100px !important;
+}
+</style>
+
+

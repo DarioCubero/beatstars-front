@@ -56,7 +56,6 @@
 			order: [],
 		}),
 
-
 		methods: {
 			...mapActions(["vuexGetUser"]),
 
@@ -67,7 +66,6 @@
 					this.$store.commit("loginMenuChange", true); //abrimos login
 				}
 			},
-
 
 			validate() {
 				if (this.$refs.form.validate()) {

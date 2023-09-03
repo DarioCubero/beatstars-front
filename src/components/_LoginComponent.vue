@@ -202,7 +202,7 @@
 				NombreCuenta: "",
 				Email: "",
 				Password: "",
-				Cartera: 0,
+				Saldo: 0,
 				DateCreated: currentDate,
 				Rol: "estandar",
 				Activo: true,

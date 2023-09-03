@@ -13,8 +13,8 @@
 		</template>
 
 		<template v-slot:top>
-			<v-toolbar flat>
-				<v-toolbar-title>Beats</v-toolbar-title>
+			<v-toolbar flat style="height: 100px !important">
+				<v-toolbar-title style="width: 150px !important">Beats</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
 				<v-dialog v-model="dialog" max-width="500px">
@@ -109,7 +109,7 @@
 				{ text: "Nombre", value: "nombre" },
 				{ text: "Tipo", value: "tipo" },
 				{ text: "Precio(€)", value: "precio" },
-				{ text: "DateCreated", value: "dateCreated" },
+				{ text: "Fecha", value: "dateCreated" },
 				{ text: "Detalle", value: "actions", sortable: false },
 			],
 			beats: [],
@@ -163,7 +163,7 @@
 			},
 
 			editItem(item) {
-				this.$router.push({ name: "update-beat", params: { id: item.id } });
+				this.$router.push({ name: "actualizar-beat", params: { id: item.id } });
 			},
 
 			dateTime(value) {

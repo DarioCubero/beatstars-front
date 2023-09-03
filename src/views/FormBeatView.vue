@@ -23,7 +23,6 @@
 					</h1>
 				</v-row>
 
-
 				<!-- Subir/Editar Beat -->
 				<BeatForm ref="childComponent" :id="parseInt(id)"></BeatForm>
 			</v-container>
@@ -40,19 +39,20 @@
 	// import moment from "moment";
 
 	export default {
-		name: "upload-beat-view",
+		name: "subir-beat-view",
 
 		data() {
 			return {
 				FormBeatTitle: "",
 				id: this.$route.params.id,
+				prevRouteAdmin: false,
 				cleanForm: false,
 			};
 		},
 
 		created() {
 			this.titleForm();
-
+			//PONER LA LOGICA DEL INDEX CENTRAL HEADERLOGIN CONTROL DEL WATCHER AQUI Y PRINTAR
 			this.$watch(
 				() => this.$route.params,
 				(toParams, previousParams) => {

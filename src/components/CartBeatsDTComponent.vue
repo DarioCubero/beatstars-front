@@ -5,6 +5,22 @@
 		:items="this.beatsCustom"
 		sort-by="calories"
 		class="elevation-1">
+		<!-- LIMPIAR CARRITO -->
+		<template v-slot:top>
+			<v-row class="justify-end mr-3">
+				<!--  :disabled="!valid"  @click="validate"   -->
+				<v-btn
+					@click="cleanCart()"
+					color="#0F7DD1"
+					class="pa-6 ma-4 justify-center">
+					<h3 class="white--text">
+						<v-icon ref="cleanCart" class="me-2">
+							mdi-cart-remove mdi-light </v-icon
+						>Vaciar
+					</h3>
+				</v-btn>
+			</v-row>
+		</template>
 		<!-- COLOR PRECIO -->
 		<template v-slot:[`item.precio`]="{ item }">
 			<v-chip :color="getColor(item.precio)">
@@ -27,7 +43,6 @@
 
 	export default {
 		data: () => ({
-			dialog: false,
 			dialogDelete: false,
 			itemsPerPage: 5,
 			headers: [
@@ -54,9 +69,6 @@
 		},
 
 		watch: {
-			dialog(val) {
-				val || this.close();
-			},
 			dialogDelete(val) {
 				val || this.closeDelete();
 			},
@@ -83,12 +95,20 @@
 		methods: {
 			...mapActions(["vuexDeleteBeatFromCart"]),
 
+			cleanCart() {
+				let totalLength = this.beatsCustom;
+				for (const b of this.beatsCustom) {
+					this.vuexDeleteBeatFromCart(b.id);
+				}
+				this.beatsCustom.splice(totalLength);
+			},
+
 			beatDetails(beatId) {
 				this.$router.push({ name: "beat", params: { id: beatId } });
 			},
 
 			editItem(item) {
-				this.$router.push({ name: "update-beat", params: { id: item.id } });
+				this.$router.push({ name: "actualizar-beat", params: { id: item.id } });
 			},
 
 			dateTime(value) {
@@ -109,7 +129,6 @@
 				this.beatsCustom.splice(this.editedIndex, 1);
 				this.vuexDeleteBeatFromCart(item.id);
 			},
-
 		},
 	};
 </script>

@@ -83,7 +83,7 @@
 				<v-col cols="12" md="6">
 					<v-text-field
 						dark
-						label="Cartera"
+						label="Saldo"
 						v-model="user.cartera"
 						outlined
 						prepend-inner-icon="mdi-currency-eur mdi-light" />

@@ -295,7 +295,8 @@
 					this.updateButton
 						? Api.updateBeat(this.beatSelected.id, this.beat)
 						: Api.createBeat(this.beat);
-					this.$router.push({ name: "admin" });
+
+						this.$router.push({ name: "mis-beats" });
 
 					setTimeout(() => {
 						this.formLoading = false;
