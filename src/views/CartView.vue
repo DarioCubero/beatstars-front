@@ -17,19 +17,18 @@
 
 				<!-- botones -->
 				<v-row class="justify-center">
-					<v-col cols="4" class="justify-center">
-						<!--  :disabled="!valid"  @click="validate"   -->
+					<v-col cols="4" class="justify-center ma-6 ">
 						<v-btn
 							v-on:click="buy"
-							color="#0F7DD1"
-							class="pa-6 ma-4 justify-center">
-							<h3 class="white--text">Tramitar pedido</h3>
+							color="#0FC900"
+							class="pa-6 ma-6 justify-center" >
+							<h3 class="white--black">Tramitar pedido</h3>
 						</v-btn>
 					</v-col>
 				</v-row>
 			</v-container>
 		</v-main>
-		<Footer />
+		<Footer />f
 	</div>
 </template>
 

@@ -96,12 +96,12 @@
 			<v-row class="justify-center">
 				<v-col cols="4" class="justify-center">
 					<v-btn
-						@click="validate"
-						color="#0F7DD1"
-						class="pa-6 ma-4 justify-center">
-						<h3 ref="title" class="white--text">
-							{{ this.FormBeatTitle }}
-						</h3>
+						x-large
+						class="ma-1 justify-center"
+						color="#0FC900"
+						outlined
+						@click="validate">
+						<span ref="title" class="ma-4" style="font-size: 25px !important"> Editar </span>
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -296,7 +296,7 @@
 						? Api.updateBeat(this.beatSelected.id, this.beat)
 						: Api.createBeat(this.beat);
 
-						this.$router.push({ name: "mis-beats" });
+					this.$router.push({ name: "mis-beats" });
 
 					setTimeout(() => {
 						this.formLoading = false;

@@ -12,7 +12,6 @@
               >mdi-album mdi-light</v-icon
             >Detalle Pedido
         </h1>
-
         <h3>Pedido: {{ pedidoSelected.id }}</h3>
         <h3>Nº Beats: {{ this.numBeats }}</h3>
         <OrderBeatListComponent /> <!-- :message="alertObject.message" -->

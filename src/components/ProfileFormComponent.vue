@@ -93,10 +93,10 @@
 			<v-row>
 				<v-col cols="2"> </v-col>
 				<v-col cols="8">
-					<v-btn color="white" outlined @click="validate"> Actualizar </v-btn>
+					<v-btn x-large color="#0FC900" outlined @click="validate"> Actualizar </v-btn>
 				</v-col>
 				<v-col cols="2">
-					<v-btn color="#0F7DD1" @click="deactivateUser">
+					<v-btn color="#6633FF" @click="deactivateUser">
 						<v-icon>mdi-delete mdi-light mdi-light</v-icon>
 					</v-btn>
 				</v-col>

@@ -102,7 +102,6 @@
 										<v-col cols="12" lg="12" md="12" sm="12">
 											<v-select
 												dark
-												color="#0F7DD1"
 												v-model="sortBy"
 												:items="sortByList"
 												:label="$t('cabeceraBuscador.ordenarPor.ordenarPor')"
@@ -201,7 +200,7 @@
 									</template>
 
 									<template v-slot:item="{ item }">
-										<img width="20" :src="item.image" /><span class="ml-1">{{
+										<img width="20" :src="item.image" /><span class="ml-1 white--text">{{
 											item.name
 										}}</span>
 									</template>
@@ -639,7 +638,8 @@
 						this.$store.commit("setIsLogged", true);
 						this.vuexCleanCart();
 						this.$refs.loginForm.reset();
-						if (this.currentRouteName == "beats") { //fix refresh icon beats ya comprados seleccionados
+						if (this.currentRouteName == "beats") {
+							//fix refresh icon beats ya comprados seleccionados
 							window.location.reload(); //forzar refrescar
 						}
 					} else {
@@ -724,15 +724,29 @@
 	/* .v-toolbar__items > a:active{
   background-color: green !important;
 } */
+	/* div#list-item-2777-0 {
+    background-color: green;
+} */
+
 	.v-list-item {
 		font-size: 17px !important;
 		padding-top: 5px;
 		padding-bottom: 5px;
+		color: white;
+		background-color: 222222;
 	}
 
 	.v-select {
 		margin-left: 5px !important;
 		min-width: 110px;
+	}
+
+	.v-list .v-list-item--active {
+		background-color: #222222 !important;
+    color: black !important;
+	}
+	.v-list .v-list-item--active .v-list-item__title {
+		color: white !important;
 	}
 
 	#btnAdmin {
@@ -766,13 +780,17 @@
 		box-shadow: none;
 	}
 
+	.v-list.v-sheet.theme--light {
+		background-color: #222222;
+	}
+
 	.v-toolbar__items a.v-btn.v-btn--is-elevated:hover,
 	.btnHeader:hover {
 		/* hover botones menu */
 		border-radius: 50px;
 		color: rgb(255, 255, 255) !important;
 		font-weight: bold;
-		background-color: #12800a !important;
+		background-color: #6633ff !important;
 		transition: 0.3s;
 	}
 
@@ -829,23 +847,14 @@
 	}
 
 	.v-list-item:hover {
-		background-color: #98d2ff !important;
+		background-color: #6633ff !important;
 		color: white !important;
 	}
-
-	/*
-	.v-list-item--active {
-		background-color: #4bff3e !important;
+	.v-list-item {
 		color: white !important;
 	}
-
-	.v-list-item--highlighted {
-		background-color: #0F7DD1 !important;
-		color: white !important;
-	} */
 
 	/* login */
-
 	@keyframes animatedgradient {
 		0% {
 			background-position: 0% 50%;
@@ -860,7 +869,6 @@
 
 	/* ------------------------------- */
 	.v-dialog {
-		/* border: 5px solid #0dc900c7; */
 		border-radius: 30px;
 		padding: 5px;
 		content: "";

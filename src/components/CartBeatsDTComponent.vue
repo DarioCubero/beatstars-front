@@ -11,13 +11,13 @@
 				<!--  :disabled="!valid"  @click="validate"   -->
 				<v-btn
 					@click="cleanCart()"
-					color="#0F7DD1"
+					color="#6633FF"
 					class="pa-6 ma-4 justify-center">
-					<h3 class="white--text">
-						<v-icon ref="cleanCart" class="me-2">
-							mdi-cart-remove mdi-light </v-icon
+					<span >
+						<v-icon ref="cleanCart" class="me-2 white--text" >
+							mdi-cart-remove</v-icon
 						>Vaciar
-					</h3>
+					</span>
 				</v-btn>
 			</v-row>
 		</template>

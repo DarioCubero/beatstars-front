@@ -15,15 +15,15 @@
                 </h1>
                 <div class="text-h5">
                   Keep
-                  <span style="color:#C00BD4 " class="text-h4 font-weight-bold"
+                  <span style="color:#6633FF " class="text-h4 font-weight-bold"
                     >100% of the earnings</span
                   >
                   we collect for you!
                 </div>
               </v-col>
               <v-col class="card" cols="12" lg="12" md="12" sm="12">
-                <v-btn class="black--text" size="x-large" color="gray" to="/beats">
-                Explorar Beats
+                <v-btn class="black--text" size="x-large" color="#6633FF" to="/beats">
+                <span class="white--text">Explorar Beats</span>
               </v-btn>
               </v-col>
    

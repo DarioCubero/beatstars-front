@@ -42,21 +42,21 @@ export default {
 
   .v-btn:hover {
     color: transparent !important;
-    border: 1px solid #0F7DD1 !important;
+    border: 1px solid #0FC900 !important;
     background-color: transparent !important;
   }
 
   .v-btn--active {
-    color: #0F7DD1 !important;
+    color: #0FC900 !important;
     border: 1px solid rgb(255, 255, 255) !important;
-    background-color: #0F7DD1 !important;
+    background-color: #0FC900 !important;
   }
   .v-icon{
     color: white !important;
   }
 
     .v-icon:hover{
-    color: #0F7DD1 !important;
+    color: #0FC900 !important;
   }
 }
 

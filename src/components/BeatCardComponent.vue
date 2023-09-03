@@ -55,7 +55,7 @@
 					</v-col>
 
 					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="!selected">
-						<v-btn @click="addCart(id)" color="blue" size="x-large"
+						<v-btn @click="addCart(id)" color="#6633FF" size="x-large"
 							><v-icon>mdi-cart-plus mdi-light</v-icon></v-btn
 						>
 					</v-col>
@@ -64,15 +64,12 @@
 						<v-btn
 							@click="deleteCart(id)"
 							ref="id+'delete'"
-							color="#C00BD4"
+							color="#0FC900"
 							size="x-large"
 							><v-icon>mdi-cart-remove mdi-light</v-icon></v-btn
 						>
 					</v-col>
 				</v-row>
-				<!-- <v-btn @click="checkSelected()" color="red" size="x-large"
-					><v-icon>mdi-cart-house mdi-light</v-icon></v-btn
-				> -->
 			</v-card-text>
 		</div>
 	</v-card>

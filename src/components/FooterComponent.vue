@@ -33,6 +33,12 @@
 						<v-col class="card" cols="12" lg="3" md="6" sm="12">
 							<h3><v-icon color="white">mdi-chat</v-icon>&nbsp;Support</h3>
 							<v-card-text class="mx-auto">
+								<li>
+									<a :href="'mailto:' +
+						this.emailTo +'?subject='+this.emailSub +'&body=' +this.emailBody"
+										>Help or improvements
+                    </a>
+								</li>
 								<li v-for="item in links_support" :key="item.name">
 									<a v-bind:href="'#' + item.href">{{ item.title }}</a>
 								</li>
@@ -75,6 +81,14 @@
 <script>
 	export default {
 		data: () => ({
+			emailTo: "support@dreamdrums.com",
+			emailSub: "Ayuda o mejoras | DreamDrums",
+			emailBody:
+				"Estimado equipo de DreamDrums, les agradeceríamos" +
+				"\r\n" +
+				"[Contenido de la ayuda o la mejora]" +
+				"\r\n" +
+				"¡Gracias!",
 			links_apps: [
 				{
 					name: "Apple",
@@ -140,6 +154,19 @@
 			],
 			currentYear: new Date().getFullYear(),
 		}),
+
+		methods: {
+			helpOrImprovementsEmail() {
+				window.location.href(
+					"mailto:" +
+						this.emailTo +
+						"?subject=" +
+						this.emailSub +
+						"&body=" +
+						this.emailBody
+				);
+			},
+		},
 	};
 </script>
 
