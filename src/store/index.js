@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import ServicesApi from "@/services/api";
-// import Auth from "@/services/auth";
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
@@ -13,11 +12,6 @@ export default new Vuex.Store({
 		actions: { loginMenu: false },
 		appLanguage: "es" || process.env.VUE_APP_I18N_LOCALE || "es",
 		isLogged: false,
-	},
-
-	getters: {
-		// getAppLanguage: (state) => state.appLanguage,
-		// getIsLogged: (state) => state.isLogged,
 	},
 
 	plugins: [createPersistedState()],

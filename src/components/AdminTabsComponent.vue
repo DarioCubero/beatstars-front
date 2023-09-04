@@ -5,13 +5,13 @@
 				<v-divider></v-divider>
 
 				<v-list dense nav>
-          <!-- 	v-on:change="$emit('validPassword', $event.target.checked)" -->
-					<v-list-item-group
-						v-model="listSelection"
-						mandatory
-						color="green">
+					<v-list-item-group v-model="listSelection" mandatory color="green">
 						<!-- 	:to="item.path" -->
-          <v-list-item @click="$emit('selectedTab', item.action)" v-for="item in items" :key="item.title" link>
+						<v-list-item
+							@click="$emit('selectedTab', item.action)"
+							v-for="item in items"
+							:key="item.title"
+							link>
 							<v-list-item-icon>
 								<v-icon>{{ item.icon }}</v-icon>
 							</v-list-item-icon>
@@ -47,22 +47,23 @@
 						icon: "mdi-account-group-outline",
 						action: "usuarios",
 					},
+					{
+						title: "Type Beats",
+						icon: "mdi-format-list-bulleted-type",
+						action: "typebeats",
+					},
+					{
+						title: "Charts",
+						icon: "mdi-chart-arc",
+						action: "charts",
+					},
 				],
 				listSelection: 0, //default item selected
 				listItemSelected: null,
 			};
 		},
 
-		methods: {
-			menuActionClick(action) {
-				if (action === "beats") {
-					alert("beats!!");
-				} else if (action === "pedidos") {
-					alert("pedidos!!");
-				} else if (action === "usuarios") {
-					alert("usuarios!!");
-				}
-			},
-		},
+		methods: {},
+
 	};
 </script>

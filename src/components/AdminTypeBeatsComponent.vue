@@ -5,18 +5,42 @@
 		:items="beatsCustom"
 		sort-by="calories"
 		class="elevation-1">
-		<!-- COLOR PRECIO -->
-		<template v-slot:[`item.precio`]="{ item }">
-			<v-chip :color="getColor(item.precio)">
-				{{ item.precio }}
-			</v-chip>
-		</template>
 
 		<template v-slot:top>
 			<v-toolbar flat style="height: 100px !important">
 				<v-toolbar-title style="width: 150px !important">Beats</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-spacer></v-spacer>
+				<v-dialog v-model="dialog" max-width="500px">
+					<template v-slot:activator="{ on, attrs }">
+						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+							<v-icon class="me-2" @click="beatDetails(item.id)"
+								>mdi-plus-circle mdi-light</v-icon
+							>
+							New Type Beat
+						</v-btn>
+					</template>
+					<v-card>
+						<v-card-title>
+							<span class="text-h5">{{ formTitle }}</span>
+						</v-card-title>
+						<v-card-text>
+							<v-container>
+								<v-row>
+									<v-col cols="12" sm="6" md="4">
+										<v-text-field label="Type Beat"></v-text-field>
+									</v-col>
+								</v-row>
+							</v-container>
+						</v-card-text>
+
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
+							<v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
 				<v-dialog v-model="dialogDelete" max-width="500px">
 					<v-card>
 						<v-card-title class="text-h5"
@@ -160,6 +184,14 @@
 				this.closeDelete();
 			},
 
+			close() {
+				this.dialog = false;
+				this.$nextTick(() => {
+					this.editedItem = Object.assign({}, this.defaultItem);
+					this.editedIndex = -1;
+				});
+			},
+
 			closeDelete() {
 				this.dialogDelete = false;
 				this.$nextTick(() => {
@@ -168,6 +200,15 @@
 				});
 			},
 
+			save() {
+				console.log("save");
+				// if (this.editedIndex > -1) {
+				//   Object.assign(this.desserts[this.editedIndex], this.editedItem)
+				// } else {
+				//   this.desserts.push(this.editedItem)
+				// }
+				this.close();
+			},
 		},
 	};
 </script>

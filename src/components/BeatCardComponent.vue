@@ -61,11 +61,12 @@
 						>
 					</v-col>
 
-					<v-col v-if="myBeats" cols="12" md="6" sm="6" v-show="!selected">
+          <!-- Solo debería poderlo editar quien ha subido el BEAT, AÑADIR UNA NUEVA VISTA MENU BEATS, "SUBIDOS" COMO PRODUCTOR. -->
+					<!-- <v-col v-if="myBeats" cols="12" md="6" sm="6" v-show="!selected">
 						<v-btn @click="editItem(id)" color="#6633FF" size="x-large"
 							><v-icon>mdi-pencil mdi-light</v-icon></v-btn
 						>
-					</v-col>
+					</v-col> -->
 
 					<v-col v-if="!myBeats" cols="12" md="6" sm="6" v-show="selected">
 						<v-btn

@@ -3,7 +3,7 @@
 		<Header />
 		<v-main style="padding: 0px 0px 0px; !important;">
 			<v-container fluid class="pa-10">
-        <!-- title -->
+				<!-- title -->
 				<v-row class="mt-1 pb-7 mb-4">
 					<h1 class="text-left">
 						<a @click="$router.go(-1)"
@@ -29,6 +29,9 @@
 						<AdminPedidos :idUser="user.id" v-if="tab === 'pedidos'">
 						</AdminPedidos>
 						<AdminUsers v-if="tab === 'usuarios' && !user.id"> </AdminUsers>
+						<AdminTypeBeats v-if="tab === 'typebeats' && !user.id"> </AdminTypeBeats>
+						<AdminCharts :idUser="user.id" v-if="tab === 'charts'">
+						</AdminCharts>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -44,6 +47,8 @@
 	import AdminBeats from "@/components/AdminBeatsDTComponent.vue";
 	import AdminPedidos from "@/components/AdminOrdersDTComponent.vue";
 	import AdminUsers from "@/components/AdminUsersDTComponent.vue";
+	import AdminCharts from "@/components/AdminChartsComponent.vue";
+	import AdminTypeBeats from "@/components/AdminTypeBeatsComponent.vue";
 
 	import Api from "@/services/api";
 
@@ -57,6 +62,8 @@
 			AdminBeats,
 			AdminPedidos,
 			AdminUsers,
+			AdminCharts,
+      AdminTypeBeats
 		},
 
 		data() {

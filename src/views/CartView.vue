@@ -60,7 +60,7 @@
 
 			buy() {
 				if (this.$store.state.isLogged) {
-					this.$router.push(`/payment`);
+					this.$router.push(`pagos`);
 				} else {
 					this.$store.commit("loginMenuChange", true); //abrimos login
 				}

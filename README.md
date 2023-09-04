@@ -101,10 +101,20 @@ npm install --save vuex-persistedstate
 ```vue
 npm install vuetify-audio --save
 ```
-
-Pending:
+```vue
 npm install vue-i18n
+
+```
+
+```vue
 vue add i18n
+```
+
+```vue
+npm i vue-chartjs chart.js
+```
+
+
 
 ## Using
 [Material Design Icons](https://pictogrammers.com/library/mdi/)

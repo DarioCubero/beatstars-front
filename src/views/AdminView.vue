@@ -20,6 +20,8 @@
 						<AdminBeats v-if="tab === 'beats'"> </AdminBeats>
 						<AdminPedidos v-if="tab === 'pedidos'"> </AdminPedidos>
 						<AdminUsers v-if="tab === 'usuarios'"> </AdminUsers>
+						<AdminTypeBeats v-if="tab === 'typebeats'"> </AdminTypeBeats>
+						<AdminCharts v-if="tab === 'charts'"> </AdminCharts>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -35,6 +37,8 @@
 	import AdminBeats from "@/components/AdminBeatsDTComponent.vue";
 	import AdminPedidos from "@/components/AdminOrdersDTComponent.vue";
 	import AdminUsers from "@/components/AdminUsersDTComponent.vue";
+	import AdminTypeBeats from "@/components/AdminTypeBeatsComponent.vue";
+	import AdminCharts from "@/components/AdminChartsComponent.vue";
 
 	export default {
 		name: "admin-view",
@@ -46,6 +50,8 @@
 			AdminBeats,
 			AdminPedidos,
 			AdminUsers,
+      AdminTypeBeats,
+      AdminCharts
 		},
 
 		data() {
