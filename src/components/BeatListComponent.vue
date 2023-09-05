@@ -79,18 +79,23 @@
 
 			// beforeMount, watch, beforeCreate
 			//TODO: Pending filtrado por QUERY PARAM
+			// let filterBy = this.$route.query.filterBy;
 			let sortBy = this.$route.query.sortBy;
+			let filterBy = this.$route.query.filterBy;
 			let sortOrder = this.$route.query.sortOrder;
 			let searchString = this.$route.query.searchString;
 
 			console.log(
 				"sortBy: " + sortBy,
+				"filterBy: " + filterBy,
 				"sortOrder: " + sortOrder,
 				"searchString: " + searchString
 			);
-			if (sortBy || sortOrder || searchString) {
+			if (sortBy || filterBy || sortOrder || searchString) {
 				console.log("sort - beats");
-				this.beats = await Api.getBeats(sortBy, sortOrder, searchString);
+				this.beats = await Api.getBeats(sortBy, filterBy, sortOrder, searchString);
+        
+
 				// allBeats.filter(o =>
 				//     Object.keys(o).some(k => o[Type].toLowerCase().includes(nameParam.toLowerCase())));
 			} else {

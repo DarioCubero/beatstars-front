@@ -33,51 +33,71 @@
 									lg="5"
 									md="5"
 									sm="5"
-									class="ml-6 mr-2">
-									<v-card
-										color="white"
-										class="rounded-card pa-2"
-										min-width="200px"
-										max-width="3  00px">
-										<v-row no-gutters>
-											<!-- lupa -->
-											<v-col btn cols="12" lg="1" md="1" sm="1">
-												<a v-on:click="validateSearch">
-													<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
-												</a>
-											</v-col>
-											<!-- buscador -->
-											<v-col cols="12" lg="11" md="11" sm="11">
-												<v-text-field
-													@keydown.enter.prevent="validateSearch"
-													v-model="searchString"
-													:label="$t('cabeceraBuscador.etiquetaBuscador')"
-													max-height="6"
-													max-width="10"
-													single-line
-													color="black"
-													class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
-													hide-details="auto"
-													clearable
-													:placeholder="
-														$t('cabeceraBuscador.placeholderBuscador')
-													">
-												</v-text-field>
-											</v-col>
-										</v-row>
-									</v-card>
-								</v-col>
-
-								<!-- sort-->
-								<v-col cols="12" lg="3" md="3" sm="3">
-									<!-- sortOrder desc -->
+									class="ml-6">
+									<!-- BUSCADOR -->
 									<v-row
-										style="
-											min-width: 500px !important;
-											max-width: 300px !important;
-											max-height: 50px;
-										">
-										<div>
+										><v-card
+											color="white"
+											class="rounded-card pa-2"
+											min-width="200px"
+											max-width="3  00px">
+											<v-row no-gutters>
+												<!-- lupa -->
+												<v-col btn cols="12" lg="1" md="1" sm="1">
+													<a v-on:click="validateSearch">
+														<v-icon class="pl-3">mdi-magnify mdi-dark</v-icon>
+													</a>
+												</v-col>
+												<!-- buscador -->
+												<v-col cols="12" lg="11" md="11" sm="11">
+													<v-text-field
+														@keydown.enter.prevent="validateSearch"
+														v-model="searchString"
+														:label="$t('cabeceraBuscador.etiquetaBuscador')"
+														max-height="6"
+														max-width="10"
+														single-line
+														color="black"
+														class="ml-3 custom-placeholder-color custom-label-color pl-2 pr-4"
+														hide-details="auto"
+														clearable
+														>
+													</v-text-field>
+												</v-col>
+											</v-row> </v-card
+									></v-row>
+									<v-row
+										><v-select
+											dark
+											v-model="filterBy"
+											:items="filterByList"
+											label="Filtrar por"
+											hide-details="auto"
+											item-value="name"
+											item-text="name"
+											single-line>
+											<template v-slot:item="{ item }">
+												{{ getText(item.name) }}
+											</template>
+											<template v-slot:selection="{ item }">
+												{{ getText(item.name) }}
+											</template>
+										</v-select></v-row
+									>
+								</v-col>
+								<v-col
+									style="
+										min-width: 50px !important;
+										max-width: 300px !important;
+										max-height: 150px !important;
+									"
+									cols="12"
+									lg="5"
+									md="5"
+									sm="5"
+									class="ml-6">
+									<v-row class="mb-2"
+										><div>
 											<v-simple-checkbox
 												color="green"
 												@click="sortOrderCheckbox()"
@@ -87,36 +107,26 @@
 											<span class="white--text"
 												><v-icon>mdi-sort-descending mdi-light</v-icon>DESC
 											</span>
-										</div>
-									</v-row>
-
-									<!-- sortBy -->
+										</div></v-row
+									>
 									<v-row
-										style="
-											min-width: 150px !important;
-											max-width: 300px !important;
-											max-height: 50px;
-										">
-										<!--         :item-text="$t('cabeceraBuscador.ordenarPor.precio')"
-                        :item-value="$t({item})" -->
-										<v-col cols="12" lg="12" md="12" sm="12">
-											<v-select
-												dark
-												v-model="sortBy"
-												:items="sortByList"
-												:label="$t('cabeceraBuscador.ordenarPor.ordenarPor')"
-												item-value="name"
-												item-text="name"
-												single-line>
-												<template v-slot:item="{ item }">
-													{{ getText(item.name) }}
-												</template>
-												<template v-slot:selection="{ item }">
-													{{ getText(item.name) }}
-												</template>
-											</v-select>
-										</v-col>
-									</v-row>
+										><v-select
+											dark
+											v-model="sortBy"
+											:items="sortByList"
+											:label="$t('cabeceraBuscador.ordenarPor.ordenarPor')"
+											item-value="name"
+											item-text="name"
+											hide-details="auto"
+											single-line>
+											<template v-slot:item="{ item }">
+												{{ getText(item.name) }}
+											</template>
+											<template v-slot:selection="{ item }">
+												{{ getText(item.name) }}
+											</template>
+										</v-select></v-row
+									>
 								</v-col>
 							</v-row>
 						</v-form>
@@ -200,9 +210,10 @@
 									</template>
 
 									<template v-slot:item="{ item }">
-										<img width="20" :src="item.image" /><span class="ml-1 white--text">{{
-											item.name
-										}}</span>
+										<img width="20" :src="item.image" /><span
+											class="ml-1 white--text"
+											>{{ item.name }}</span
+										>
 									</template>
 								</v-select>
 							</div>
@@ -511,6 +522,7 @@
 				},
 
 				sortBy: null,
+				filterBy: null,
 				sortOrderValue: false,
 				sortOrder: null,
 				searchString: "",
@@ -541,9 +553,13 @@
 				],
 
 				sortByList: [
-					{ id: 1, name: "cabeceraBuscador.ordenarPor.precio" },
-					// { id: 2, name: this.$t("cabeceraBuscador.ordenarPor.nombre") },
-					// "Fecha",
+					{ id: 1, name: this.$t("cabeceraBuscador.ordenarPor.precio") },
+					{ id: 2, name: "TypeBeat" },
+				],
+				filterByList: [
+					{ id: 1, name: this.$t("cabeceraBuscador.ordenarPor.nombre") },
+					{ id: 2, name: "TypeBeat" },
+					{ id: 2, name: this.$t("cabeceraBuscador.ordenarPor.precio") },
 				],
 				checkAdmin: false,
 				drawer: false,
@@ -581,6 +597,7 @@
 						name: "beats",
 						query: {
 							sortBy: this.sortBy,
+							filterBy: this.filterBy,
 							sortOrder: this.sortOrder,
 							searchString: this.searchString,
 						},
@@ -708,13 +725,6 @@
 			loginMenuComputed() {
 				this.dialog = this.$store.state.actions.loginMenu;
 			},
-
-			// "this.$store.state.actions": {
-			// 	handler: function () {
-			//     alert('WORK');
-			// 	},
-			// 	immediate: true, // provides initial (not changed yet) state
-			// },
 		},
 	};
 </script>
@@ -743,7 +753,7 @@
 
 	.v-list .v-list-item--active {
 		background-color: #222222 !important;
-    color: black !important;
+		color: black !important;
 	}
 	.v-list .v-list-item--active .v-list-item__title {
 		color: white !important;

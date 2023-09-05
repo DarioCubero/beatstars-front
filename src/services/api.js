@@ -28,12 +28,13 @@ export default {
 			});
 	},
 
-	async getBeats(sortBy, sortOrder, searchString) {
+	async getBeats(sortBy, filterBy, sortOrder, searchString) {
 		console.log(`getBeats ${BEAT_URL}`);
 		return axios
 			.get(`${BEAT_URL}`, {
 				params: {
 					sortBy: sortBy,
+					filterBy: filterBy,
 					sortOrder: sortOrder,
 					searchString: searchString,
 				},
