@@ -96,7 +96,7 @@
 			itemsPerPage: 5,
 			headers: [
 				{
-					text: "ID",
+					text: "TypeBeat",
 					align: "start",
 					value: "id",
 				},

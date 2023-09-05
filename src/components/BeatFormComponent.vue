@@ -37,14 +37,16 @@
 			<v-row class="justify-center">
 				<!-- TYPEBEAT -->
 				<v-col cols="12" md="6">
-					<v-text-field
+					<!-- <v-text-field
 						hide-details
 						dark
 						outlined
 						label="TypeBeat"
 						v-model="beat.tipo"
 						prepend-inner-icon="mdi-format-list-bulleted-square mdi-light"
-						:rules="[rules.required]" />
+						:rules="[rules.required]" /> -->
+
+					<v-select hide-details dark :items="items" outlined v-model="beat.tipo" label="Type Beat" :rules="[rules.required]"></v-select>
 				</v-col>
 			</v-row>
 
@@ -101,7 +103,9 @@
 						color="#0FC900"
 						outlined
 						@click="validate">
-						<span ref="title" class="ma-4" style="font-size: 25px !important"> Editar </span>
+						<span ref="title" class="ma-4" style="font-size: 25px !important">
+							{{ this.FormBeatTitle }}
+						</span>
 					</v-btn>
 				</v-col>
 			</v-row>

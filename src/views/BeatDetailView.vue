@@ -164,7 +164,7 @@
 
 <style lang="scss">
 	.v-application .primary {
-		background-color: red !important;
+		background-color: #0FC900 !important;
 	}
 
 	#vuetify-audio > .v-card__text {
@@ -175,6 +175,7 @@
 		color: black;
 		// background-color: black;
 	}
+
 
 	.v-progress-linear {
 		height: 30px !important;

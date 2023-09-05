@@ -72,7 +72,7 @@
 			itemsPerPage: 5,
 			headers: [
 				{
-					text: "ID",
+					text: "Beat",
 					align: "start",
 					value: "id",
 				},
